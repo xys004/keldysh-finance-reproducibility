@@ -1,0 +1,792 @@
+% ---------------------------------------------------------------------------
+% Bibliography -- signed order flow as a transport problem.
+% Shared by Paper I (measurement) and Paper II (model).
+%
+% PROVENANCE RULE: every entry below was surfaced or confirmed during the
+% literature sweep logged in notes/barrido_literatura.md. Entries still needing
+% verification of volume/page/DOI before submission are marked % TODO-VERIFY.
+% ---------------------------------------------------------------------------
+
+% ======================= Formalism: response field theory ==================
+
+@article{martin1973,
+  author  = {Martin, P. C. and Siggia, E. D. and Rose, H. A.},
+  title   = {Statistical Dynamics of Classical Systems},
+  journal = {Phys. Rev. A},
+  volume  = {8},
+  pages   = {423--437},
+  year    = {1973},
+  doi     = {10.1103/PhysRevA.8.423}
+}
+
+@article{janssen1976,
+  author  = {Janssen, H.-K.},
+  title   = {On a Lagrangean for classical field dynamics and renormalization
+             group calculations of dynamical critical properties},
+  journal = {Z. Phys. B},
+  volume  = {23},
+  pages   = {377--380},
+  year    = {1976},
+  doi     = {10.1007/BF01316547}
+}
+
+@article{dedominicis1976,
+  author  = {De Dominicis, C.},
+  title   = {Techniques de renormalisation de la th\'eorie des champs et
+             dynamique des ph\'enom\`enes critiques},
+  journal = {J. Phys. Colloques},
+  volume  = {37},
+  pages   = {C1-247},
+  year    = {1976},
+  doi     = {10.1051/jphyscol:1976138}
+}
+
+@book{kamenev2011,
+  author    = {Kamenev, Alex},
+  title     = {Field Theory of Non-Equilibrium Systems},
+  publisher = {Cambridge University Press},
+  year      = {2011},
+  doi       = {10.1017/CBO9781139003667}
+}
+
+@article{jauho1994,
+  author  = {Jauho, Antti-Pekka and Wingreen, Ned S. and Meir, Yigal},
+  title   = {Time-dependent transport in interacting and noninteracting
+             resonant-tunneling systems},
+  journal = {Phys. Rev. B},
+  volume  = {50},
+  pages   = {5528--5544},
+  year    = {1994},
+  doi     = {10.1103/PhysRevB.50.5528}
+}
+
+% ======================= Counting statistics and fluctuation theorems ======
+
+@article{levitov1993,
+  author  = {Levitov, L. S. and Lesovik, G. B.},
+  title   = {Charge distribution in quantum shot noise},
+  journal = {JETP Lett.},
+  volume  = {58},
+  pages   = {230},
+  year    = {1993}
+}
+
+@article{levitov1996,
+  author  = {Levitov, L. S. and Lee, H. and Lesovik, G. B.},
+  title   = {Electron counting statistics and coherent states of electric
+             current},
+  journal = {J. Math. Phys.},
+  volume  = {37},
+  pages   = {4845--4866},
+  year    = {1996},
+  doi     = {10.1063/1.531672}
+}
+
+@article{schoenhammer2007,
+  author  = {Sch\"onhammer, K.},
+  title   = {Full counting statistics for noninteracting fermions: Exact
+             results and the {Levitov--Lesovik} formula},
+  journal = {Phys. Rev. B},
+  volume  = {75},
+  pages   = {205329},
+  year    = {2007},
+  doi     = {10.1103/PhysRevB.75.205329}
+}
+
+@article{blanter2000,
+  author  = {Blanter, Ya. M. and B\"uttiker, M.},
+  title   = {Shot noise in mesoscopic conductors},
+  journal = {Phys. Rep.},
+  volume  = {336},
+  pages   = {1--166},
+  year    = {2000},
+  doi     = {10.1016/S0370-1573(99)00123-4}
+}
+
+@article{gallavotti1995,
+  author  = {Gallavotti, G. and Cohen, E. G. D.},
+  title   = {Dynamical Ensembles in Nonequilibrium Statistical Mechanics},
+  journal = {Phys. Rev. Lett.},
+  volume  = {74},
+  pages   = {2694--2697},
+  year    = {1995},
+  doi     = {10.1103/PhysRevLett.74.2694}
+}
+
+@article{lebowitz1999,
+  author  = {Lebowitz, Joel L. and Spohn, Herbert},
+  title   = {A {Gallavotti--Cohen}-Type Symmetry in the Large Deviation
+             Functional for Stochastic Dynamics},
+  journal = {J. Stat. Phys.},
+  volume  = {95},
+  pages   = {333--365},
+  year    = {1999},
+  doi     = {10.1023/A:1004589714161}
+}
+
+@article{esposito2009,
+  author  = {Esposito, Massimiliano and Harbola, Upendra and Mukamel, Shaul},
+  title   = {Nonequilibrium fluctuations, fluctuation theorems, and counting
+             statistics in quantum systems},
+  journal = {Rev. Mod. Phys.},
+  volume  = {81},
+  pages   = {1665--1702},
+  year    = {2009},
+  doi     = {10.1103/RevModPhys.81.1665}
+}
+
+% ======================= Effective temperature / FD ratio ==================
+
+@article{cugliandolo1997,
+  author  = {Cugliandolo, Leticia F. and Kurchan, Jorge and Peliti, Luca},
+  title   = {Energy flow, partial equilibration, and effective temperatures in
+             systems with slow dynamics},
+  journal = {Phys. Rev. E},
+  volume  = {55},
+  pages   = {3898--3914},
+  year    = {1997},
+  doi     = {10.1103/PhysRevE.55.3898}
+}
+
+@article{kubo1966,
+  author  = {Kubo, R.},
+  title   = {The fluctuation-dissipation theorem},
+  journal = {Rep. Prog. Phys.},
+  volume  = {29},
+  pages   = {255--284},
+  year    = {1966},
+  doi     = {10.1088/0034-4885/29/1/306}
+}
+
+% ======================= Market microstructure: flow, impact, memory =======
+
+@article{lillo2004,
+  author  = {Lillo, Fabrizio and Farmer, J. Doyne},
+  title   = {The Long Memory of the Efficient Market},
+  journal = {Stud. Nonlinear Dyn. Econom.},
+  volume  = {8},
+  number  = {3},
+  year    = {2004},
+  doi     = {10.2202/1558-3708.1226}
+}
+
+@article{bouchaud2004,
+  author  = {Bouchaud, Jean-Philippe and Gefen, Yuval and Potters, Marc and
+             Wyart, Matthieu},
+  title   = {Fluctuations and response in financial markets: the subtle nature
+             of `random' price changes},
+  journal = {Quant. Finance},
+  volume  = {4},
+  pages   = {176--190},
+  year    = {2004},
+  doi     = {10.1080/14697680400000022}
+}
+
+@book{bouchaud2018,
+  author    = {Bouchaud, Jean-Philippe and Bonart, Julius and Donier, Jonathan
+               and Gould, Martin},
+  title     = {Trades, Quotes and Prices: Financial Markets Under the
+               Microscope},
+  publisher = {Cambridge University Press},
+  year      = {2018},
+  doi       = {10.1017/9781316659335}
+}
+
+@article{cont2014,
+  author  = {Cont, Rama and Kukanov, Arseniy and Stoikov, Sasha},
+  title   = {The Price Impact of Order Book Events},
+  journal = {J. Financ. Econom.},
+  volume  = {12},
+  pages   = {47--88},
+  year    = {2014},
+  doi     = {10.1093/jjfinec/nbt003}
+}
+
+% --- The "price responds to the surprise in order flow" lineage.
+% --- Cited to ATTRIBUTE the flat-response mechanism; see derivation, Remark 1.
+
+@misc{jaisson2014,
+  author       = {Jaisson, Thibault},
+  title        = {Market impact as anticipation of the order flow imbalance},
+  year         = {2014},
+  eprint       = {1402.1288},
+  archivePrefix= {arXiv},
+  primaryClass = {q-fin.TR},
+  note         = {Preprint; no journal version located},
+  doi          = {10.48550/arXiv.1402.1288}
+}
+
+@misc{gerig2008,
+  author       = {Gerig, Austin},
+  title        = {A Theory for Market Impact: How Order Flow Affects Stock
+                  Price},
+  year         = {2008},
+  eprint       = {0804.3818},
+  archivePrefix= {arXiv},
+  primaryClass = {q-fin.ST},
+  doi          = {10.48550/arXiv.0804.3818}
+}
+
+@misc{muhlekarbe2026,
+  author       = {Muhle-Karbe, Johannes and Ouazzani Chahdi, Youssef and
+                  Rosenbaum, Mathieu and Szymanski, Gr\'egoire},
+  title        = {A unified theory of order flow, market impact, and
+                  volatility},
+  year         = {2026},
+  eprint       = {2601.23172},
+  archivePrefix= {arXiv},
+  primaryClass = {q-fin.TR},
+  doi          = {10.48550/arXiv.2601.23172}
+}
+
+@article{maitrier2026,
+  author  = {Maitrier, Guillaume and Bouchaud, Jean-Philippe},
+  title   = {The Subtle Interplay between Square-root Impact, Order Imbalance
+             and Volatility: A Unifying Framework},
+  journal = {Quant. Finance},
+  year    = {2026},
+  doi     = {10.1080/14697688.2026.2641766},
+  note    = {arXiv:2506.07711}
+}
+
+% --- Methodological warning that applies DIRECTLY to our data source:
+% --- impact estimated from PUBLIC data is systematically distorted.
+@misc{naviglio2025,
+  author       = {Naviglio, Manuel and Bormetti, Giacomo and
+                  Campigli, Francesco and Rodikov, German and
+                  Lillo, Fabrizio},
+  title        = {Why is the estimation of metaorder impact with public market
+                  data so challenging?},
+  year         = {2025},
+  eprint       = {2501.17096},
+  archivePrefix= {arXiv},
+  primaryClass = {q-fin.TR},
+  doi          = {10.48550/arXiv.2501.17096}
+}
+
+% --- Order splitting as the microscopic origin of long-memory order flow.
+% --- This is the mechanism behind the SLOW component of the measured kernel.
+
+@article{lillo2005,
+  author  = {Lillo, Fabrizio and Mike, Szabolcs and Farmer, J. Doyne},
+  title   = {Theory for long memory in supply and demand},
+  journal = {Phys. Rev. E},
+  volume  = {71},
+  pages   = {066122},
+  year    = {2005},
+  doi     = {10.1103/PhysRevE.71.066122}
+}
+
+@article{sato2023prl,
+  author  = {Sato, Yuki and Kanazawa, Kiyoshi},
+  title   = {Inferring Microscopic Financial Information from the Long Memory
+             in Market-Order Flow: A Quantitative Test of the
+             {Lillo--Mike--Farmer} Model},
+  journal = {Phys. Rev. Lett.},
+  volume  = {131},
+  pages   = {197401},
+  year    = {2023},
+  doi     = {10.1103/PhysRevLett.131.197401}
+}
+
+@article{sato2023prr,
+  author  = {Sato, Yuki and Kanazawa, Kiyoshi},
+  title   = {Quantitative statistical analysis of order-splitting behaviour of
+             individual trading accounts in the {Japanese} stock market over
+             nine years},
+  journal = {Phys. Rev. Research},
+  volume  = {5},
+  pages   = {043131},
+  year    = {2023},
+  doi     = {10.1103/PhysRevResearch.5.043131}
+}
+
+% ======================= Statistical physics applied to markets ============
+% These are the ADJACENT framings the sweep found already occupied. They must
+% be cited and explicitly differentiated -- see notes/barrido_literatura.md.
+
+@article{yura2014,
+  author  = {Yura, Yoshihiro and Takayasu, Hideki and Sornette, Didier and
+             Takayasu, Misako},
+  title   = {Financial Brownian Particle in the Layered Order-Book Fluid and
+             Fluctuation-Dissipation Relations},
+  journal = {Phys. Rev. Lett.},
+  volume  = {112},
+  pages   = {098703},
+  year    = {2014},
+  doi     = {10.1103/PhysRevLett.112.098703}
+}
+
+@misc{ramezani2025,
+  author       = {Ramezani, Masoome and Rahnama Roodposhti, Fereydoun and
+                  Abbaspour Esfeden, Ghanbar and Ramezani, Mehdi},
+  title        = {Novel Market Temperature Definition Through Fluctuation
+                  Theorem: A Statistical Physics Framework for Financial
+                  Crisis Prediction},
+  year         = {2025},
+  eprint       = {2509.23692},
+  archivePrefix= {arXiv},
+  primaryClass = {cond-mat.stat-mech},
+  doi          = {10.48550/arXiv.2509.23692}
+}
+
+@article{gao2026,
+  author  = {Gao, Jian and Zhang, Lufeng and Fang, Ping and Ke, Pu and Wu, Jin
+             and Liu, Yue and Zhou, Haijun},
+  title   = {Coarse Graining Reveals a Fluctuation-theorem-like Asymmetry in
+             Financial Markets},
+  journal = {arXiv preprint},
+  volume  = {2604.14962},
+  year    = {2026},
+  url     = {https://arxiv.org/abs/2604.14962}
+}
+
+@article{li2024entropy,
+  author  = {Li, Haochen and Xiao, Yue and Polukarov, Maria and
+             Ventre, Carmine},
+  title   = {Thermodynamic Analysis of Financial Markets: Measuring Order Book
+             Dynamics with Temperature and Entropy},
+  journal = {Entropy},
+  volume  = {26},
+  number  = {1},
+  pages   = {24},
+  year    = {2024},
+  doi     = {10.3390/e26010024}
+}
+
+% ======================= Estimation and inference ==========================
+
+@article{diebold1995,
+  author  = {Diebold, Francis X. and Mariano, Roberto S.},
+  title   = {Comparing Predictive Accuracy},
+  journal = {J. Bus. Econ. Stat.},
+  volume  = {13},
+  pages   = {253--263},
+  year    = {1995},
+  doi     = {10.1080/07350015.1995.10524599}
+}
+
+@article{neweywest1987,
+  author  = {Newey, Whitney K. and West, Kenneth D.},
+  title   = {A Simple, Positive Semi-Definite, Heteroskedasticity and
+             Autocorrelation Consistent Covariance Matrix},
+  journal = {Econometrica},
+  volume  = {55},
+  pages   = {703--708},
+  year    = {1987},
+  doi     = {10.2307/1913610}
+}
+
+@book{westfall1993,
+  author    = {Westfall, Peter H. and Young, S. Stanley},
+  title     = {Resampling-Based Multiple Testing: Examples and Methods for
+               p-Value Adjustment},
+  publisher = {Wiley},
+  year      = {1993}
+}
+
+@article{patton2011,
+  author  = {Patton, Andrew J.},
+  title   = {Volatility forecast comparison using imperfect volatility proxies},
+  journal = {J. Econom.},
+  volume  = {160},
+  pages   = {246--256},
+  year    = {2011},
+  doi     = {10.1016/j.jeconom.2010.03.034}
+}
+
+@book{hamilton1994,
+  author    = {Hamilton, James D.},
+  title     = {Time Series Analysis},
+  publisher = {Princeton University Press},
+  year      = {1994}
+}
+
+@book{wold1938,
+  author    = {Wold, Herman},
+  title     = {A Study in the Analysis of Stationary Time Series},
+  publisher = {Almqvist and Wiksell},
+  year      = {1938}
+}
+
+@article{omori1894,
+  author  = {Omori, F.},
+  title   = {On the aftershocks of earthquakes},
+  journal = {J. Coll. Sci. Imp. Univ. Tokyo},
+  volume  = {7},
+  pages   = {111--200},
+  year    = {1894}
+}
+
+% ======================= Related manuscripts ==============================
+
+@unpublished{paper1,
+  author = {Bol\'{\i}var, Nelson and Abell\'an, Gabriel and Verrilli, David},
+  title  = {Signed order flow as a transport current: response, noise and
+            counting statistics of a driven market},
+  note   = {Companion paper},
+  year   = {2026}
+}
+
+@unpublished{paper2,
+  author = {Bol\'{\i}var, Nelson and Abell\'an, Gabriel and Verrilli, David},
+  title  = {A response field theory of order flow transport: two-component
+            memory, periodic driving, and where the Gaussian account ends},
+  note   = {Companion paper},
+  year   = {2026}
+}
+% Add the final repository/preprint identifiers before submission.
+
+% ======================= Software =========================================
+% The paper cites the public analysis package, not working files.
+
+@misc{code_keldysh_finance,
+  author = {Bol\'{\i}var, Nelson and Abell\'an, Gabriel and Verrilli, David},
+  title  = {keldysh-finance: transport analysis of signed order flow},
+  note   = {Analysis code and deposited logs},
+  year   = {2026}
+}
+% TODO-VERIFY: public repository URL + Zenodo DOI once released.
+
+@misc{code_qteom,
+  title  = {QuantumTransportEOM: equation-of-motion solver for nonequilibrium
+            quantum transport},
+  note   = {Version 0.3.0},
+  year   = {2026},
+  doi    = {10.5281/zenodo.21265399}
+}
+
+% ---- Añadidas tras el barrido de literatura de 2026-08-13 ----
+
+@article{taranto2016,
+  author  = {Taranto, Damian Eduardo and Bormetti, Giacomo and Bouchaud,
+             Jean-Philippe and Lillo, Fabrizio and T{\'o}th, Bence},
+  title   = {Linear models for the impact of order flow on prices.
+             {I}. {H}istory dependent impact models},
+  journal = {Quantitative Finance},
+  volume  = {18},
+  number  = {6},
+  pages   = {903--915},
+  year    = {2018},
+  doi     = {10.1080/14697688.2017.1395903},
+  note    = {arXiv:1602.02735}
+}
+
+@article{shi2021,
+  author  = {Shi, Fabin and Aden, Nathan and Huang, Shengda and Johnson, Neil
+             and Sun, Xiaoqian and Gao, Jinhua and Xu, Li and Shen, Huawei and
+             Cheng, Xueqi and Song, Chaoming},
+  title   = {Modelling Universal Order Book Dynamics in {B}itcoin Market},
+  journal = {arXiv preprint},
+  year    = {2021},
+  note    = {arXiv:2101.06236 [q-fin.TR]}
+}
+
+@article{andrieux2007jsp,
+  author  = {Andrieux, David and Gaspard, Pierre},
+  title   = {Fluctuation theorem for currents and {S}chnakenberg network theory},
+  journal = {Journal of Statistical Physics},
+  volume  = {127},
+  number  = {1},
+  pages   = {107--131},
+  year    = {2007},
+  doi     = {10.1007/s10955-006-9233-5}
+}
+
+@article{andrieux2007jstat,
+  author  = {Andrieux, David and Gaspard, Pierre},
+  title   = {A fluctuation theorem for currents and non-linear response
+             coefficients},
+  journal = {Journal of Statistical Mechanics: Theory and Experiment},
+  volume  = {2007},
+  number  = {02},
+  pages   = {P02006},
+  year    = {2007},
+  doi     = {10.1088/1742-5468/2007/02/P02006}
+}
+
+@article{barato2012,
+  author  = {Barato, Andre C. and Chetrite, Rapha{\"e}l},
+  title   = {On the symmetry of current probability distributions in jump
+             processes},
+  journal = {Journal of Physics A: Mathematical and Theoretical},
+  volume  = {45},
+  number  = {48},
+  pages   = {485002},
+  year    = {2012},
+  doi     = {10.1088/1751-8113/45/48/485002}
+}
+
+@article{lillo2003,
+  author  = {Lillo, Fabrizio and Mantegna, Rosario N.},
+  title   = {Power-law relaxation in a complex system: {O}mori law after a
+             financial market crash},
+  journal = {Physical Review E},
+  volume  = {68},
+  number  = {1},
+  pages   = {016119},
+  year    = {2003},
+  doi     = {10.1103/PhysRevE.68.016119}
+}
+
+@article{zawadowski2006,
+  author  = {Zawadowski, Ad{\'a}m G. and Andor, Gy{\"o}rgy and Kert{\'e}sz,
+             J{\'a}nos},
+  title   = {Short-term market reaction after extreme price changes of liquid
+             stocks},
+  journal = {Quantitative Finance},
+  volume  = {6},
+  number  = {4},
+  pages   = {283--295},
+  year    = {2006},
+  doi     = {10.1080/14697680600699769}
+}
+
+@article{selcuk2004,
+  author  = {Sel{\c{c}}uk, Faruk},
+  title   = {Financial earthquakes, aftershocks and scaling in emerging stock
+             markets},
+  journal = {Physica A},
+  volume  = {333},
+  pages   = {306--316},
+  year    = {2004},
+  doi     = {10.1016/j.physa.2003.10.060}
+}
+
+@article{pearson1897,
+  author  = {Pearson, Karl},
+  title   = {On a form of spurious correlation which may arise when indices are
+             used in the measurement of organs},
+  journal = {Proceedings of the Royal Society of London},
+  volume  = {60},
+  pages   = {489--498},
+  year    = {1897},
+  doi     = {10.1098/rspl.1896.0076}
+}
+
+@article{kronmal1993,
+  author  = {Kronmal, Richard A.},
+  title   = {Spurious correlation and the fallacy of the ratio standard
+             revisited},
+  journal = {Journal of the Royal Statistical Society A},
+  volume  = {156},
+  number  = {3},
+  pages   = {379--392},
+  year    = {1993},
+  doi     = {10.2307/2983064}
+}
+
+@article{ciuparu2016,
+  author  = {Ciuparu, Andrei and Mure{\c{s}}an, Raul C.},
+  title   = {Sources of bias in single-trial normalization procedures},
+  journal = {European Journal of Neuroscience},
+  volume  = {43},
+  number  = {7},
+  pages   = {861--869},
+  year    = {2016},
+  doi     = {10.1111/ejn.13179}
+}
+
+@article{forbes2002,
+  author  = {Forbes, Kristin J. and Rigobon, Roberto},
+  title   = {No contagion, only interdependence: measuring stock market
+             comovements},
+  journal = {The Journal of Finance},
+  volume  = {57},
+  number  = {5},
+  pages   = {2223--2261},
+  year    = {2002},
+  doi     = {10.1111/0022-1082.00494}
+}
+
+@techreport{boyer1999,
+  author      = {Boyer, Brian H. and Gibson, Michael S. and Loretan, Mico},
+  title       = {Pitfalls in tests for changes in correlations},
+  institution = {Board of Governors of the Federal Reserve System},
+  type        = {International Finance Discussion Paper},
+  number      = {597},
+  year        = {1999}
+}
+
+@article{brey2007,
+  author  = {Brey, J. Javier and Prados, A. and Garc{\'\i}a de Soria, M. I. and
+             Maynar, P.},
+  title   = {Scaling and aging in the homogeneous cooling state of a granular
+             fluid of hard particles},
+  journal = {Journal of Physics A: Mathematical and Theoretical},
+  volume  = {40},
+  number  = {48},
+  pages   = {14331--14342},
+  year    = {2007},
+  doi     = {10.1088/1751-8113/40/48/001}
+}
+
+@article{kendall1954,
+  author  = {Kendall, Maurice G.},
+  title   = {Note on bias in the estimation of autocorrelation},
+  journal = {Biometrika},
+  volume  = {41},
+  number  = {3-4},
+  pages   = {403--404},
+  year    = {1954},
+  doi     = {10.1093/biomet/41.3-4.403}
+}
+
+@article{zeraati2022,
+  author  = {Zeraati, Roxana and Engel, Tatiana A. and Levina, Anna},
+  title   = {A flexible {B}ayesian framework for unbiased estimation of
+             timescales},
+  journal = {Nature Computational Science},
+  volume  = {2},
+  number  = {3},
+  pages   = {193--204},
+  year    = {2022},
+  doi     = {10.1038/s43588-022-00214-3}
+}
+
+@article{akimoto2023,
+  author  = {Akimoto, Takuma and Yamamoto, Eiji and Uneyama, Takashi},
+  title   = {Estimating relaxation times from a single trajectory},
+  journal = {Journal of the Physical Society of Japan},
+  volume  = {92},
+  number  = {7},
+  pages   = {074005},
+  year    = {2023},
+  doi     = {10.7566/JPSJ.92.074005}
+}
+
+@article{abe2004,
+  author  = {Abe, Sumiyoshi and Suzuki, Norikazu},
+  title   = {Aging and scaling of earthquake aftershocks},
+  journal = {Physica A},
+  volume  = {332},
+  pages   = {533--538},
+  year    = {2004},
+  doi     = {10.1016/j.physa.2003.10.002}
+}
+
+@article{usmanova2017,
+  author  = {Usmanova, Valeriya and Lysogorskiy, Yury V. and Abe, Sumiyoshi},
+  title   = {Aftershocks following crash of currency exchange rate: the case of
+             {RUB}/{USD} in 2014},
+  journal = {Europhysics Letters},
+  volume  = {121},
+  number  = {4},
+  pages   = {48001},
+  year    = {2018},
+  doi     = {10.1209/0295-5075/121/48001}
+}
+
+@article{barardehi2025,
+  author  = {Barardehi, Yashar H. and Bernhardt, Dan},
+  title   = {Revisiting the $\cup$-shaped patterns in volatility and price
+             impacts: Novel results using trade-time estimates},
+  journal = {Journal of Financial Markets},
+  volume  = {74},
+  pages   = {100971},
+  year    = {2025},
+  doi     = {10.1016/j.finmar.2025.100971}
+}
+
+@techreport{ich2000,
+  author      = {{International Council for Harmonisation}},
+  title       = {{ICH} Harmonised Tripartite Guideline {E10}: Choice of Control
+                 Group and Related Issues in Clinical Trials},
+  institution = {ICH},
+  year        = {2000},
+  note        = {Step 4; CPMP/ICH/364/96}
+}
+
+@article{hoenig2001,
+  author  = {Hoenig, John M. and Heisey, Dennis M.},
+  title   = {The abuse of power: the pervasive fallacy of power calculations
+             for data analysis},
+  journal = {The American Statistician},
+  volume  = {55},
+  number  = {1},
+  pages   = {19--24},
+  year    = {2001},
+  doi     = {10.1198/000313001300339897}
+}
+
+@article{donier2015,
+  author  = {Donier, Jonathan and Bonart, Julius and Mastromatteo, Iacopo and
+             Bouchaud, Jean-Philippe},
+  title   = {A fully consistent, minimal model for non-linear market impact},
+  journal = {Quantitative Finance},
+  volume  = {15},
+  number  = {7},
+  pages   = {1109--1121},
+  year    = {2015},
+  doi     = {10.1080/14697688.2015.1040056}
+}
+
+@article{angstmann2026,
+  author  = {Angstmann, Christopher and Gebbie, Tim},
+  title   = {Revisiting trade-sign long-memory and square-root law price impact},
+  journal = {arXiv preprint},
+  year    = {2026},
+  note    = {arXiv:2606.16269 [q-fin.TR]}
+}
+
+@article{abry1998,
+  author  = {Abry, Patrice and Veitch, Darryl},
+  title   = {Wavelet Analysis of Long-Range-Dependent Traffic},
+  journal = {IEEE Transactions on Information Theory},
+  volume  = {44},
+  number  = {1},
+  pages   = {2--15},
+  year    = {1998},
+  doi     = {10.1109/18.650984}
+}
+
+@article{veitch1999,
+  author  = {Veitch, Darryl and Abry, Patrice},
+  title   = {A Wavelet-Based Joint Estimator of the Parameters of Long-Range Dependence},
+  journal = {IEEE Transactions on Information Theory},
+  volume  = {45},
+  number  = {3},
+  pages   = {878--897},
+  year    = {1999},
+  doi     = {10.1109/18.761330}
+}
+
+@article{flandrin1992,
+  author  = {Flandrin, Patrick},
+  title   = {Wavelet Analysis and Synthesis of Fractional {B}rownian Motion},
+  journal = {IEEE Transactions on Information Theory},
+  volume  = {38},
+  number  = {2},
+  pages   = {910--917},
+  year    = {1992},
+  doi     = {10.1109/18.119751}
+}
+
+@article{davies1987,
+  author  = {Davies, R. B. and Harte, D. S.},
+  title   = {Tests for {H}urst Effect},
+  journal = {Biometrika},
+  volume  = {74},
+  number  = {1},
+  pages   = {95--101},
+  year    = {1987},
+  doi     = {10.1093/biomet/74.1.95}
+}
+
+@book{daubechies1992,
+  author    = {Daubechies, Ingrid},
+  title     = {Ten Lectures on Wavelets},
+  publisher = {SIAM},
+  address   = {Philadelphia},
+  year      = {1992},
+  doi       = {10.1137/1.9781611970104}
+}
+
+@book{percival2000,
+  author    = {Percival, Donald B. and Walden, Andrew T.},
+  title     = {Wavelet Methods for Time Series Analysis},
+  publisher = {Cambridge University Press},
+  address   = {Cambridge},
+  year      = {2000},
+  doi       = {10.1017/CBO9780511841040}
+}
