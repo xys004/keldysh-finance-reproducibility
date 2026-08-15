@@ -1,11 +1,11 @@
-# Sign memory and counting noise in market order flow
+# Coupled sign and magnitude memory in market order flow
 
 This repository contains the code, archived numerical outputs, figures, and
 manuscript sources for two related articles:
 
-- a concise Letter on the attribution of memory-amplified counting variance;
-- a pedagogical PRE manuscript translating between market microstructure and
-  nonequilibrium transport.
+- a concise Letter on the exact attribution of finite-window counting variance;
+- a pedagogical PRE manuscript translating between market microstructure,
+  stochastic processes, and nonequilibrium counting language.
 
 The software release is archived at
 [Zenodo](https://doi.org/10.5281/zenodo.21927599).
@@ -18,20 +18,40 @@ substituted into the original decision rule.
 
 Two signed-flow observables are analysed in parallel:
 
-- raw signed base volume, **2*tbBase-Volume**;
-- volume-normalised imbalance, **(2*tbBase-Volume)/Volume**.
+- raw signed base volume, `2 * tbBaseVolume - Volume`;
+- volume-normalised imbalance, `(2 * tbBaseVolume - Volume) / Volume`.
 
-Complete UTC weeks are compared with three permutation nulls conditioned on
-calendar period and hour of week:
+Complete UTC weeks are conditioned on calendar period and hour of week.  The
+main attribution is a fixed-diagonal finite-sample identity:
+
+- the analytic marginal reference is the expected joint-order permutation
+  variance;
+- the sign-order term keeps centred signs and homogenises magnitudes within
+  each stratum;
+- the sign--magnitude term is the exact remainder.
+
+This allocation is non-orthogonal and conditional on sign centring and
+arithmetic-mean magnitude homogenisation. The reference plus sign term is not
+the ordinary variance of a homogenised proxy, and the remainder is not a
+unique causal interaction fraction.
+
+Under the primary quarterly conditioning, the coupled term accounts for
+65--79% of the raw-flow weekly variance excess in BTC, ETH, BNB, and SOL. Paired
+eight-week moving-block intervals remain above one half in all four assets.
+This is explicitly a scale-conditioned result: monthly strata lower the share
+to 45--49%, and two-point biweekly strata make the attribution structurally
+unidentifiable.
+
+Three older permutation diagnostics are retained as non-additive controls:
 
 - **joint**: destroys the complete signed-flow ordering;
 - **sign**: preserves the magnitude path and destroys sign ordering;
 - **magnitude**: preserves the sign path and destroys magnitude ordering.
 
 The sign and magnitude nulls intentionally break contemporaneous
-sign--magnitude pairing. They are attribution diagnostics, not structural
-order-book models. Weekly moving-block bootstrap intervals are reported for
-4-, 8-, 13-, and 26-week blocks.
+sign--magnitude pairing. They are not variance components or structural
+order-book models. Weekly paired moving-block intervals are reported for 4-,
+8-, 13-, and 26-week blocks.
 
 The original predeclared gate required the observed raw-flow variance to exceed
 twice the 98.75th null percentile in all four primary assets. It failed because
@@ -64,14 +84,17 @@ python experiments/exp10_gates_estimador.py
 python experiments/exp14_referee_robustness.py
 python experiments/exp15_flow_null_decomposition.py
 python experiments/exp16_scaling_reassessment.py
+python experiments/exp17_sign_size_coupling.py
 python experiments/plot_referee_robustness.py
 python experiments/plot_flow_null_decomposition.py
 python experiments/plot_scaling_reassessment.py
+python experiments/plot_sign_size_coupling.py
 python experiments/render_supplement_tables.py
+python experiments/render_letter_tables.py
 ~~~
 
 The full historical analysis chain is preserved in **experiments/exp01_*.py**
-through **experiments/exp16_*.py**. Deposited JSON files in **output/** are the
+through **experiments/exp17_*.py**. Deposited JSON files in **output/** are the
 versioned evidence used by the manuscripts. Exploratory outputs remain
 available for transparency even when the associated claims were withdrawn.
 
@@ -85,8 +108,6 @@ bibtex paper3_letter
 pdflatex paper3_letter.tex
 pdflatex paper3_letter.tex
 
-pdflatex paper3_supplement.tex
-bibtex paper3_supplement
 pdflatex paper3_supplement.tex
 pdflatex paper3_supplement.tex
 

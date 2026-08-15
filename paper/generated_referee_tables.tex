@@ -42,6 +42,69 @@ AVAX & normalized & 3.18 & 3.35 & 1.55 & [2.40,4.02] \\
 \end{table*}
 
 \begin{table*}[!htbp]
+\caption{Exact finite-sample attribution under the primary quarterly $\times$ hour-of-week conditioning. $A=V_{\rm obs}/V_0$, where $V_0$ is the analytic expectation of the joint-order null. Fractions divide the variance excess $V_{\rm obs}-V_0$ into sign order at stratum-homogenised magnitudes and the exact sign--size remainder. Intervals use a paired eight-week circular moving-block bootstrap.}
+\label{tab:supp-exact-attribution}
+\begin{ruledtabular}
+\begin{tabular}{llrrrrr}
+asset & flow & $A$ & sign share & coupling share & coupling 95\% interval & $P(f_{sm}>1/2)$ \\
+\colrule
+BTC & raw & 2.75 & 0.21 & 0.79 & [0.63,0.88] & 1.000 \\
+BTC & normalized & 3.16 & 0.46 & 0.54 & [0.45,0.62] & 0.816 \\
+ETH & raw & 3.32 & 0.30 & 0.70 & [0.62,0.78] & 1.000 \\
+ETH & normalized & 4.24 & 0.41 & 0.59 & [0.49,0.66] & 0.962 \\
+BNB & raw & 2.18 & 0.35 & 0.65 & [0.52,0.76] & 0.987 \\
+BNB & normalized & 4.18 & 0.41 & 0.59 & [0.53,0.65] & 0.998 \\
+SOL & raw & 2.53 & 0.35 & 0.65 & [0.55,0.74] & 0.998 \\
+SOL & normalized & 2.96 & 0.51 & 0.49 & [0.35,0.60] & 0.430 \\
+\colrule
+XRP & raw & 5.64 & 0.48 & 0.52 & [0.43,0.60] & 0.683 \\
+XRP & normalized & 5.63 & 0.44 & 0.56 & [0.49,0.63] & 0.956 \\
+ADA & raw & 2.06 & 0.27 & 0.73 & [0.60,0.83] & 0.997 \\
+ADA & normalized & 2.82 & 0.46 & 0.54 & [0.47,0.64] & 0.867 \\
+DOGE & raw & 3.25 & 0.29 & 0.71 & [0.58,0.78] & 1.000 \\
+DOGE & normalized & 3.97 & 0.46 & 0.54 & [0.47,0.61] & 0.856 \\
+AVAX & raw & 2.34 & 0.44 & 0.56 & [0.40,0.64] & 0.831 \\
+AVAX & normalized & 3.16 & 0.51 & 0.49 & [0.41,0.58] & 0.436 \\
+\end{tabular}
+\end{ruledtabular}
+\end{table*}
+
+\begin{table*}[!htbp]
+\caption{Conditioning-scale sensitivity of the exact coupling share in the primary panel. Biweekly strata contain at most two observations; after within-stratum demeaning their residual magnitudes are equal, so the coupling component is structurally unidentifiable and reported as degenerate rather than as evidence of absence.}
+\label{tab:supp-attribution-sensitivity}
+\begin{ruledtabular}
+\begin{tabular}{lllrrr}
+asset & flow & conditioning & coupling share & 95\% interval & status \\
+\colrule
+BTC & raw & quarterly & 0.79 & [0.63,0.88] & identified \\
+BTC & raw & monthly & 0.47 & [0.40,0.55] & identified \\
+BTC & raw & biweekly & 0.00 & [-0.00,0.00] & degenerate \\
+BTC & normalized & quarterly & 0.54 & [0.45,0.62] & identified \\
+BTC & normalized & monthly & 0.49 & [0.39,0.56] & identified \\
+BTC & normalized & biweekly & -0.00 & [-0.00,0.00] & degenerate \\
+ETH & raw & quarterly & 0.70 & [0.62,0.78] & identified \\
+ETH & raw & monthly & 0.45 & [0.37,0.53] & identified \\
+ETH & raw & biweekly & -0.00 & [-0.00,0.00] & degenerate \\
+ETH & normalized & quarterly & 0.59 & [0.49,0.66] & identified \\
+ETH & normalized & monthly & 0.45 & [0.36,0.51] & identified \\
+ETH & normalized & biweekly & 0.00 & [-0.00,0.00] & degenerate \\
+BNB & raw & quarterly & 0.65 & [0.52,0.76] & identified \\
+BNB & raw & monthly & 0.49 & [0.40,0.66] & identified \\
+BNB & raw & biweekly & 0.00 & [-0.00,0.00] & degenerate \\
+BNB & normalized & quarterly & 0.59 & [0.53,0.65] & identified \\
+BNB & normalized & monthly & 0.45 & [0.37,0.51] & identified \\
+BNB & normalized & biweekly & 0.00 & [-0.00,0.00] & degenerate \\
+SOL & raw & quarterly & 0.65 & [0.55,0.74] & identified \\
+SOL & raw & monthly & 0.49 & [0.39,0.59] & identified \\
+SOL & raw & biweekly & 0.00 & [0.00,0.00] & degenerate \\
+SOL & normalized & quarterly & 0.49 & [0.35,0.60] & identified \\
+SOL & normalized & monthly & 0.41 & [0.31,0.51] & identified \\
+SOL & normalized & biweekly & 0.00 & [-0.00,0.00] & degenerate \\
+\end{tabular}
+\end{ruledtabular}
+\end{table*}
+
+\begin{table*}[!htbp]
 \footnotesize
 \setlength{\tabcolsep}{8pt}
 \caption{Sensitivity of the joint weekly variance null. $R_{50}=V_{\rm obs}/\mathrm{median}(V_{\rm null})$ and $R_{98.75}=V_{\rm obs}/Q_{0.9875}(V_{\rm null})$. Primary quarterly rows use 9999 permutations; monthly and biweekly rows use 1999.}

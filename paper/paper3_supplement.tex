@@ -7,155 +7,180 @@
 
 \newcommand{\avg}[1]{\left\langle #1 \right\rangle}
 \newcommand{\Var}{\mathrm{Var}}
-\newcommand{\eps}{\varepsilon}
 
 \begin{document}
 
-\title{Supplemental Material for ``Sign memory amplifies counting noise in market order flow''}
+\title{Supplemental Material for ``Coupled sign and magnitude memory amplifies market-order-flow noise''}
 
 \author{Nelson Bol\'{\i}var}
-\affiliation{Escuela de F\'isica, Facultad de Ciencias, Universidad Central de Venezuela, Caracas 1041-A, Venezuela}
+\affiliation{Escuela de F\'{\i}sica, Facultad de Ciencias, Universidad Central de Venezuela, Caracas 1041-A, Venezuela}
 \affiliation{Astrum Drive Technologies, 13024 Dallas Pkwy Unit 120 B, Frisco, TX 75034, USA}
 \author{Gabriel Abell\'an}
-\affiliation{Escuela de F\'isica, Facultad de Ciencias, Universidad Central de Venezuela, Caracas 1041-A, Venezuela}
+\affiliation{Escuela de F\'{\i}sica, Facultad de Ciencias, Universidad Central de Venezuela, Caracas 1041-A, Venezuela}
 \affiliation{Astrum Drive Technologies, 13024 Dallas Pkwy Unit 120 B, Frisco, TX 75034, USA}
 \author{David Verrilli}
-\affiliation{Escuela de F\'isica, Facultad de Ciencias, Universidad Central de Venezuela, Caracas 1041-A, Venezuela}
+\affiliation{Escuela de F\'{\i}sica, Facultad de Ciencias, Universidad Central de Venezuela, Caracas 1041-A, Venezuela}
 
 \maketitle
 
-\section{Higher cumulants do not define a Gaussian crossover}
+\section{Exact finite-sample reference}
 
-For each asset and dyadic counting window $T=1,2,\ldots,128$ hours, we form
-non-overlapping accumulated flows $Q_T$ and report the standardised third and
-fourth cumulants
+Let $x_t$ be signed flow after subtracting its empirical mean within a declared
+$(\text{period},\text{UTC hour-of-week})$ stratum.  The retained observations
+form $W$ complete weeks of $H=168$ hours, and
 \begin{equation}
- \gamma_1(T)=\frac{\kappa_3(T)}{\kappa_2(T)^{3/2}},\qquad
- \gamma_2(T)=\frac{\kappa_4(T)}{\kappa_2(T)^2}.
+ Q_w=\sum_{t\in w}x_t,\qquad
+ V_{\rm obs}=\frac{1}{W-1}\sum_w(Q_w-\bar Q)^2.
 \end{equation}
-The $95\%$ intervals use $999$ circular moving-block bootstrap replicates. The
-block length corresponds to four weeks of clock time at every $T$, so the
-resampling retains short- and intermediate-range dependence within each block.
+Every observation belongs to one week and the sum of $x_t$ vanishes in every
+stratum.  Hence $\bar Q=0$ up to floating-point roundoff.
 
-Neither statistic approaches zero uniformly across assets
-[Fig.~\ref{fig:supp-cumulants} and Table~\ref{tab:supp-cumulants}]. BTC loses
-most of its excess kurtosis by $T=128$ but remains skewed; ETH becomes markedly
-more skewed and heavy-tailed; BNB and SOL retain nonzero excess kurtosis. We
-therefore do not define a characteristic Gaussian scale $T^*$. This does not
-alter the algebraic statement in the Letter: Gaussianity is a sufficient null
-explanation for a linear symmetry function, not an empirical description we
-impose on all windows. Conversely, a linear $\log[P(Q)/P(-Q)]$ can occur for a
-non-Gaussian exponentially tilted distribution, so linearity alone does not
-establish either Gaussianity or a nontrivial fluctuation theorem.
+Expand the weekly square:
+\begin{equation}
+ \sum_w Q_w^2=
+ \underbrace{\sum_t x_t^2}_{D}
+ +\underbrace{\sum_w\sum_{\substack{t,t'\in w\\t\ne t'}}x_tx_{t'}}_{C}.
+ \label{eq:square-expansion}
+\end{equation}
+A complete week contains one candle at each hour of week.  It therefore
+contains at most one observation from any declared stratum, even when a week
+crosses a calendar-period boundary.  Under independent within-stratum
+permutations, $x_t$ and $x_{t'}$ in an off-diagonal weekly pair come from two
+different zero-mean strata, so
+$\mathbb E_\pi[x_{\pi(t)}x_{\pi(t')}]=0$.  Permutation also preserves $D$
+exactly.  Thus
+\begin{equation}
+ \mathbb E_\pi[V_{\rm joint}]
+ =\frac{D}{W-1}\equiv V_0 .
+ \label{eq:exact-reference}
+\end{equation}
+This identity holds for finite samples and permutation without replacement.
+The \href{https://doi.org/10.5281/zenodo.21927599}{deposited calculation}
+verifies the analytic value against explicit joint
+permutations; the small difference between $V_0$ and a reported null
+\emph{median} is Monte Carlo distributional asymmetry, not a physical effect.
 
-\begin{figure}[t]
- \includegraphics[width=\linewidth]{../output/figuras/fig13_standardized_cumulants.pdf}
- \caption{Scale dependence of (a) skewness and (b) excess kurtosis. Shading is
- the moving-block bootstrap $95\%$ interval. The zero line is Gaussian.}
- \label{fig:supp-cumulants}
-\end{figure}
+\section{Sign-order and coupling terms}
 
-\section{Parallel flow definitions and sign--magnitude attribution}
+Write $x_t=s_tm_t$, with $s_t=\operatorname{sign}(x_t)$ and
+$m_t=|x_t|$.  Define stratum means
+\begin{equation}
+ \bar s_g=\frac{1}{n_g}\sum_{t\in g}s_t,\qquad
+ \bar m_g=\frac{1}{n_g}\sum_{t\in g}m_t,\qquad
+ \widetilde s_t=s_t-\bar s_{g(t)}.
+\end{equation}
+Centering the sign proxy is essential.  A nonzero $\bar s_g$ can be offset by
+a contemporaneous relation between signs and magnitudes even though the signed
+flow itself has zero stratum mean; assigning that offset to ``sign memory''
+would import a one-point sign--magnitude association into the sign-only term.
 
-The primary analysis is repeated without mixing observables. Raw signed base
-volume is $\eps_t^{(r)}=2V_t^+-V_t$; normalised imbalance is
-$\eps_t^{(n)}=\eps_t^{(r)}/V_t$. Within each quarter--hour-of-week stratum we
-remove the corresponding mean. The joint null permutes the complete residual.
-Writing that residual as $s_t m_t$, the sign null permutes $s_t$ while keeping
-$m_t$ at its observed times, and the magnitude null permutes $m_t$ while
-keeping $s_t$ fixed. Each surrogate is re-centred within stratum before weekly
-aggregation.
+The homogenised sign-order contribution is
+\begin{equation}
+ C_s=\sum_w\sum_{\substack{t,t'\in w\\t\ne t'}}
+ \widetilde s_t\widetilde s_{t'}
+ \bar m_{g(t)}\bar m_{g(t')}.
+\end{equation}
+The coupling remainder is $C_{sm}=C-C_s$.  With
+$V_s=C_s/(W-1)$ and $V_{sm}=C_{sm}/(W-1)$, Eq.~\eqref{eq:square-expansion}
+gives
+\begin{equation}
+ V_{\rm obs}=V_0+V_s+V_{sm}
+ \label{eq:exact-decomposition}
+\end{equation}
+to machine precision.  Table~\ref{tab:exact-attribution} reports
+$A=V_{\rm obs}/V_0$, $f_s=V_s/(V_{\rm obs}-V_0)$, and
+$f_{sm}=V_{sm}/(V_{\rm obs}-V_0)$.  No positivity constraint is imposed.  A
+negative or greater-than-one share would remain visible and would invalidate a
+simple mixture interpretation.
 
-Table~\ref{tab:supp-decomposition} gives all results. The sign null is close to
-the joint null, whereas the magnitude null has substantially larger variance.
-Equivalently, retaining sign order recovers more of the observation than
-retaining magnitude order. The comparison is not additive: both attribution
-nulls break contemporaneous sign--magnitude pairing, so their difference can
-include coupling between signs and sizes.
+Equation~\eqref{eq:exact-decomposition} is an operational allocation of an
+interaction, not a unique causal decomposition.  Its advantages are that the
+reference is analytic, every term is computed from the same weekly sample, and
+the allocation rule is stated before interpreting the result.  In particular,
+$V_0+V_s$ keeps the observed diagonal $D$ and is not
+$\Var(\widetilde s_t\bar m_{g(t)})$.  Replacing $\bar m_g$ by another declared
+stratum scale would give a different exact remainder; the reported share is
+therefore conditional on the arithmetic-mean homogenisation, not an orthogonal
+or uniquely identified interaction fraction.
 
-BTC, ETH, BNB, and SOL form the primary panel. After fixing the analysis, we
-added XRP, ADA, DOGE, and AVAX as a post-hoc robustness panel with the same
-four-year hourly coverage. In the extension, the joint-null ratios span
-$2.08$--$5.67$ for raw flow and $2.83$--$5.64$ for normalised flow. The sign
-null remains close to the joint null in every added asset, while the magnitude
-null is smaller. This replication broadens the empirical scope, but it is not
-part of the predeclared four-asset decision rule.
+\section{Why the earlier surrogate comparison is not additive}
 
-Uncertainty in the observed weekly variance is estimated with a circular
-moving-block bootstrap over the weekly sums. We use 3999 replicates and report
-4-, 8-, 13-, and 26-week block sensitivity. These intervals are conditional on
-the median empirical null; they do not include Monte Carlo uncertainty in that
-median, which is negligible relative to the weekly-sample uncertainty at 9999
-permutations. The eight-week intervals appear in
-Table~\ref{tab:supp-decomposition} and Fig.~1 of the Letter.
+The earlier analysis used three nulls: permuting complete $x_t$ values,
+permuting signs while magnitudes remain at their observed times, and permuting
+magnitudes while signs remain fixed.  Table~\ref{tab:permutation-controls}
+retains those values as controls.  The sign and magnitude nulls break
+contemporaneous sign--magnitude pairing and cannot be added as variance
+components.
 
-\section{Sensitivity to the temporal conditioning of the null}
+Nor is equality of the sign and joint nulls an exact identity for the
+implemented algorithm.  If a stratum contains $n$ signs permuted without
+replacement, then for two distinct positions
+\begin{equation}
+ \mathbb E_\pi[s_{\pi(i)}s_{\pi(j)}]
+ =\frac{(\sum_k s_k)^2-\sum_k s_k^2}{n(n-1)},
+\end{equation}
+which is generally nonzero.  Fixed magnitudes weight these finite-population
+terms, and the surrogate is subsequently re-centred.  Explicit enumeration of
+a four-week finite example gives
+$\mathbb E[V_J]=16.6667$ and $\mathbb E[V_S]=15.6667$ while satisfying
+Eq.~\eqref{eq:exact-reference} exactly.  The empirical proximity of the two
+nulls is therefore a structural feature of sign randomisation, not a measured
+decomposition and not a literal equality.
 
-The primary joint null permutes signed flow within
-$(\text{calendar quarter},\text{hour of week})$ strata. We repeat the
-calculation with calendar-month strata and with consecutive
-14-day blocks anchored on the first complete Monday in the sample. In every
-case the mean is removed within the same strata used for permutation. Calendar
-edge strata containing one retained candle are left fixed; their fraction is
-reported in Table~\ref{tab:supp-null}.
+\section{Paired moving-block uncertainty}
 
-Table~\ref{tab:supp-null} reports both flow definitions. Finer conditioning
-removes part of the low-frequency organisation whose contribution the
-quarterly null measures. The sensitivity therefore identifies scale content in
-the excess and rules out partition invariance.
+For each week we store the diagonal, total off-diagonal, homogenised-sign
+off-diagonal, and coupling contributions.  A circular moving-block sample uses
+the same resampled week indices for every contribution.  The shares are then
+recomputed from the paired sums; replicates with nonpositive total excess are
+excluded from share quantiles and their retained fraction is recorded.  More
+than half of the 3999 replicates must remain valid or the calculation fails.
 
-The original predeclared screen was
-$V_{\rm obs}>2Q_{0.9875}(V_{\rm null})$ for all four assets under the raw-flow
-quarterly joint null. BNB failed, so the all-assets gate failed. The later
-normalised-flow analysis is a robustness analysis and is not substituted into
-that decision rule. Pairwise weekly-flow correlations are $0.14$--$0.39$ for
-raw flow and $-0.13$--$0.26$ for normalised flow within the primary panel. Over
-all eight assets the corresponding ranges are $0.01$--$0.45$ and
-$-0.16$--$0.27$; neither panel should be treated as a collection of independent
-replications.
+We report block lengths of 4, 8, 13, and 26 weeks.  All four primary raw-flow
+coupling intervals remain above one half at eight weeks
+[Table~\ref{tab:exact-attribution}].  Table~\ref{tab:block-sensitivity} shows
+that the conclusion is not tied to that single block choice.  Stratum means
+are held fixed throughout; the intervals are conditional on the declared
+calendar partition and do not represent uncertainty over a choice of
+partition.
 
-\begin{figure}[t]
- \includegraphics[width=0.85\linewidth]{../output/figuras/fig14_stratification_sensitivity.pdf}
- \caption{Observed weekly variance relative to the median of each conditioned
- null. The dashed line marks a factor of two.}
- \label{fig:supp-null}
-\end{figure}
+\section{Conditioning scale and identifiability}
 
-\section{Wavelet control of mean drift}
+Quarterly conditioning removes recurring hour-of-week means while retaining
+organisation across weeks within a quarter.  Monthly conditioning absorbs more
+of that low-frequency organisation.  In the primary raw series it lowers
+$f_{sm}$ from $0.65$--$0.79$ to $0.45$--$0.49$
+[Table~\ref{tab:conditioning-sensitivity}].  The result is therefore a
+finite-scale statement, not a partition-invariant material constant.
 
-The wavelet estimators are applied directly to the hourly signed-flow series,
-not to a separately integrated profile. A Daubechies wavelet with $p$ vanishing
-moments annihilates polynomial trends of degree smaller than $p$
-\cite{daubechies1992,percival2000}. Thus db1 (Haar) removes a constant mean,
-db2 a linear trend, and db3 a quadratic trend.
+The 14-day sensitivity has a sharper limitation.  Each
+$(\text{14-day block},\text{hour-of-week})$ stratum contains at most two
+observations.  After subtracting their mean, the two residuals are equal in
+magnitude and opposite in sign.  Magnitude homogenisation then changes
+nothing, forcing $C_{sm}=0$ algebraically.  This row diagnoses loss of
+identifiability at too-fine conditioning; it cannot test whether coupling is
+physically absent.
 
-The implementation is calibrated on fractional Gaussian noise with known
-$\nu=1.40$. The block-variance, db1, db2 and db3 estimates agree within $0.01$
-without drift. Injecting linear or quadratic trends inflates the block estimate
-while leaving the appropriate wavelet estimates fixed. On market data all three
-wavelet estimates remain superdiffusive, $\nu=1.10$--$1.36$
-[Table~\ref{tab:supp-wavelets}], but their local slopes do not resolve the
-monotone crossover seen in the drift-sensitive block variance. This establishes
-global superdiffusion while leaving the local crossover undecided.
+\section{Panels, dependence, and claim boundary}
 
-\section{Scaling model reassessment}
+BTC, ETH, BNB, and SOL were the primary assets.  XRP, ADA, DOGE, and AVAX were
+added after the analysis was fixed and remain a post-hoc extension.  Their
+raw-flow point coupling shares are $0.52$--$0.73$, but two intervals cross one
+half.  We therefore claim a resolved majority only for the four primary raw
+series under quarterly conditioning.
 
-For $C(\tau)\sim\tau^{-a}$, the map $\nu=2-a$ applies only for $0<a<1$.
-At $a=1$ the leading form is $T\log T$, and for $a>1$ it is $T$. Applying this
-map asset by asset gives Table~\ref{tab:supp-scaling}. The single broad-window
-power-law model misses all eight block-variance exponents by more than three
-reported block-fit standard errors, although those discrepancies do not include
-uncertainty in the ACF prediction. The two-regime intervals are weaker still:
-they omit amplitudes and crossover uncertainty, and BNB lies outside its band.
-We therefore use neither construction as independent confirmation. The exact
-finite-sample covariance identity already fixes $V_T$ from $C(\tau)$; the
-robust empirical statement is global superdiffusion under drift-resistant
-estimators.
+The assets are not independent replications.  Pairwise weekly-flow
+correlations in the primary panel are $0.14$--$0.39$ for raw flow and
+$-0.13$--$0.26$ for normalised imbalance.  The repeated direction across
+assets is a robustness pattern, while uncertainty is reported asset by asset;
+we do not multiply significance levels across the panel.
 
-\input{generated_referee_tables}
+The original predeclared screen required raw observed variance to exceed twice
+the 98.75th joint-null percentile in all four primary assets.  BNB failed.  The
+exact attribution answers a different conditional question and does not amend
+that outcome.
+
+\input{generated_letter_tables}
 \FloatBarrier
-
-\bibliographystyle{apsrev4-2}
-\bibliography{refs}
 
 \end{document}

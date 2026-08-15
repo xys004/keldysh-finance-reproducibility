@@ -27,6 +27,7 @@ def main() -> None:
     exp14 = _load("exp14_referee_robustness.json")
     exp15 = _load("exp15_flow_null_decomposition.json")
     exp16 = _load("exp16_scaling_reassessment.json")
+    exp17 = _load("exp17_sign_size_coupling.json")
     lines: list[str] = []
 
     lines.extend([
@@ -63,6 +64,67 @@ def main() -> None:
                 f"{estimates['magnitude']['variance_ratio_to_null_median']:.2f} & "
                 f"[{ci['ratio_ci025']:.2f},{ci['ratio_ci975']:.2f}] " + r"\\"
             )
+    _close(lines, wide=True)
+
+    lines.extend([
+        r"\begin{table*}[!htbp]",
+        r"\caption{Exact finite-sample attribution under the primary quarterly $\times$ hour-of-week conditioning. $A=V_{\rm obs}/V_0$, where $V_0$ is the analytic expectation of the joint-order null. Fractions divide the variance excess $V_{\rm obs}-V_0$ into sign order at stratum-homogenised magnitudes and the exact sign--size remainder. Intervals use a paired eight-week circular moving-block bootstrap.}",
+        r"\label{tab:supp-exact-attribution}",
+        r"\begin{ruledtabular}",
+        r"\begin{tabular}{llrrrrr}",
+        r"asset & flow & $A$ & sign share & coupling share & coupling 95\% interval & $P(f_{sm}>1/2)$ \\",
+        r"\colrule",
+    ])
+    for row_index, row in enumerate(exp17["results"]):
+        if row_index == 4:
+            lines.append(r"\colrule")
+        for flow in ("raw", "normalized"):
+            result = row["quarterly"][flow]
+            ci = next(
+                item for item in result["paired_weekly_block_bootstrap"]
+                if item["block_length_weeks"] == 8
+            )
+            lines.append(
+                f"{row['asset']} & {flow} & "
+                f"{result['amplification_over_marginal']:.2f} & "
+                f"{result['sign_share_of_excess']:.2f} & "
+                f"{result['coupling_share_of_excess']:.2f} & "
+                f"[{ci['coupling_share_ci025']:.2f},"
+                f"{ci['coupling_share_ci975']:.2f}] & "
+                f"{ci['probability_coupling_share_gt_half']:.3f} " + r"\\"
+            )
+    _close(lines, wide=True)
+
+    lines.extend([
+        r"\begin{table*}[!htbp]",
+        r"\caption{Conditioning-scale sensitivity of the exact coupling share in the primary panel. Biweekly strata contain at most two observations; after within-stratum demeaning their residual magnitudes are equal, so the coupling component is structurally unidentifiable and reported as degenerate rather than as evidence of absence.}",
+        r"\label{tab:supp-attribution-sensitivity}",
+        r"\begin{ruledtabular}",
+        r"\begin{tabular}{lllrrr}",
+        r"asset & flow & conditioning & coupling share & 95\% interval & status \\",
+        r"\colrule",
+    ])
+    for row in exp17["results"]:
+        if row["panel"] != "primary":
+            continue
+        for flow in ("raw", "normalized"):
+            results = [row["quarterly"][flow]]
+            results.extend(row["stratification_sensitivity"][flow])
+            for result in results:
+                ci = next(
+                    item for item in result["paired_weekly_block_bootstrap"]
+                    if item["block_length_weeks"] == 8
+                )
+                status = (
+                    "degenerate" if result["stratification"] == "biweekly"
+                    else "identified"
+                )
+                lines.append(
+                    f"{row['asset']} & {flow} & {result['stratification']} & "
+                    f"{result['coupling_share_of_excess']:.2f} & "
+                    f"[{ci['coupling_share_ci025']:.2f},"
+                    f"{ci['coupling_share_ci975']:.2f}] & {status} " + r"\\"
+                )
     _close(lines, wide=True)
 
     lines.extend([

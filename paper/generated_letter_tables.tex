@@ -1,0 +1,105 @@
+\begin{table*}[!htbp]
+\caption{Exact quarterly attribution. $A=V_{\rm obs}/V_0$; $f_s$ and $f_{sm}$ divide $V_{\rm obs}-V_0$. Intervals are paired eight-week circular moving-block intervals for $f_{sm}$. The first four assets are primary.}
+\label{tab:exact-attribution}
+\begin{ruledtabular}
+\begin{tabular}{llrrrrr}
+asset & flow & $A$ & $f_s$ & $f_{sm}$ & 95\% interval & $P(f_{sm}>1/2)$ \\
+\colrule
+BTC & raw & 2.75 & 0.21 & 0.79 & [0.63,0.88] & 1.000 \\
+BTC & normalized & 3.16 & 0.46 & 0.54 & [0.45,0.62] & 0.816 \\
+ETH & raw & 3.32 & 0.30 & 0.70 & [0.62,0.78] & 1.000 \\
+ETH & normalized & 4.24 & 0.41 & 0.59 & [0.49,0.66] & 0.962 \\
+BNB & raw & 2.18 & 0.35 & 0.65 & [0.52,0.76] & 0.987 \\
+BNB & normalized & 4.18 & 0.41 & 0.59 & [0.53,0.65] & 0.998 \\
+SOL & raw & 2.53 & 0.35 & 0.65 & [0.55,0.74] & 0.998 \\
+SOL & normalized & 2.96 & 0.51 & 0.49 & [0.35,0.60] & 0.430 \\
+\colrule
+XRP & raw & 5.64 & 0.48 & 0.52 & [0.43,0.60] & 0.683 \\
+XRP & normalized & 5.63 & 0.44 & 0.56 & [0.49,0.63] & 0.956 \\
+ADA & raw & 2.06 & 0.27 & 0.73 & [0.60,0.83] & 0.997 \\
+ADA & normalized & 2.82 & 0.46 & 0.54 & [0.47,0.64] & 0.867 \\
+DOGE & raw & 3.25 & 0.29 & 0.71 & [0.58,0.78] & 1.000 \\
+DOGE & normalized & 3.97 & 0.46 & 0.54 & [0.47,0.61] & 0.856 \\
+AVAX & raw & 2.34 & 0.44 & 0.56 & [0.40,0.64] & 0.831 \\
+AVAX & normalized & 3.16 & 0.51 & 0.49 & [0.41,0.58] & 0.436 \\
+\end{tabular}
+\end{ruledtabular}
+\end{table*}
+
+\begin{table*}[!htbp]
+\caption{Block-length sensitivity of the primary raw-flow coupling share. Each entry is the paired moving-block 95\% interval.}
+\label{tab:block-sensitivity}
+\begin{ruledtabular}
+\begin{tabular}{lrrrrr}
+asset & point & 4 weeks & 8 weeks & 13 weeks & 26 weeks \\
+\colrule
+BTC & 0.79 & [0.64,0.88] & [0.63,0.88] & [0.62,0.89] & [0.60,0.90] \\
+ETH & 0.70 & [0.62,0.78] & [0.62,0.78] & [0.62,0.78] & [0.62,0.78] \\
+BNB & 0.65 & [0.52,0.75] & [0.52,0.76] & [0.53,0.75] & [0.56,0.74] \\
+SOL & 0.65 & [0.55,0.74] & [0.55,0.74] & [0.56,0.73] & [0.59,0.72] \\
+\end{tabular}
+\end{ruledtabular}
+\end{table*}
+
+\begin{table*}[!htbp]
+\caption{Conditioning-scale sensitivity in the primary panel. Two-point biweekly strata force equal residual magnitudes after demeaning, so their zero coupling remainder is a degeneracy, not evidence of absence.}
+\label{tab:conditioning-sensitivity}
+\begin{ruledtabular}
+\begin{tabular}{lllrrr}
+asset & flow & conditioning & $f_{sm}$ & 95\% interval & status \\
+\colrule
+BTC & raw & quarterly & 0.79 & [0.63,0.88] & identified \\
+BTC & raw & monthly & 0.47 & [0.40,0.55] & identified \\
+BTC & raw & biweekly & 0.00 & [-0.00,0.00] & degenerate \\
+BTC & normalized & quarterly & 0.54 & [0.45,0.62] & identified \\
+BTC & normalized & monthly & 0.49 & [0.39,0.56] & identified \\
+BTC & normalized & biweekly & -0.00 & [-0.00,0.00] & degenerate \\
+ETH & raw & quarterly & 0.70 & [0.62,0.78] & identified \\
+ETH & raw & monthly & 0.45 & [0.37,0.53] & identified \\
+ETH & raw & biweekly & -0.00 & [-0.00,0.00] & degenerate \\
+ETH & normalized & quarterly & 0.59 & [0.49,0.66] & identified \\
+ETH & normalized & monthly & 0.45 & [0.36,0.51] & identified \\
+ETH & normalized & biweekly & 0.00 & [-0.00,0.00] & degenerate \\
+BNB & raw & quarterly & 0.65 & [0.52,0.76] & identified \\
+BNB & raw & monthly & 0.49 & [0.40,0.66] & identified \\
+BNB & raw & biweekly & 0.00 & [-0.00,0.00] & degenerate \\
+BNB & normalized & quarterly & 0.59 & [0.53,0.65] & identified \\
+BNB & normalized & monthly & 0.45 & [0.37,0.51] & identified \\
+BNB & normalized & biweekly & 0.00 & [-0.00,0.00] & degenerate \\
+SOL & raw & quarterly & 0.65 & [0.55,0.74] & identified \\
+SOL & raw & monthly & 0.49 & [0.39,0.59] & identified \\
+SOL & raw & biweekly & 0.00 & [0.00,0.00] & degenerate \\
+SOL & normalized & quarterly & 0.49 & [0.35,0.60] & identified \\
+SOL & normalized & monthly & 0.41 & [0.31,0.51] & identified \\
+SOL & normalized & biweekly & 0.00 & [-0.00,0.00] & degenerate \\
+\end{tabular}
+\end{ruledtabular}
+\end{table*}
+
+\begin{table*}[!htbp]
+\caption{Legacy non-additive permutation diagnostics. $R_J$, $R_S$, and $R_M$ divide observed variance by the medians of joint-order, sign-order, and magnitude-order nulls. The latter two break contemporaneous sign--magnitude pairing and are controls, not variance components.}
+\label{tab:permutation-controls}
+\begin{ruledtabular}
+\begin{tabular}{llrrr}
+asset & flow & $R_J$ & $R_S$ & $R_M$ \\
+\colrule
+BTC & raw & 2.75 & 2.82 & 2.14 \\
+BTC & normalized & 3.20 & 3.35 & 1.64 \\
+ETH & raw & 3.36 & 3.43 & 2.10 \\
+ETH & normalized & 4.22 & 4.43 & 1.89 \\
+BNB & raw & 2.19 & 2.29 & 1.66 \\
+BNB & normalized & 4.20 & 4.39 & 1.86 \\
+SOL & raw & 2.55 & 2.61 & 1.75 \\
+SOL & normalized & 2.99 & 3.14 & 1.52 \\
+\colrule
+XRP & raw & 5.67 & 5.81 & 1.81 \\
+XRP & normalized & 5.64 & 5.93 & 1.87 \\
+ADA & raw & 2.08 & 2.10 & 1.75 \\
+ADA & normalized & 2.83 & 2.98 & 1.59 \\
+DOGE & raw & 3.26 & 3.29 & 2.11 \\
+DOGE & normalized & 3.99 & 4.19 & 1.71 \\
+AVAX & raw & 2.36 & 2.53 & 1.57 \\
+AVAX & normalized & 3.18 & 3.35 & 1.55 \\
+\end{tabular}
+\end{ruledtabular}
+\end{table*}

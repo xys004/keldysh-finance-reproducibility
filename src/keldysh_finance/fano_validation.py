@@ -8,9 +8,10 @@ to the trade-size distribution.  This module therefore separates two questions:
 
 The second question is answered by stratified permutation ratios.  We report
 raw signed base volume and volume-normalised imbalance in parallel.  Three
-nulls separate the effects of the complete signed-flow ordering, sign memory,
-and magnitude clustering.  The variance ratios are independent of any proxy
-transfer quantum.
+non-additive nulls probe complete signed-flow ordering, sign ordering, and
+magnitude ordering.  An exact finite-sample decomposition separately attributes
+the excess to sign order at homogenised magnitudes and a sign--size remainder.
+All variance ratios are independent of any proxy transfer quantum.
 """
 from __future__ import annotations
 
@@ -247,6 +248,325 @@ def _circular_block_bootstrap_variance_ratio(
     return rows
 
 
+def _sign_size_weekly_components(
+    prepared: PreparedHourlyFlow,
+    stratification: str,
+) -> dict[str, np.ndarray | float]:
+    """Return exact weekly pieces of the signed-flow second moment.
+
+    The observed, stratum-demeaned flow is written ``x_t = s_t m_t``.  Its
+    diagonal contribution is retained exactly.  To isolate temporal sign
+    organisation on the same calendar footing as the permutation null, signs
+    are centred within each stratum and magnitudes are replaced by their
+    stratum means.  The difference between the observed and homogenised
+    off-diagonal terms is the declared sign--size coupling remainder.
+
+    Every complete week contains at most one observation from a given
+    ``(period, hour-of-week)`` stratum.  Consequently the diagonal term is also
+    the exact expectation of the joint-order permutation variance (up to the
+    common sample-variance divisor), rather than a Monte Carlo estimate.
+    """
+    x = _demean_within_strata(prepared, stratification)
+    weeks = int(prepared.n_complete_weeks)
+    if len(x) != weeks * HOURS_PER_WEEK:
+        raise ValueError("prepared arrays are not complete weekly blocks")
+
+    period = _stratum_period(prepared, stratification)
+    labels = pd.MultiIndex.from_arrays([period, prepared.hour_of_week])
+    signs = np.sign(x)
+    magnitudes = np.abs(x)
+    mean_sign = (
+        pd.Series(signs, index=labels)
+        .groupby(level=[0, 1])
+        .transform("mean")
+        .to_numpy(float)
+    )
+    mean_magnitude = (
+        pd.Series(magnitudes, index=labels)
+        .groupby(level=[0, 1])
+        .transform("mean")
+        .to_numpy(float)
+    )
+    sign_only = (signs - mean_sign) * mean_magnitude
+
+    x_week = x.reshape(weeks, HOURS_PER_WEEK)
+    sign_week = sign_only.reshape(weeks, HOURS_PER_WEEK)
+    weekly_flow = x_week.sum(axis=1)
+    weekly_sign_flow = sign_week.sum(axis=1)
+    weekly_diagonal = np.square(x_week).sum(axis=1)
+    weekly_sign_diagonal = np.square(sign_week).sum(axis=1)
+    weekly_total_offdiagonal = np.square(weekly_flow) - weekly_diagonal
+    weekly_sign_offdiagonal = (
+        np.square(weekly_sign_flow) - weekly_sign_diagonal
+    )
+    weekly_coupling = weekly_total_offdiagonal - weekly_sign_offdiagonal
+
+    reconstruction = (
+        weekly_diagonal + weekly_sign_offdiagonal + weekly_coupling
+    )
+    error = float(np.max(np.abs(reconstruction - np.square(weekly_flow))))
+    scale = float(max(1.0, np.max(np.square(weekly_flow))))
+    if error > 5e-12 * scale:
+        raise AssertionError("sign--size components do not reconstruct Q_w^2")
+
+    return {
+        "weekly_flow": weekly_flow,
+        "weekly_sign_flow": weekly_sign_flow,
+        "weekly_diagonal": weekly_diagonal,
+        "weekly_total_offdiagonal": weekly_total_offdiagonal,
+        "weekly_sign_offdiagonal": weekly_sign_offdiagonal,
+        "weekly_coupling": weekly_coupling,
+        "max_weekly_reconstruction_error": error,
+        "max_weekly_reconstruction_relative_error": error / scale,
+        "max_stratum_flow_mean": float(
+            pd.Series(x, index=labels)
+            .groupby(level=[0, 1])
+            .mean()
+            .abs()
+            .max()
+        ),
+        "max_stratum_sign_proxy_mean": float(
+            pd.Series(sign_only, index=labels)
+            .groupby(level=[0, 1])
+            .mean()
+            .abs()
+            .max()
+        ),
+    }
+
+
+def _bootstrap_sign_size_components(
+    components: dict[str, np.ndarray | float],
+    block_lengths: tuple[int, ...],
+    replicates: int,
+    seed: int,
+) -> list[dict]:
+    """Paired circular-block uncertainty for exact attribution shares."""
+    q = np.asarray(components["weekly_flow"], float)
+    q_sign = np.asarray(components["weekly_sign_flow"], float)
+    diagonal = np.asarray(components["weekly_diagonal"], float)
+    total_offdiagonal = np.asarray(
+        components["weekly_total_offdiagonal"], float
+    )
+    sign_offdiagonal = np.asarray(
+        components["weekly_sign_offdiagonal"], float
+    )
+    n = len(q)
+    if replicates < 99:
+        raise ValueError("at least 99 bootstrap replicates are required")
+    rng = np.random.default_rng(seed)
+    rows = []
+    for requested in block_lengths:
+        block = min(max(1, int(requested)), n)
+        n_blocks = int(np.ceil(n / block))
+        starts = rng.integers(0, n, size=(replicates, n_blocks))
+        offsets = np.arange(block)
+        indices = (starts[:, :, None] + offsets[None, None, :]) % n
+        indices = indices.reshape(replicates, -1)[:, :n]
+
+        q_b = q[indices]
+        q_sign_b = q_sign[indices]
+        diagonal_sum = diagonal[indices].sum(axis=1)
+        total_numerator = (
+            total_offdiagonal[indices].sum(axis=1)
+            - n * np.square(q_b.mean(axis=1))
+        )
+        sign_numerator = (
+            sign_offdiagonal[indices].sum(axis=1)
+            - n * np.square(q_sign_b.mean(axis=1))
+        )
+        coupling_numerator = total_numerator - sign_numerator
+        valid = total_numerator > 0.0
+        if np.count_nonzero(valid) < max(50, replicates // 2):
+            raise ValueError("too few positive-excess bootstrap replicates")
+        sign_share = sign_numerator[valid] / total_numerator[valid]
+        coupling_share = coupling_numerator[valid] / total_numerator[valid]
+        amplification = 1.0 + total_numerator / diagonal_sum
+        rows.append({
+            "block_length_weeks": block,
+            "replicates": int(replicates),
+            "positive_excess_replicates": int(np.count_nonzero(valid)),
+            "positive_excess_fraction": float(np.mean(valid)),
+            "amplification_median": float(np.median(amplification)),
+            "amplification_ci025": float(np.quantile(amplification, 0.025)),
+            "amplification_ci975": float(np.quantile(amplification, 0.975)),
+            "sign_share_median": float(np.median(sign_share)),
+            "sign_share_ci025": float(np.quantile(sign_share, 0.025)),
+            "sign_share_ci975": float(np.quantile(sign_share, 0.975)),
+            "coupling_share_median": float(np.median(coupling_share)),
+            "coupling_share_ci025": float(np.quantile(coupling_share, 0.025)),
+            "coupling_share_ci975": float(np.quantile(coupling_share, 0.975)),
+            "probability_coupling_share_gt_half": float(
+                np.mean(coupling_share > 0.5)
+            ),
+            "probability_sign_component_positive": float(
+                np.mean(sign_numerator > 0.0)
+            ),
+        })
+    return rows
+
+
+def stratified_sign_size_decomposition(
+    prepared: PreparedHourlyFlow,
+    stratification: str = "quarterly",
+    bootstrap_replicates: int = 0,
+    bootstrap_block_lengths: tuple[int, ...] = (4, 8, 13, 26),
+    seed: int = 20260815,
+) -> dict:
+    """Decompose weekly variance excess into sign and sign--size terms.
+
+    The reference is the exact expectation of the joint-order permutation
+    variance.  The sign term keeps the observed, stratum-centred sign path but
+    homogenises magnitudes within each stratum.  The coupling term is the exact
+    remainder.  This is a declared fixed-diagonal, non-orthogonal
+    finite-sample decomposition, not a unique causal allocation of an
+    interaction.  In particular, the reference plus sign component is not
+    the ordinary variance of the magnitude-homogenised sign proxy.
+    """
+    components = _sign_size_weekly_components(prepared, stratification)
+    q = np.asarray(components["weekly_flow"], float)
+    diagonal = np.asarray(components["weekly_diagonal"], float)
+    total_offdiagonal = np.asarray(
+        components["weekly_total_offdiagonal"], float
+    )
+    sign_offdiagonal = np.asarray(
+        components["weekly_sign_offdiagonal"], float
+    )
+    weeks = len(q)
+    divisor = weeks - 1
+    observed = float(np.var(q, ddof=1))
+    marginal_reference = float(diagonal.sum() / divisor)
+    sign_component = float(sign_offdiagonal.sum() / divisor)
+    total_excess = observed - marginal_reference
+    coupling_component = total_excess - sign_component
+    reconstruction = marginal_reference + sign_component + coupling_component
+    if not np.isclose(reconstruction, observed, rtol=5e-13, atol=5e-13):
+        raise AssertionError("variance decomposition is not exact")
+    if total_excess <= 0:
+        raise ValueError("observed weekly variance has no positive memory excess")
+
+    result = {
+        "flow_mode": prepared.flow_mode,
+        "stratification": stratification,
+        "horizon_hours": HOURS_PER_WEEK,
+        "n_complete_weeks": int(weeks),
+        "n_candles": int(len(prepared.index)),
+        "variance_observed": observed,
+        "marginal_reference": marginal_reference,
+        "amplification_over_marginal": float(observed / marginal_reference),
+        "total_excess": total_excess,
+        "sign_order_component": sign_component,
+        "sign_size_coupling_component": coupling_component,
+        "sign_share_of_excess": float(sign_component / total_excess),
+        "coupling_share_of_excess": float(coupling_component / total_excess),
+        "weekly_flow_mean": float(q.mean()),
+        "centering_correction": float(-weeks * np.square(q.mean()) / divisor),
+        "exact_reconstruction_error": float(abs(reconstruction - observed)),
+        "max_weekly_reconstruction_error": components[
+            "max_weekly_reconstruction_error"
+        ],
+        "max_weekly_reconstruction_relative_error": components[
+            "max_weekly_reconstruction_relative_error"
+        ],
+        "max_stratum_flow_mean": components["max_stratum_flow_mean"],
+        "max_stratum_sign_proxy_mean": components[
+            "max_stratum_sign_proxy_mean"
+        ],
+        "interpretation": (
+            "fixed-diagonal, non-orthogonal finite-sample attribution "
+            "relative to the analytic joint-order expectation; the "
+            "interaction share is conditional on within-stratum sign "
+            "centering and arithmetic-mean magnitude homogenisation and is "
+            "not a unique causal allocation"
+        ),
+    }
+    if bootstrap_replicates:
+        result["paired_weekly_block_bootstrap"] = _bootstrap_sign_size_components(
+            components,
+            bootstrap_block_lengths,
+            bootstrap_replicates,
+            seed,
+        )
+    return result
+
+
+def paired_normalization_share_difference(
+    prepared_raw: PreparedHourlyFlow,
+    prepared_normalized: PreparedHourlyFlow,
+    stratification: str = "quarterly",
+    bootstrap_replicates: int = 3999,
+    bootstrap_block_lengths: tuple[int, ...] = (4, 8, 13, 26),
+    seed: int = 20260815,
+) -> dict:
+    """Estimate the paired change in sign share after volume normalisation."""
+    if prepared_raw.flow_mode != "raw":
+        raise ValueError("prepared_raw must use raw flow")
+    if prepared_normalized.flow_mode != "normalized":
+        raise ValueError("prepared_normalized must use normalized flow")
+    if not prepared_raw.index.equals(prepared_normalized.index):
+        raise ValueError("raw and normalized flows must use identical timestamps")
+    if bootstrap_replicates < 99:
+        raise ValueError("at least 99 bootstrap replicates are required")
+
+    raw = _sign_size_weekly_components(prepared_raw, stratification)
+    normalized = _sign_size_weekly_components(prepared_normalized, stratification)
+    n = len(np.asarray(raw["weekly_flow"]))
+    rng = np.random.default_rng(seed)
+
+    def share(c: dict[str, np.ndarray | float], indices: np.ndarray) -> np.ndarray:
+        q = np.asarray(c["weekly_flow"], float)[indices]
+        q_sign = np.asarray(c["weekly_sign_flow"], float)[indices]
+        total = (
+            np.asarray(c["weekly_total_offdiagonal"], float)[indices].sum(axis=1)
+            - n * np.square(q.mean(axis=1))
+        )
+        sign = (
+            np.asarray(c["weekly_sign_offdiagonal"], float)[indices].sum(axis=1)
+            - n * np.square(q_sign.mean(axis=1))
+        )
+        return np.divide(
+            sign,
+            total,
+            out=np.full_like(sign, np.nan),
+            where=total > 0.0,
+        )
+
+    point_index = np.arange(n, dtype=int)[None, :]
+    point_raw = float(share(raw, point_index)[0])
+    point_normalized = float(share(normalized, point_index)[0])
+    rows = []
+    for requested in bootstrap_block_lengths:
+        block = min(max(1, int(requested)), n)
+        n_blocks = int(np.ceil(n / block))
+        starts = rng.integers(0, n, size=(bootstrap_replicates, n_blocks))
+        offsets = np.arange(block)
+        indices = (starts[:, :, None] + offsets[None, None, :]) % n
+        indices = indices.reshape(bootstrap_replicates, -1)[:, :n]
+        raw_share = share(raw, indices)
+        normalized_share = share(normalized, indices)
+        valid = np.isfinite(raw_share) & np.isfinite(normalized_share)
+        delta = normalized_share[valid] - raw_share[valid]
+        if len(delta) < max(50, bootstrap_replicates // 2):
+            raise ValueError("too few paired positive-excess bootstrap replicates")
+        rows.append({
+            "block_length_weeks": block,
+            "replicates": int(bootstrap_replicates),
+            "valid_paired_replicates": int(len(delta)),
+            "delta_sign_share_median": float(np.median(delta)),
+            "delta_sign_share_ci025": float(np.quantile(delta, 0.025)),
+            "delta_sign_share_ci975": float(np.quantile(delta, 0.975)),
+            "probability_delta_sign_share_positive": float(np.mean(delta > 0.0)),
+        })
+    return {
+        "stratification": stratification,
+        "n_complete_weeks": int(n),
+        "raw_sign_share": point_raw,
+        "normalized_sign_share": point_normalized,
+        "delta_sign_share": point_normalized - point_raw,
+        "paired_weekly_block_bootstrap": rows,
+    }
+
+
 def stratified_variance_memory_test(
     prepared: PreparedHourlyFlow,
     permutations: int = 9999,
@@ -345,6 +665,7 @@ def stratified_variance_memory_test(
         "null_quantile_level": float(null_quantile),
         "variance_observed": var_obs,
         "variance_null_median": med_null,
+        "variance_null_mean": float(np.mean(null_variance)),
         "variance_null_quantile": q_null,
         "variance_ratio_to_null_median": float(var_obs / med_null),
         "variance_ratio_to_null_quantile": float(var_obs / q_null),
@@ -360,6 +681,14 @@ def stratified_variance_memory_test(
         "null_variance_q975": float(np.quantile(null_variance, 0.975)),
         "sign_magnitude_pairing_preserved": bool(null_mode == "joint"),
     }
+    if null_mode == "joint":
+        analytic = float(np.square(j).sum() / (weeks - 1))
+        result.update({
+            "variance_null_analytic_expectation": analytic,
+            "null_mean_relative_error_to_analytic": float(
+                (np.mean(null_variance) - analytic) / analytic
+            ),
+        })
     if prepared.flow_mode == "raw":
         scale = qbar_proxy ** 2 * mean_n
         result.update({

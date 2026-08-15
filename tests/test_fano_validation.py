@@ -9,8 +9,10 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from keldysh_finance.fano_validation import (prepare_complete_weeks,
+from keldysh_finance.fano_validation import (paired_normalization_share_difference,
+                                             prepare_complete_weeks,
                                              stratified_fano_memory_test,
+                                             stratified_sign_size_decomposition,
                                              stratified_variance_memory_test,
                                              validate_hourly_klines)
 
@@ -116,3 +118,65 @@ def test_decomposed_nulls_are_finite_and_bootstrapped(null_mode):
     assert np.isfinite(result["variance_ratio_to_null_median"])
     assert len(result["weekly_block_bootstrap"]) == 2
     assert "fano_observed" not in result
+
+
+def test_exact_sign_size_decomposition_reconstructs_weekly_variance():
+    prepared = prepare_complete_weeks(
+        _frame(weeks=48, seed=12, persistent=True), flow_mode="normalized"
+    )
+    result = stratified_sign_size_decomposition(
+        prepared,
+        bootstrap_replicates=199,
+        bootstrap_block_lengths=(4, 8),
+        seed=13,
+    )
+    assert result["exact_reconstruction_error"] < 1e-10
+    assert result["max_weekly_reconstruction_relative_error"] < 1e-12
+    assert abs(
+        result["sign_share_of_excess"]
+        + result["coupling_share_of_excess"] - 1.0
+    ) < 1e-12
+    assert abs(result["weekly_flow_mean"]) < 1e-12
+    assert abs(result["max_stratum_flow_mean"]) < 1e-12
+    assert abs(result["max_stratum_sign_proxy_mean"]) < 1e-12
+    assert len(result["paired_weekly_block_bootstrap"]) == 2
+
+
+def test_joint_null_mean_matches_analytic_marginal_reference():
+    prepared = prepare_complete_weeks(
+        _frame(weeks=48, seed=14, persistent=True), flow_mode="normalized"
+    )
+    decomposition = stratified_sign_size_decomposition(prepared)
+    null = stratified_variance_memory_test(
+        prepared,
+        permutations=1999,
+        seed=15,
+        batch_size=64,
+        null_mode="joint",
+    )
+    assert np.isclose(
+        null["variance_null_analytic_expectation"],
+        decomposition["marginal_reference"],
+        rtol=1e-12,
+        atol=1e-12,
+    )
+    assert abs(null["null_mean_relative_error_to_analytic"]) < 0.05
+
+
+def test_normalization_share_difference_uses_paired_blocks():
+    frame = _frame(weeks=48, seed=16, persistent=True)
+    raw = prepare_complete_weeks(frame, flow_mode="raw")
+    normalized = prepare_complete_weeks(frame, flow_mode="normalized")
+    result = paired_normalization_share_difference(
+        raw,
+        normalized,
+        bootstrap_replicates=199,
+        bootstrap_block_lengths=(4, 8),
+        seed=17,
+    )
+    assert np.isfinite(result["delta_sign_share"])
+    assert len(result["paired_weekly_block_bootstrap"]) == 2
+    assert all(
+        row["valid_paired_replicates"] >= 100
+        for row in result["paired_weekly_block_bootstrap"]
+    )

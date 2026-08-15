@@ -1,9 +1,11 @@
-"""Major-revision analysis: parallel flow definitions and decomposed nulls.
+"""Parallel flow definitions and non-additive permutation controls.
 
 The primary analysis uses complete UTC weeks and quarterly x hour-of-week
 strata.  For raw signed volume and volume-normalised imbalance separately it
 compares three nulls: joint signed-flow permutation, sign permutation with the
-magnitude path fixed, and magnitude permutation with the sign path fixed.
+magnitude path fixed, and magnitude permutation with the sign path fixed.  The
+latter two are asymmetric controls and are not interpreted as additive variance
+components; experiment 17 provides the exact attribution.
 Monthly and biweekly joint nulls provide stratification sensitivity.  Moving-
 block bootstrap intervals quantify uncertainty in the observed/null-median
 weekly variance ratio, conditional on each empirical null distribution.

@@ -82,11 +82,11 @@ def series_1h(items):
 
 # ---------------------------------------------------------------- Fig 1
 def fig1():
-    """C_eps bicomponente, R(tau), T_eff(tau) -- exp09."""
+    """Response and two-regime flow memory -- exp09."""
     d = load("exp09_msrjd_orden2.json")
     items = series_1h(d["forma_teff"])
     dr = d["dos_regimenes"]
-    fig, ax = plt.subplots(1, 3, figsize=(12, 3.6))
+    fig, ax = plt.subplots(1, 2, figsize=(9.6, 3.8))
 
     # (a) R(tau) ~ plana
     for it in items:
@@ -96,14 +96,7 @@ def fig1():
     ax[0].set_xlabel(r"$\tau$ (candles)"); ax[0].set_ylabel(r"impact $R(\tau)$")
     ax[0].set_title("(a) nearly flat response"); ax[0].legend(fontsize=10, ncol=2)
 
-    # (b) T_eff(tau)
-    for it in items:
-        a = it["clave"].split("|")[0]
-        ax[1].plot(it["teff_curva"]["tau"], it["teff_curva"]["teff"], color=COL[a], lw=1.4)
-    ax[1].set_xlabel(r"$\tau$ (candles)"); ax[1].set_ylabel(r"$T_{\rm eff}(\tau)=-C'_\varepsilon/R$")
-    ax[1].set_title("(b) effective temperature")
-
-    # (c) pendientes bicomponentes de C_eps: rapida [2,10] vs lenta [10,50]
+    # (b) pendientes bicomponentes de C_eps: rapida [2,10] vs lenta [10,50]
     #     crudo vs desestacionalizado (el drive no las mueve).
     assets = ["BTC", "ETH", "BNB", "SOL"]
     x = np.arange(len(assets))
@@ -112,16 +105,16 @@ def fig1():
         yc = [dr[a]["crudo"][win]["pendiente"] for a in assets]
         ec = [dr[a]["crudo"][win]["se"] for a in assets]
         yd = [dr[a]["desestacionalizado"][win]["pendiente"] for a in assets]
-        ax[2].errorbar(x - 0.09, yc, yerr=ec, fmt=mk, color="C3" if j else "C0",
+        ax[1].errorbar(x - 0.09, yc, yerr=ec, fmt=mk, color="C3" if j else "C0",
                        capsize=3, label=lab)
-        ax[2].errorbar(x + 0.09, yd, yerr=ec, fmt=mk, mfc="white",
+        ax[1].errorbar(x + 0.09, yd, yerr=ec, fmt=mk, mfc="white",
                        color="C3" if j else "C0", capsize=3)
-    ax[2].axhline(-0.9, color="C0", ls=":", lw=0.8)
-    ax[2].axhline(-0.2, color="C3", ls=":", lw=0.8)
-    ax[2].set_xticks(x); ax[2].set_xticklabels(assets)
-    ax[2].set_ylabel(r"local slope of $C_\varepsilon$")
-    ax[2].set_title("(c) two-component $C_\\varepsilon$\n(filled=raw, open=deseasonalised)")
-    ax[2].legend(fontsize=10, loc="lower right")
+    ax[1].axhline(-0.9, color="C0", ls=":", lw=0.8)
+    ax[1].axhline(-0.2, color="C3", ls=":", lw=0.8)
+    ax[1].set_xticks(x); ax[1].set_xticklabels(assets)
+    ax[1].set_ylabel(r"local slope of $C_\varepsilon$")
+    ax[1].set_title("(b) scale-dependent flow memory\n(filled=raw, open=deseasonalised)")
+    ax[1].legend(fontsize=10, loc="lower right")
     save(fig, "fig1_ceps_R_Teff")
 
 
@@ -193,7 +186,7 @@ def fig4():
 
 # ---------------------------------------------------------------- Fig 5
 def fig5():
-    """m(t_w) Omori y tau_c(t_w) obs vs nulo -- la media envejece, la correlacion no (exp07)."""
+    """Unresolved mean relaxation and placebo-reproduced apparent ageing."""
     d = load("exp07_reloj_quench.json")
     r = next(it for it in d["resultados"] if it["clave"] == "POOL|1h")
     fig, ax = plt.subplots(1, 2, figsize=(10, 3.9))
@@ -202,11 +195,12 @@ def fig5():
     m = np.array(r["m"], dtype=float)
     tw = np.arange(1, len(m) + 1)
     ax[0].plot(tw, m, ".", ms=3, color="#3a6ee8", alpha=0.6)
-    p = r["omori"]["p"]; minf = r["omori"]["m_inf"]
-    ax[0].axhline(minf, color="0.5", ls="--", lw=1, label=fr"$m_\infty$; Omori $p={p:.2f}$")
+    minf = r["omori"]["m_inf"]
+    ax[0].axhline(minf, color="0.5", ls="--", lw=1,
+                  label=r"fitted long-time level (relaxation unresolved)")
     ax[0].set_xscale("log")
     ax[0].set_xlabel(r"$t_w$ = candles after shock"); ax[0].set_ylabel(r"$m(t_w)$ (post-shock mean)")
-    ax[0].set_title("(a) the mean ages"); ax[0].legend(fontsize=10)
+    ax[0].set_title("(a) mean relaxation is unresolved"); ax[0].legend(fontsize=9)
 
     # (b) tau_c(t_w) obs + IC, y el nulo (Spearman) que lo desmonta
     tau = np.array(r["tau_c"], dtype=float)
