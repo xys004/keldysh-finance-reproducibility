@@ -16,6 +16,8 @@ COLORS = {"BTC": "#d97706", "ETH": "#2563eb", "BNB": "#ca8a04", "SOL": "#059669"
 
 def main() -> None:
     payload = json.loads(SOURCE.read_text(encoding="utf-8"))
+    plt.rcParams.update({"font.size": 11, "axes.titlesize": 11,
+                         "axes.labelsize": 11})
     fig, axes = plt.subplots(1, 2, figsize=(7.2, 3.15), constrained_layout=True)
 
     ax = axes[0]
@@ -33,7 +35,7 @@ def main() -> None:
     ax.set(xlim=limits, ylim=limits,
            xlabel=r"single-power prediction $2-a$",
            ylabel=r"measured block exponent $\nu$")
-    ax.set_title("(a) one power fails in all eight series", fontsize=9.5)
+    ax.set_title("(a) one power fails in all eight series")
 
     ax = axes[1]
     assets = [row["asset"] for row in payload["two_regime_asset_checks"]]
@@ -50,8 +52,8 @@ def main() -> None:
     ax.axvline(1.0, color="0.25", ls="--", lw=0.9)
     ax.set_yticks(y, assets)
     ax.set_xlabel(r"variance exponent $\nu$")
-    ax.set_title("(b) two-regime consistency bands", fontsize=9.5)
-    ax.legend(frameon=False, fontsize=8, loc="lower right")
+    ax.set_title("(b) two-regime consistency bands")
+    ax.legend(frameon=False, fontsize=9.5, loc="lower right")
 
     for suffix in ("png", "pdf"):
         fig.savefig(FIGDIR / f"fig16_scaling_reassessment.{suffix}", dpi=240)

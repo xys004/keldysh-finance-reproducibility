@@ -30,7 +30,7 @@ def main() -> None:
     lines: list[str] = []
 
     lines.extend([
-        r"\begin{table}[t]", r"\caption{Standardised cumulants at the endpoints of the dyadic scale grid. Intervals in Fig.~\ref{fig:supp-cumulants} use the full grid.}",
+        r"\begin{table}[!htbp]", r"\caption{Standardised cumulants at the endpoints of the dyadic scale grid. Intervals in Fig.~\ref{fig:supp-cumulants} use the full grid.}",
         r"\label{tab:supp-cumulants}", r"\begin{ruledtabular}", r"\begin{tabular}{lrrrr}",
         r" & $\gamma_1(1)$ & $\gamma_1(128)$ & $\gamma_2(1)$ & $\gamma_2(128)$ \\",
         r"\colrule",
@@ -45,7 +45,7 @@ def main() -> None:
     _close(lines)
 
     lines.extend([
-        r"\begin{table*}[t]", r"\caption{Decomposition of weekly variance amplification under quarterly $\times$ hour-of-week conditioning. $R_J$, $R_S$, and $R_M$ divide observed variance by the median joint-order, sign-order, and magnitude-order null. The interval is an eight-week moving-block bootstrap interval for $R_J$, conditional on its null median.}",
+        r"\begin{table*}[!htbp]", r"\caption{Decomposition of weekly variance amplification under quarterly $\times$ hour-of-week conditioning. $R_J$, $R_S$, and $R_M$ divide observed variance by the median joint-order, sign-order, and magnitude-order null. The interval is an eight-week moving-block bootstrap interval for $R_J$, conditional on its null median.}",
         r"\label{tab:supp-decomposition}", r"\begin{ruledtabular}", r"\begin{tabular}{llrrrr}",
         r"asset & flow & $R_J$ & $R_S$ & $R_M$ & $95\%$ interval for $R_J$ \\",
         r"\colrule",
@@ -66,7 +66,7 @@ def main() -> None:
     _close(lines, wide=True)
 
     lines.extend([
-        r"\begin{table*}[t]", r"\footnotesize", r"\caption{Sensitivity of the joint weekly variance null. $R_{50}=V_{\rm obs}/\mathrm{median}(V_{\rm null})$ and $R_{98.75}=V_{\rm obs}/Q_{0.9875}(V_{\rm null})$. Primary quarterly rows use 9999 permutations; monthly and biweekly rows use 1999.}",
+        r"\begin{table*}[!htbp]", r"\footnotesize", r"\setlength{\tabcolsep}{8pt}", r"\caption{Sensitivity of the joint weekly variance null. $R_{50}=V_{\rm obs}/\mathrm{median}(V_{\rm null})$ and $R_{98.75}=V_{\rm obs}/Q_{0.9875}(V_{\rm null})$. Primary quarterly rows use 9999 permutations; monthly and biweekly rows use 1999.}",
         r"\label{tab:supp-null}", r"\begin{ruledtabular}", r"\begin{tabular}{lllrrrr}",
         r"asset & flow & conditioning & $R_{50}$ & $R_{98.75}$ & $p_{\rm emp}$ & fixed fraction \\",
         r"\colrule",
@@ -91,7 +91,7 @@ def main() -> None:
 
     wavelets = {row["activo"]: row for row in exp11["reales"]}
     lines.extend([
-        r"\begin{table}[t]", r"\caption{Global exponent $\nu$ over $T=8,\ldots,256$. db1 removes a constant, db2 a linear trend, and db3 a quadratic trend.}",
+        r"\begin{table}[!htbp]", r"\caption{Global exponent $\nu$ over $T=8,\ldots,256$. db1 removes a constant, db2 a linear trend, and db3 a quadratic trend.}",
         r"\label{tab:supp-wavelets}", r"\begin{ruledtabular}", r"\begin{tabular}{lrrrr}",
         r"asset & block variance & db1 & db2 & db3 \\",
         r"\colrule",

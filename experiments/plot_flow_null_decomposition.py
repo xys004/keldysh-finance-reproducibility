@@ -25,7 +25,9 @@ def main() -> None:
     assets = [row["asset"] for row in payload["results"]]
     x = np.arange(len(assets), dtype=float)
     offsets = {"joint": -0.20, "sign": 0.0, "magnitude": 0.20}
-    fig, axes = plt.subplots(1, 2, figsize=(7.2, 3.2), sharey=True,
+    plt.rcParams.update({"font.size": 10.5, "axes.titlesize": 11,
+                         "axes.labelsize": 10.5})
+    fig, axes = plt.subplots(1, 2, figsize=(7.2, 3.5), sharey=True,
                              constrained_layout=True)
     for ax, flow_mode in zip(axes, ("raw", "normalized")):
         for null_mode in MODES:
@@ -51,17 +53,18 @@ def main() -> None:
         if len(assets) > 4:
             ax.axvline(3.5, color="0.65", lw=0.8, ls=":")
             ax.text(1.5, 0.025, "original panel", transform=ax.get_xaxis_transform(),
-                    ha="center", va="bottom", fontsize=6.5, color="0.35",
+                    ha="center", va="bottom", fontsize=8, color="0.35",
                     bbox={"facecolor": "white", "edgecolor": "none", "pad": 0.3})
             ax.text(5.5, 0.025, "post-hoc extension", transform=ax.get_xaxis_transform(),
-                    ha="center", va="bottom", fontsize=6.5, color="0.35",
+                    ha="center", va="bottom", fontsize=8, color="0.35",
                     bbox={"facecolor": "white", "edgecolor": "none", "pad": 0.3})
-        ax.set_xticks(x, assets, rotation=20, ha="right", fontsize=7.5)
+        ax.set_xticks(x, assets, rotation=20, ha="right", fontsize=8.5)
         ax.set_title("(a) signed base volume" if flow_mode == "raw"
                      else "(b) volume-normalised imbalance")
         ax.set_xlabel("asset")
     axes[0].set_ylabel(r"observed / median-null weekly variance")
-    axes[0].legend(frameon=False, fontsize=7.2, loc="upper left")
+    axes[0].legend(frameon=True, facecolor="white", edgecolor="none",
+                   framealpha=0.92, fontsize=8.5, loc="upper left")
     for suffix in ("png", "pdf"):
         fig.savefig(FIGDIR / f"fig15_flow_null_decomposition.{suffix}", dpi=240)
     plt.close(fig)

@@ -365,8 +365,8 @@ $\Teff$ as an empirical result. Figure~\ref{fig:base}(b) is retained only to
 show why: with a nearly flat $R$, the plotted shape is largely a transformed
 version of $C_\eps$, not an independently resolved thermodynamic observable.
 
-\begin{figure}[t]
-  \includegraphics[width=\columnwidth]{../output/figuras/fig1_ceps_R_Teff.png}
+\begin{figure*}[t]
+  \includegraphics[width=0.98\textwidth]{../output/figuras/fig1_ceps_R_Teff.pdf}
   \caption{Base transport measurement at hourly resolution.
   (a) The impact response is nearly flat in lag.
   (b) The raw fluctuation--dissipation diagnostic $\Teff(\tau)$; no inference
@@ -376,7 +376,7 @@ version of $C_\eps$, not an independently resolved thermodynamic observable.
   (filled) and deseasonalised (open); removing the daily cycle does not move
   them, so the slow regime is not the drive.}
   \label{fig:base}
-\end{figure}
+\end{figure*}
 
 \section{Counting statistics of the transferred flow}
 \label{sec:counting}
@@ -457,7 +457,7 @@ stable across all four in BTC and ETH, and is at the noise level in BNB and
 SOL; the taker flow is persistently net selling in BTC, ETH and SOL over the
 sample. At $T=16$ hourly candles, $A = -1.550\pm0.098$ (BTC) and
 $-0.576\pm0.074$ (ETH). The measured $A$ tracks $2\avg{Q_T}/\Var(Q_T)$ across
-all windows [Fig.~\ref{fig:counting}(a)] --- consistent with the Gaussian
+all windows [Fig.~\ref{fig:affinity}] --- consistent with the Gaussian
 identity of Sec.~\ref{sec:identity}, but not proof that the distributions are
 Gaussian.
 
@@ -557,12 +557,16 @@ while the correlation and accumulated variance are two exactly linked views of
 the same second-order memory.
 
 \begin{figure*}[t]
-  \includegraphics[width=0.48\textwidth]{../output/figuras/fig3_A_vs_Agauss.png}
-  \includegraphics[width=0.48\textwidth]{../output/figuras/fig15_flow_null_decomposition.pdf}
-  \caption{Counting statistics. Left: measured affinity against the Gaussian
-  value $2\avg{Q_T}/\Var(Q_T)$; agreement is consistent with
-  Eq.~\eqref{eq:identity} and does not establish a fluctuation theorem. Right:
-  weekly observed/null variance ratios for the joint, sign-order, and
+  \includegraphics[width=0.92\textwidth]{../output/figuras/fig3_A_vs_Agauss.pdf}
+  \caption{Measured affinity against the Gaussian value
+  $2\avg{Q_T}/\Var(Q_T)$. Agreement is consistent with
+  Eq.~\eqref{eq:identity} and does not establish a fluctuation theorem.}
+  \label{fig:affinity}
+\end{figure*}
+
+\begin{figure*}[t]
+  \includegraphics[width=0.98\textwidth]{../output/figuras/fig15_flow_null_decomposition.pdf}
+  \caption{Weekly observed/null variance ratios for the joint, sign-order, and
   magnitude-order nulls under both flow definitions. Bars are eight-week
   moving-block bootstrap intervals; the transfer quantum cancels.}
   \label{fig:counting}
@@ -677,14 +681,14 @@ literature, and Brey \textit{et al.}\ \cite{brey2007} show analytically that
 this convention alone produces full ageing in a system with no memory, which
 suggests the question is worth asking generally rather than only here.
 
-\begin{figure}[t]
-  \includegraphics[width=\columnwidth]{../output/figuras/fig5_reloj_quench.png}
+\begin{figure*}[t]
+  \includegraphics[width=0.90\textwidth]{../output/figuras/fig5_reloj_quench.pdf}
   \caption{Post-shock behaviour. (a) The mean flow relaxes with age.
   (b) The correlation time appears to grow with age, but randomly placed
   shocks reproduce the same monotone growth (inset), identifying it as an
   artefact of pre-event normalisation.}
   \label{fig:clocks}
-\end{figure}
+\end{figure*}
 
 \section{Methods and statistical caveats}
 \label{sec:methods}
@@ -1186,15 +1190,15 @@ combined with a drifting mean would produce what we observe. Discriminating
 would need either a longer record or an asset with a stationary mean flow, and
 we regard it as the sharpest open test the framework offers.
 
-\begin{figure}[t]
-  \includegraphics[width=\columnwidth]{../output/figuras/fig16_scaling_reassessment.pdf}
+\begin{figure*}[t]
+  \includegraphics[width=0.92\textwidth]{../output/figuras/fig16_scaling_reassessment.pdf}
   \caption{Scaling reassessment. (a) The broad-window single-power prediction
   misses all eight series. Circles and squares denote hourly and four-hourly
   data. (b) Asset-specific bands implied by the two fitted decay regimes; BNB
   lies outside. The bands omit amplitudes and crossover uncertainty and are
   therefore consistency checks rather than quantitative predictions.}
   \label{model:fig:crossover}
-\end{figure}
+\end{figure*}
 
 \section{A minimal transport device}
 \label{model:sec:device}
@@ -1304,16 +1308,16 @@ channel can relax regardless of how the bath is engineered. The testable
 consequence is that reaching slower transients requires $V\lesssim2W_{\min}$,
 i.e.\ biases an order of magnitude smaller than those used here.
 
-\begin{figure}[t]
-  \includegraphics[width=\columnwidth]{../output/figuras/fig7_quench_current.png}
-  \includegraphics[width=\columnwidth]{../output/figuras/fig8_varQ_dispositivo_vs_mercado.png}
+\begin{figure*}[t]
+  \includegraphics[width=0.94\textwidth]{../output/figuras/fig7_quench_current.pdf}
+  \includegraphics[width=0.68\textwidth]{../output/figuras/fig8_varQ_dispositivo_vs_mercado.pdf}
   \caption{The minimal device. (a) Current through the bias quench.
   (b) Relaxation of $|I-I_\infty|$, showing the two regimes that the structured
   bath produces; a single wide band gives only one. (c) Counting variance of the
   device against the growth band measured in the market. The device is
   diffusive; the market is not.}
   \label{model:fig:device}
-\end{figure}
+\end{figure*}
 
 \section{Integrated discussion}
 \label{sec:integrated-discussion}
