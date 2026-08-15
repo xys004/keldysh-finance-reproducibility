@@ -11,6 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from keldysh_finance.fano_validation import (prepare_complete_weeks,
                                              stratified_fano_memory_test,
+                                             stratified_variance_memory_test,
                                              validate_hourly_klines)
 
 
@@ -83,3 +84,35 @@ def test_unknown_stratification_is_rejected():
         stratified_fano_memory_test(
             prepared, permutations=99, stratification="daily"
         )
+
+
+def test_normalized_flow_matches_declared_imbalance():
+    df = _frame(weeks=16, seed=9)
+    prepared = prepare_complete_weeks(df, flow_mode="normalized")
+    expected = (2.0 * df.loc[prepared.index, "tbBase"].to_numpy()
+                / df.loc[prepared.index, "Volume"].to_numpy() - 1.0)
+    assert prepared.flow_mode == "normalized"
+    assert np.allclose(prepared.flow, expected)
+    with pytest.raises(ValueError, match="raw signed volume"):
+        stratified_fano_memory_test(prepared, permutations=99)
+
+
+@pytest.mark.parametrize("null_mode", ["joint", "sign", "magnitude"])
+def test_decomposed_nulls_are_finite_and_bootstrapped(null_mode):
+    prepared = prepare_complete_weeks(
+        _frame(weeks=32, seed=10, persistent=True), flow_mode="normalized"
+    )
+    result = stratified_variance_memory_test(
+        prepared,
+        permutations=199,
+        seed=11,
+        batch_size=32,
+        null_mode=null_mode,
+        bootstrap_replicates=199,
+        bootstrap_block_lengths=(4, 8),
+    )
+    assert result["flow_mode"] == "normalized"
+    assert result["null_mode"] == null_mode
+    assert np.isfinite(result["variance_ratio_to_null_median"])
+    assert len(result["weekly_block_bootstrap"]) == 2
+    assert "fano_observed" not in result

@@ -2,14 +2,16 @@
 
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
+\usepackage{placeins}
 \usepackage[colorlinks=true,allcolors=blue]{hyperref}
 
 \newcommand{\avg}[1]{\left\langle #1 \right\rangle}
 \newcommand{\Var}{\mathrm{Var}}
+\newcommand{\eps}{\varepsilon}
 
 \begin{document}
 
-\title{Supplemental Material for ``Memory-amplified counting noise in signed market order flow''}
+\title{Supplemental Material for ``Sign memory amplifies counting noise in market order flow''}
 
 \author{Nelson Bol\'{\i}var}
 \affiliation{Escuela de F\'isica, Facultad de Ciencias, Universidad Central de Venezuela, Caracas 1041-A, Venezuela}
@@ -53,26 +55,64 @@ establish either Gaussianity or a nontrivial fluctuation theorem.
  \label{fig:supp-cumulants}
 \end{figure}
 
+\section{Parallel flow definitions and sign--magnitude attribution}
+
+The primary analysis is repeated without mixing observables. Raw signed base
+volume is $\eps_t^{(r)}=2V_t^+-V_t$; normalised imbalance is
+$\eps_t^{(n)}=\eps_t^{(r)}/V_t$. Within each quarter--hour-of-week stratum we
+remove the corresponding mean. The joint null permutes the complete residual.
+Writing that residual as $s_t m_t$, the sign null permutes $s_t$ while keeping
+$m_t$ at its observed times, and the magnitude null permutes $m_t$ while
+keeping $s_t$ fixed. Each surrogate is re-centred within stratum before weekly
+aggregation.
+
+Table~\ref{tab:supp-decomposition} gives all results. The sign null is close to
+the joint null, whereas the magnitude null has substantially larger variance.
+Equivalently, retaining sign order recovers more of the observation than
+retaining magnitude order. The comparison is not additive: both attribution
+nulls break contemporaneous sign--magnitude pairing, so their difference can
+include coupling between signs and sizes.
+
+BTC, ETH, BNB, and SOL form the primary panel. After fixing the analysis, we
+added XRP, ADA, DOGE, and AVAX as a post-hoc robustness panel with the same
+four-year hourly coverage. In the extension, the joint-null ratios span
+$2.08$--$5.67$ for raw flow and $2.83$--$5.64$ for normalised flow. The sign
+null remains close to the joint null in every added asset, while the magnitude
+null is smaller. This replication broadens the empirical scope, but it is not
+part of the predeclared four-asset decision rule.
+
+Uncertainty in the observed weekly variance is estimated with a circular
+moving-block bootstrap over the weekly sums. We use 3999 replicates and report
+4-, 8-, 13-, and 26-week block sensitivity. These intervals are conditional on
+the median empirical null; they do not include Monte Carlo uncertainty in that
+median, which is negligible relative to the weekly-sample uncertainty at 9999
+permutations. The eight-week intervals appear in
+Table~\ref{tab:supp-decomposition} and Fig.~1 of the Letter.
+
 \section{Sensitivity to the temporal conditioning of the null}
 
-The primary null jointly permutes signed flow and activity within
-$(\text{calendar quarter},\text{hour of week})$ strata. We repeat the entire
-$9999$-permutation calculation with calendar-month strata and with consecutive
+The primary joint null permutes signed flow within
+$(\text{calendar quarter},\text{hour of week})$ strata. We repeat the
+calculation with calendar-month strata and with consecutive
 14-day blocks anchored on the first complete Monday in the sample. In every
 case the mean is removed within the same strata used for permutation. Calendar
 edge strata containing one retained candle are left fixed; their fraction is
 reported in Table~\ref{tab:supp-null}.
 
-Monthly conditioning retains $R_{50}>2$ in all four assets. Biweekly
-conditioning retains an upper-tail rejection in every asset but lowers
-$R_{50}$ below two for BTC and BNB. This is physically interpretable rather
-than a contradiction: conditioning separately every two weeks removes part of
-the low-frequency organisation whose contribution the quarterly null measures.
-The sensitivity therefore identifies scale content in the excess and rules out
-a claim that the factor-of-two effect is invariant under arbitrary temporal
-partitioning. For the same reason, the screen
-$F_{\rm obs}>2Q_{0.9875}(F_{\rm null})$ is descriptive and
-partition-specific; it is not used as the central universality criterion.
+Table~\ref{tab:supp-null} reports both flow definitions. Finer conditioning
+removes part of the low-frequency organisation whose contribution the
+quarterly null measures. The sensitivity therefore identifies scale content in
+the excess and rules out partition invariance.
+
+The original predeclared screen was
+$V_{\rm obs}>2Q_{0.9875}(V_{\rm null})$ for all four assets under the raw-flow
+quarterly joint null. BNB failed, so the all-assets gate failed. The later
+normalised-flow analysis is a robustness analysis and is not substituted into
+that decision rule. Pairwise weekly-flow correlations are $0.14$--$0.39$ for
+raw flow and $-0.13$--$0.26$ for normalised flow within the primary panel. Over
+all eight assets the corresponding ranges are $0.01$--$0.45$ and
+$-0.16$--$0.27$; neither panel should be treated as a collection of independent
+replications.
 
 \begin{figure}[t]
  \includegraphics[width=0.72\linewidth]{../output/figuras/fig14_stratification_sensitivity.pdf}
@@ -98,7 +138,22 @@ wavelet estimates remain superdiffusive, $\nu=1.10$--$1.36$
 monotone crossover seen in the drift-sensitive block variance. This establishes
 global superdiffusion while leaving the local crossover undecided.
 
+\section{Scaling model reassessment}
+
+For $C(\tau)\sim\tau^{-a}$, the map $\nu=2-a$ applies only for $0<a<1$.
+At $a=1$ the leading form is $T\log T$, and for $a>1$ it is $T$. Applying this
+map asset by asset gives Table~\ref{tab:supp-scaling}. The single broad-window
+power-law model misses all eight block-variance exponents by more than three
+reported block-fit standard errors, although those discrepancies do not include
+uncertainty in the ACF prediction. The two-regime intervals are weaker still:
+they omit amplitudes and crossover uncertainty, and BNB lies outside its band.
+We therefore use neither construction as independent confirmation. The exact
+finite-sample covariance identity already fixes $V_T$ from $C(\tau)$; the
+robust empirical statement is global superdiffusion under drift-resistant
+estimators.
+
 \input{generated_referee_tables}
+\FloatBarrier
 
 \bibliographystyle{apsrev4-2}
 \bibliography{refs}

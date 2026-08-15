@@ -1,0 +1,219 @@
+{
+ "motivo": "localizar el origen de gamma=-0.586/-0.559 citado sin log",
+ "citado": {
+  "BTC": -0.586,
+  "ETH": -0.559
+ },
+ "tolerancia": 0.02,
+ "variantes": {
+  "normalizacion": [
+   "volume",
+   "none"
+  ],
+  "anios": [
+   4.0,
+   2.0
+  ],
+  "max_lag": [
+   60,
+   30
+  ]
+ },
+ "estimador": "OLS log-log de C_eps(tau) sobre tau=1..max_lag con C>0",
+ "filas": [
+  {
+   "activo": "BTC",
+   "anios": 4.0,
+   "normalizacion": "volume",
+   "max_lag": 60,
+   "n_velas": 35063,
+   "gamma": -0.380057744081218,
+   "se": 0.052001610401209104,
+   "n_puntos": 60,
+   "desviacion_vs_citado": 0.20594225591878196,
+   "reproduce": false
+  },
+  {
+   "activo": "BTC",
+   "anios": 4.0,
+   "normalizacion": "volume",
+   "max_lag": 30,
+   "n_velas": 35063,
+   "gamma": -0.38205130830878525,
+   "se": 0.08898856849844755,
+   "n_puntos": 30,
+   "desviacion_vs_citado": 0.2039486916912147,
+   "reproduce": false
+  },
+  {
+   "activo": "BTC",
+   "anios": 4.0,
+   "normalizacion": "none",
+   "max_lag": 60,
+   "n_velas": 35063,
+   "gamma": -0.7343419282524281,
+   "se": 0.15667349508683653,
+   "n_puntos": 57,
+   "desviacion_vs_citado": -0.1483419282524281,
+   "reproduce": false
+  },
+  {
+   "activo": "BTC",
+   "anios": 4.0,
+   "normalizacion": "none",
+   "max_lag": 30,
+   "n_velas": 35063,
+   "gamma": -1.031689828212701,
+   "se": 0.22773170305543353,
+   "n_puntos": 29,
+   "desviacion_vs_citado": -0.445689828212701,
+   "reproduce": false
+  },
+  {
+   "activo": "BTC",
+   "anios": 2.0,
+   "normalizacion": "volume",
+   "max_lag": 60,
+   "n_velas": 17532,
+   "gamma": -0.6097355275301738,
+   "se": 0.09713492459389717,
+   "n_puntos": 58,
+   "desviacion_vs_citado": -0.023735527530173828,
+   "reproduce": false
+  },
+  {
+   "activo": "BTC",
+   "anios": 2.0,
+   "normalizacion": "volume",
+   "max_lag": 30,
+   "n_velas": 17532,
+   "gamma": -0.5730444119949597,
+   "se": 0.14712573693472075,
+   "n_puntos": 29,
+   "desviacion_vs_citado": 0.012955588005040264,
+   "reproduce": true
+  },
+  {
+   "activo": "BTC",
+   "anios": 2.0,
+   "normalizacion": "none",
+   "max_lag": 60,
+   "n_velas": 17532,
+   "gamma": -0.7341396242712788,
+   "se": 0.15499709064978778,
+   "n_puntos": 49,
+   "desviacion_vs_citado": -0.1481396242712788,
+   "reproduce": false
+  },
+  {
+   "activo": "BTC",
+   "anios": 2.0,
+   "normalizacion": "none",
+   "max_lag": 30,
+   "n_velas": 17532,
+   "gamma": -0.9391856317271454,
+   "se": 0.0849496878273289,
+   "n_puntos": 22,
+   "desviacion_vs_citado": -0.35318563172714545,
+   "reproduce": false
+  },
+  {
+   "activo": "ETH",
+   "anios": 4.0,
+   "normalizacion": "volume",
+   "max_lag": 60,
+   "n_velas": 35063,
+   "gamma": -0.47415860733153004,
+   "se": 0.05192414684106435,
+   "n_puntos": 60,
+   "desviacion_vs_citado": 0.08484139266847002,
+   "reproduce": false
+  },
+  {
+   "activo": "ETH",
+   "anios": 4.0,
+   "normalizacion": "volume",
+   "max_lag": 30,
+   "n_velas": 35063,
+   "gamma": -0.474614915184743,
+   "se": 0.06653067210498048,
+   "n_puntos": 30,
+   "desviacion_vs_citado": 0.08438508481525703,
+   "reproduce": false
+  },
+  {
+   "activo": "ETH",
+   "anios": 4.0,
+   "normalizacion": "none",
+   "max_lag": 60,
+   "n_velas": 35063,
+   "gamma": -1.0621611737893264,
+   "se": 0.14333499026949445,
+   "n_puntos": 55,
+   "desviacion_vs_citado": -0.5031611737893263,
+   "reproduce": false
+  },
+  {
+   "activo": "ETH",
+   "anios": 4.0,
+   "normalizacion": "none",
+   "max_lag": 30,
+   "n_velas": 35063,
+   "gamma": -1.0700969440437826,
+   "se": 0.17673599546086002,
+   "n_puntos": 30,
+   "desviacion_vs_citado": -0.5110969440437826,
+   "reproduce": false
+  },
+  {
+   "activo": "ETH",
+   "anios": 2.0,
+   "normalizacion": "volume",
+   "max_lag": 60,
+   "n_velas": 17532,
+   "gamma": -0.5459384994910835,
+   "se": 0.0933417081497882,
+   "n_puntos": 59,
+   "desviacion_vs_citado": 0.013061500508916524,
+   "reproduce": true
+  },
+  {
+   "activo": "ETH",
+   "anios": 2.0,
+   "normalizacion": "volume",
+   "max_lag": 30,
+   "n_velas": 17532,
+   "gamma": -0.5475367806952686,
+   "se": 0.107090836462045,
+   "n_puntos": 30,
+   "desviacion_vs_citado": 0.011463219304731487,
+   "reproduce": true
+  },
+  {
+   "activo": "ETH",
+   "anios": 2.0,
+   "normalizacion": "none",
+   "max_lag": 60,
+   "n_velas": 17532,
+   "gamma": -0.9405014610679182,
+   "se": 0.10162444767436006,
+   "n_puntos": 47,
+   "desviacion_vs_citado": -0.38150146106791816,
+   "reproduce": false
+  },
+  {
+   "activo": "ETH",
+   "anios": 2.0,
+   "normalizacion": "none",
+   "max_lag": 30,
+   "n_velas": 17532,
+   "gamma": -0.913119662443151,
+   "se": 0.09739479141985635,
+   "n_puntos": 27,
+   "desviacion_vs_citado": -0.35411966244315096,
+   "reproduce": false
+  }
+ ],
+ "cache_ausente": [],
+ "veredicto": "REPRODUCIDA: la cifra citada corresponde a la variante volume/2.0y/30lags; volume/2.0y/60lags"
+}

@@ -13,7 +13,7 @@
 
 \begin{document}
 
-\title{Memory-amplified counting noise in signed market order flow}
+\title{Sign memory amplifies counting noise in market order flow}
 
 \author{Nelson Bol\'{\i}var}
 \affiliation{Escuela de F\'isica, Facultad de Ciencias, Universidad Central de Venezuela, Caracas 1041-A, Venezuela}
@@ -28,18 +28,21 @@
 
 \begin{abstract}
 Counting statistics can separate broad transfer sizes from temporal
-organisation in a market. We treat signed order flow as a transferred current
-and construct a stratified permutation null that preserves its empirical
-marginal, pairing with activity, quarterly drift, and hour-of-week seasonality,
-while destroying cross-candle ordering. For four cryptocurrency assets, the
-weekly counting variance exceeds the null median by factors $2.20$--$3.37$.
-This ratio is independent of the transfer-size normalisation. A calibration on $14.8$ million
-individual trades shows why the absolute Fano level is not itself a memory
-test. Independently, the measured correlation kernel predicts
-$\Var(Q_T)\sim T^{2-a}$, and drift-resistant estimators confirm superdiffusive
-growth. A noninteracting transport calculation provides a calibrated
-benchmark, while the robust empirical result is memory-amplified counting noise
-beyond the size-preserving null.
+organisation in a market. We analyse both raw signed volume and
+volume-normalised imbalance in four primary cryptocurrency assets and a
+post-hoc four-asset extension. A stratified
+permutation test first destroys the complete signed-flow ordering and then
+separately destroys sign or magnitude ordering. Moving-block bootstrap
+intervals account for uncertainty in weekly variance. For both flow
+definitions, preserving the sign path recovers substantially more of the
+observed variance than preserving the magnitude path: sign persistence is the
+dominant temporal component, while magnitude clustering and sign--magnitude
+coupling remain measurable. The result is independent of a transfer-size
+quantum and survives calendar-conditioning checks. We also show why two common
+supports are not independent discoveries: accumulated-flow variance is fixed
+by its autocorrelation, and a linear fluctuation symmetry has an exact Gaussian
+null. The novel content is the attribution of memory-amplified counting noise
+to temporal sign organisation.
 \end{abstract}
 
 \maketitle
@@ -69,13 +72,18 @@ linearity, by itself, establishes nothing --- and then use that fact to isolate
 what does.
 
 \paragraph*{Setup.}
-We use hourly and four-hourly candles for four cryptocurrency pairs over four
-years --- eight series, with $3.5\times10^{4}$ hourly observations per asset.
-Public candle data carry the taker-side volume, so the signed flow $\eps_t$
-follows directly and no proprietary feed is required; continuous trading avoids
-overnight gaps in the two-time estimates. Figures and quoted exponents are for
-the hourly series unless stated otherwise.
-Let $Q_T=\sum_{t=1}^{T}\eps_t$ be the flow transferred in a window of $T$
+The primary panel uses hourly and four-hourly candles for BTC, ETH, BNB, and
+SOL against USDT over four years --- eight series, with
+$3.5\times10^{4}$ hourly observations per asset. A post-hoc robustness panel
+adds hourly XRP, ADA, DOGE, and AVAX data to the weekly-null analysis; it is
+kept separate from the original decision rule.
+Public candle data carry total base volume $V_t$ and taker-buy base volume
+$V_t^+$, so no proprietary feed is required. We analyse in parallel raw signed
+volume $\eps_t^{(r)}=2V_t^+-V_t$ and dimensionless imbalance
+$\eps_t^{(n)}=\eps_t^{(r)}/V_t$ (zero when $V_t=0$). This resolves a definition
+that earlier drafts used inconsistently between counting and correlation
+analyses. Figures and quoted exponents are for hourly data unless stated
+otherwise. Let $Q_T=\sum_{t=1}^{T}\eps_t$ be the declared flow accumulated in a window of $T$
 candles, and
 \begin{equation}
   s(Q)=\ln\frac{P(Q_T=+Q)}{P(Q_T=-Q)}
@@ -106,6 +114,12 @@ nor define a Gaussian crossover scale \cite{supplement}. Agreement with
 Eq.~\eqref{eq:identity} therefore does not distinguish a nontrivial symmetry from
 its Gaussian null explanation.
 
+Nor do we establish a current large-deviation principle. Its conventional
+speed is $T$, while the measured variance grows as $T^\nu$ with $\nu>1$; an
+alternative speed and rate function would have to be demonstrated. We therefore
+use $s(Q)$ only as a finite-window distributional diagnostic, not as evidence
+for an entropy-production theorem.
+
 \paragraph*{Memory amplification beyond the marginal.}
 Because trades have a broad size distribution, the absolute Fano factor depends
 on the chosen transfer quantum,
@@ -124,21 +138,40 @@ previous absolute $\mathcal F$ values were conservative, but their magnitude is
 normalisation-sensitive; moreover, even an independent compound-Poisson process
 has $\mathcal F=\avg{q^2}/\bar q^2$ and can be large without memory.
 
-We therefore test memory with a ratio in which $\bar q$ cancels. We retain only
-complete Monday--Sunday UTC weeks, remove the mean separately in every
-quarter--hour-of-week stratum, and jointly permute $(\eps_t,N_t)$ within each
-stratum. This preserves the empirical flow-size distribution, the pairing of
-flow with activity, intraweek seasonality, and quarterly scale changes; it
-destroys only the ordering across candles. From $9999$ permutations,
-$\mathcal F_{\rm obs}/\operatorname{median}(\mathcal F_{\rm null})$ is $2.74$,
-$3.37$, $2.20$, and $2.54$ for BTC, ETH, BNB, and SOL [Fig.~\ref{fig:fano}].
-All four therefore show memory amplification beyond their preserved marginals.
-The ratio remains above two with monthly conditioning, but falls below two for
-BTC and BNB with biweekly strata; all four still exceed the $98.75$th null
-percentile. Finer conditioning removes part of the low-frequency organisation,
-so this is a scale sensitivity rather than partition invariance. The stronger
-$\mathcal F_{\rm obs}>2Q_{0.9875}(\mathcal F_{\rm null})$ screen is reported only
-as a partition-specific diagnostic \cite{supplement}.
+We therefore test memory with a variance ratio in which $\bar q$ cancels. We
+retain complete Monday--Sunday UTC weeks, remove the mean in every
+quarter--hour-of-week stratum, and permute within those strata. The joint null
+destroys the ordering of the complete signed-flow values. Two attribution
+nulls then act on the demeaned flow $\eps_t=s_t m_t$: the sign null keeps the
+magnitude path $m_t$ and permutes $s_t$, whereas the magnitude null keeps the
+sign path and permutes $m_t$. Every surrogate is re-centred in the same strata.
+The latter two nulls intentionally break contemporaneous sign--magnitude
+pairing and are attribution diagnostics, not generative market models.
+
+With $9999$ primary permutations, the joint-null ratio is $2.2$--$3.4$ for raw
+signed volume and $3.0$--$4.3$ for normalised imbalance
+[Fig.~\ref{fig:fano}]. Destroying only sign order leaves nearly the same ratio,
+whereas destroying magnitude order lowers it to $1.7$--$2.2$ (raw) and
+$1.5$--$1.9$ (normalised). Thus the preserved sign path recovers substantially
+more weekly variance than the preserved magnitude path: sign persistence is
+the dominant component, although magnitude organisation and its coupling to
+sign remain non-negligible. Circular moving-block bootstrap intervals with
+4--26-week blocks remain above unity for the joint comparison; the eight-week
+intervals are shown in Fig.~\ref{fig:fano}.
+
+The original predeclared rule required
+$V_{\rm obs}>2Q_{0.9875}(V_{\rm null})$ for every asset under the raw-flow
+quarterly joint null. It failed because BNB did not pass. We report that failure
+without substituting the later normalised-flow result. Monthly and biweekly
+conditioning quantify scale sensitivity, and cross-asset weekly correlations
+show that the four assets are not independent replications
+\cite{supplement}.
+
+The post-hoc extension reproduces the attribution pattern in all four added
+assets. Its joint-null ratios span $2.08$--$5.67$ for raw flow and
+$2.83$--$5.64$ for normalised flow; in every case, preserving the sign path
+recovers more variance than preserving the magnitude path. These observations
+strengthen generality but are not added to the predeclared gate.
 
 For scale, we also compute a single-level, two-terminal noninteracting device
 with nonequilibrium Green functions \cite{jauho1994} and standard counting
@@ -149,24 +182,28 @@ transport, not a universal bound on a market statistic with heterogeneous
 classical transfer sizes. The exclusion in the data comes instead from the
 size-preserving temporal null.
 
-\begin{figure}[t]
-  \includegraphics[width=\columnwidth]{../output/figuras/fig12_fano_memory_null.pdf}
-  \caption{Normalisation-free weekly memory amplification. Points are ratios to
-  the null median; bars map its central $95\%$ interval into ratio space. The
-  null preserves sizes, activity, seasonality, and quarterly drift.}
+\begin{figure*}[t]
+  \includegraphics[width=0.96\textwidth]{../output/figuras/fig15_flow_null_decomposition.pdf}
+  \caption{Weekly variance relative to each stratified null for (a) raw signed
+  volume and (b) normalised imbalance. Error bars are eight-week moving-block
+  bootstrap $95\%$ intervals conditional on the null median. Preserving sign
+  order (blue) recovers more variance than preserving magnitude order (orange).}
   \label{fig:fano}
-\end{figure}
+\end{figure*}
 
-\paragraph*{An independent scaling test.}
-The same memory-amplification claim has a prediction in another observable. For a single
+\paragraph*{A linked second-order check.}
+The accumulated-flow variance and the autocorrelation are connected by an
+exact finite-sample identity, so they are not independent evidence. They do,
+however, expose whether a proposed scaling summary is internally adequate. For a single
 power-law kernel $C_\eps(\tau)=A\tau^{-a}$ with $0<a<1$,
 \begin{equation}
   V_T=\!\!\sum_{t,t'=1}^{T}\!\!C_\eps(t-t')
      \simeq\frac{2A}{(1-a)(2-a)}\,T^{\,2-a} ,
   \label{eq:varscaling}
 \end{equation}
-so the counting variance grows with exponent $\nu=2-a$ set by the correlation
-decay. The measured $C_\eps$, however, is not a single power law: fitting local
+so the counting variance grows with exponent $\nu=2-a$. At $a=1$ the leading
+form is $T\log T$, and for $a>1$ the correlation is summable and the asymptotic
+growth is diffusive. The measured $C_\eps$, however, is not a single power law: fitting local
 slopes separately gives a fast regime $a_f$ over $\tau\in[2,10]$ and a slow one
 $a_s$ over $\tau\in[10,50]$, with $a_f>a_s$ in all four assets, and removing the
 daily seasonal component leaves both essentially unchanged. For the reference
@@ -181,16 +218,16 @@ windows sample the fast regime and long windows the slow one, so the
 \end{equation}
 here a band $[1.00,1.83]$.
 
-The prediction has no free parameters and crosses observable families: $a_f$ and
-$a_s$ are measured in the correlation sector, $\nu$ in the counting sector, so
-the test cannot be circular. The measured exponent lies inside
-the predicted band, and exceeds unity in every asset:
-$\nu=1.31$--$1.43$ from the block variance and $1.10$--$1.36$ from three
-estimators built to be insensitive to the mean (below), against $\nu=1$ for the
-calibrated noninteracting device and $[0.90,1.14]$ for a simpler permutation null that preserves the
-marginal distribution and destroys memory. Superdiffusive growth of the
-counting variance is a statement about memory alone, and it is what the
-correlation sector demands.
+The broad-window single-power prediction fails in all eight asset--resolution
+series: predicted exponents are $1.45$--$1.88$, while block estimates are
+$1.22$--$1.37$. Mapping the two fitted regimes with the correct domain gives
+asset-specific point-estimate bands $[1.00,1.83]$, $[1.13,1.78]$,
+$[1.54,1.71]$, and $[1.00,1.84]$ for BTC, ETH, BNB, and SOL. BNB's measured
+$1.37$ lies outside its band. Because amplitudes and crossover uncertainty were
+not fitted, these intervals are only consistency bands; they are not
+parameter-free predictions. What remains robust is global superdiffusion:
+$\nu=1.31$--$1.43$ from block variance and $1.10$--$1.36$ from three
+drift-resistant estimators, versus $\nu=1$ for a short-memory reference.
 
 The apparent \emph{drift} of the local exponent is not identified. A drifting
 block mean adds a $T^2$ term to $V_T$, steeper than the kernel allows. The Haar
@@ -220,26 +257,24 @@ for the two whose affinity sits at the noise level --- failing, that is,
 precisely where the predicted quantity is not determined.
 
 \begin{figure}[t]
-  \includegraphics[width=0.94\columnwidth]{../output/figuras/fig9_crossover_exponente.png}
-  \caption{Test of Eq.~\eqref{eq:varscaling}. (a) The local logarithmic slope
-  of the block counting variance against window size, in all four assets,
-  within the band set by the two correlation exponents measured independently.
-  Membership in the band is a consistency test; the upward drift within it is not
-  identified, since a drifting mean inflates this estimator and drift-blind
-  estimators do not reproduce the drift (text). (b) The parameter-free
-  affinity dilution against the measured ratio; filled symbols mark assets with
-  a stable affinity, open symbols those at the noise level.}
+  \includegraphics[width=0.94\columnwidth]{../output/figuras/fig16_scaling_reassessment.pdf}
+  \caption{Scaling reassessment. (a) The broad-window single-power prediction
+  misses all eight series. Circles and squares denote hourly and four-hourly
+  data. (b) Asset-specific two-regime consistency bands; BNB lies outside.
+  Amplitudes and crossover uncertainty are not included, so the bands are not
+  quantitative predictions.}
   \label{fig:crossover}
 \end{figure}
 
 \paragraph*{Discussion.}
 The absolute Fano level is not a memory diagnostic because it depends on transfer
-sizes and the declared quantum. By contrast, the quarterly size-, activity-,
-seasonality-, and drift-preserving null leaves a factor above two in every asset;
-finer conditioning locates part of that excess beyond two-week scales. The same
-long memory independently predicts the superdiffusive counting variance. The two
-measurements thus close on one result: signed order flow carries
-memory-amplified noise that its one-point statistics cannot explain.
+sizes and the declared quantum. The normalisation-free result is instead that
+the weekly variance exceeds temporally disordered nulls under both flow
+definitions, with the sign path accounting for the larger share. The original
+all-assets stringent gate nevertheless failed, and the primary assets are
+correlated rather than independent replications. A separate four-asset
+extension reproduces the sign-dominance ordering. Superdiffusion is a consistent
+second-order description of the same memory, not a separate confirmation.
 
 The methodological point is equally important. A linear forward--reverse
 log-ratio is guaranteed for any Gaussian observable, so its appearance alone is

@@ -1,110 +1,131 @@
-# Signed order flow as a transport current
+# Sign memory and counting noise in market order flow
 
-This repository contains the reproducible code, archived analysis outputs, and
-manuscript sources for the study of signed taker flow in cryptocurrency
-markets. It is organised around two questions:
+This repository contains the code, archived numerical outputs, figures, and
+manuscript sources for two related articles:
 
-1. which response, noise, and counting observables are fixed by the measured
-   second-order correlation function; and
-2. how much counting variance remains after preserving transfer sizes,
-   activity, seasonality, and quarterly drift while destroying temporal order.
+- a concise Letter on the attribution of memory-amplified counting variance;
+- a pedagogical PRE manuscript translating between market microstructure and
+  nonequilibrium transport.
 
-The repository contains no proprietary market feed. Raw candles are not
-redistributed; the analysis code retrieves the required public Binance klines,
-or can read a locally cached CSV with the same columns. The archived JSON
-files and figures are the exact outputs used by the manuscript versions in
-`paper/`.
+The software release is archived at
+[Zenodo](https://doi.org/10.5281/zenodo.21927599).
 
-## Reproduce the published checks
+## Main result and scope
 
-```bash
-python -m pip install numpy pandas scipy matplotlib pytest
-python -m pytest tests -q
-python experiments/exp06_conteo_flujo.py
-python experiments/exp07_reloj_quench.py
-python experiments/exp08_floquet.py
-python experiments/exp09_msrjd_orden2.py
-python experiments/exp11_haar_crossover.py
-python experiments/exp12_fano_memory_null.py
-python experiments/exp13_trade_level_validation.py
+The primary panel contains BTC, ETH, BNB, and SOL against USDT over four years.
+XRP, ADA, DOGE, and AVAX form a post-hoc asset-extension panel and are not
+substituted into the original decision rule.
+
+Two signed-flow observables are analysed in parallel:
+
+- raw signed base volume, **2*tbBase-Volume**;
+- volume-normalised imbalance, **(2*tbBase-Volume)/Volume**.
+
+Complete UTC weeks are compared with three permutation nulls conditioned on
+calendar period and hour of week:
+
+- **joint**: destroys the complete signed-flow ordering;
+- **sign**: preserves the magnitude path and destroys sign ordering;
+- **magnitude**: preserves the sign path and destroys magnitude ordering.
+
+The sign and magnitude nulls intentionally break contemporaneous
+sign--magnitude pairing. They are attribution diagnostics, not structural
+order-book models. Weekly moving-block bootstrap intervals are reported for
+4-, 8-, 13-, and 26-week blocks.
+
+The original predeclared gate required the observed raw-flow variance to exceed
+twice the 98.75th null percentile in all four primary assets. It failed because
+BNB did not pass. The normalised-flow analysis is reported as robustness, not
+as a replacement criterion.
+
+The scaling analysis is also deliberately limited. The autocorrelation and
+accumulated-flow variance are linked by an exact second-order identity and are
+not independent evidence. A single power law fails in all eight primary
+asset--resolution series; the two-regime construction is only a consistency
+band and fails for BNB. The archived effective-temperature diagnostic is not
+claimed as a result, and the exploratory Floquet analysis is omitted from both
+canonical manuscripts.
+
+## Install and test
+
+~~~bash
+python -m pip install -r requirements.txt
+python -m pytest -q
+~~~
+
+The test matrix runs on Linux and Windows. It includes exact fractional
+Gaussian-noise controls and verifies that the release ZIP contains only safe
+POSIX paths.
+
+## Reproduce the major-revision analyses
+
+~~~bash
+python experiments/exp10_gates_estimador.py
 python experiments/exp14_referee_robustness.py
-python experiments/plot_fano_memory_null.py
+python experiments/exp15_flow_null_decomposition.py
+python experiments/exp16_scaling_reassessment.py
 python experiments/plot_referee_robustness.py
+python experiments/plot_flow_null_decomposition.py
+python experiments/plot_scaling_reassessment.py
 python experiments/render_supplement_tables.py
-```
+~~~
 
-The scripts write JSON results to `output/`. Cached downloads are kept outside
-version control. The manuscript figures can be regenerated from the archived
-logs with:
+The full historical analysis chain is preserved in **experiments/exp01_*.py**
+through **experiments/exp16_*.py**. Deposited JSON files in **output/** are the
+versioned evidence used by the manuscripts. Exploratory outputs remain
+available for transparency even when the associated claims were withdrawn.
 
-```bash
-python experiments/figuras_paper.py
-```
+## Build the manuscripts
 
-To build the integrated PRE article:
+From **paper/**:
 
-```bash
-cd paper
-pdflatex combined_article.tex
-bibtex combined_article
-pdflatex combined_article.tex
-pdflatex combined_article.tex
-```
-
-To build the PRL Letter and its Supplemental Material from a clean checkout:
-
-```bash
-cd paper
+~~~bash
 pdflatex paper3_letter.tex
 bibtex paper3_letter
 pdflatex paper3_letter.tex
 pdflatex paper3_letter.tex
+
 pdflatex paper3_supplement.tex
 bibtex paper3_supplement
 pdflatex paper3_supplement.tex
 pdflatex paper3_supplement.tex
-```
 
-The concise PRL manuscript is `paper/paper3_letter.tex`, with
-`paper/paper3_supplement.tex` as its Supplemental Material. The earlier split
-measurement/model drafts have been retired; `combined_article.tex` is the
-canonical integrated source.
+pdflatex combined_article.tex
+bibtex combined_article
+pdflatex combined_article.tex
+pdflatex combined_article.tex
+~~~
 
-## Scope of the results
+The canonical sources are:
 
-The robust empirical result is memory-amplified counting noise: at a weekly
-horizon, the observed/null variance ratio is 2.20--3.37 across BTC, ETH, BNB,
-and SOL. The stratified null preserves the empirical flow-size marginal, its
-pairing with trade activity, hour-of-week seasonality, and quarterly scale
-changes. The ratio is independent of the transfer-size normalisation.
+- **paper/paper3_letter.tex**
+- **paper/paper3_supplement.tex**
+- **paper/combined_article.tex**
 
-Monthly conditioning preserves a ratio above two for every asset. With
-biweekly strata the ratio falls below two for BTC and BNB, although all four
-observations remain above the 98.75th percentile of their conditioned nulls.
-This is reported as scale sensitivity, not partition invariance. Standardised
-third and fourth cumulants likewise show no common Gaussian crossover scale.
+Compiled review copies are deposited under **output/pdf/**.
 
-The absolute Fano level remains descriptive because candle data contain a
-median of hourly mean sizes, not the median individual trade size. A calibration
-on 14.8 million public trades quantifies this difference. The relation between a
-power-law correlation tail and the superdiffusive counting exponent is derived
-independently in the response-field model. The finer drift of the local exponent
-remains an open test because block estimators are sensitive to slow changes in
-the mean.
+The earlier split measurement/model drafts are retired.
 
-The public data statement and the manuscript's limits should be read before
-interpreting any output as a microscopic market model.
+## Build a portable release
 
-## Layout
+~~~bash
+python tools/build_release_archive.py
+~~~
 
-- `src/keldysh_finance/` — analysis library;
-- `experiments/` — reproducible entry points for the reported results;
-- `output/` — archived JSON results and figures;
-- `paper/` — manuscript sources and bibliography;
-- `data/` — data provenance and download notes;
-- `tests/` — numerical and causal-consistency tests.
+This creates **dist/keldysh-finance-reproducibility.zip**. Member names use
+forward slashes, share one safe top-level prefix, and have deterministic
+timestamps so that archives are portable across Windows, Linux, and macOS.
 
-## Citation
+## Data provenance
 
-Use the repository citation metadata in `CITATION.cff` or cite the archived
-release: https://doi.org/10.5281/zenodo.21927599.
+No proprietary feed is redistributed. The analysis retrieves public Binance
+klines and records source-cache SHA-256 hashes in the deposited output. Raw
+caches are excluded from version control. Experiment 13 additionally uses one
+complete UTC day of public Binance Vision trade archives for BTCUSDT and
+ETHUSDT to calibrate the transfer-size normalisation.
+
+## Citation and license
+
+Citation metadata are in **CITATION.cff**. Code is released under the MIT
+License. Manuscript text and figures should be cited through the associated
+articles and Zenodo record.

@@ -29,18 +29,19 @@ measurement, response-field theory, and memory-amplified counting noise}
 \date{\today}
 
 \begin{abstract}
-We develop a transport description of signed taker flow in four liquid
-cryptocurrency markets over four years. The central empirical result is a
-normalisation-free excess of weekly counting variance over a stratified null
-that preserves the flow-size marginal, its pairing with activity, quarterly
-drift, and hour-of-week seasonality while destroying temporal order. The ratio
-of observed to median null variance is $2.20$--$3.37$ across the four assets.
+We test how temporal organisation amplifies the counting variance of signed
+taker flow in four primary cryptocurrency markets over four years and a
+post-hoc four-asset extension. Raw signed
+volume and volume-normalised imbalance are analysed in parallel. Stratified
+permutation nulls separate sign persistence from magnitude clustering while
+preserving calendar scale changes and hour-of-week seasonality.
 A calibration on $14.8$ million individual trades shows that the usual hourly
 size proxy strongly biases the absolute Fano level but leaves this ratio
-unchanged. Independently, drift-resistant estimators give superdiffusive
-variance exponents $1.10$--$1.36$, consistent with the parameter-free relation
-$V_T\sim T^{2-a}$ derived from the measured correlation tail
-$C(\tau)\sim\tau^{-a}$. We expose two closures that prevent overinterpretation:
+unchanged. Moving-block bootstrap intervals quantify uncertainty in the weekly
+observed/null ratio. Drift-resistant estimators give superdiffusive variance
+exponents $1.10$--$1.36$, but the single-power correlation model fails in all
+eight series and the two-regime band is only a consistency check. We expose two
+closures that prevent overinterpretation:
 the counting variance is fixed by the correlation, and a linear fluctuation
 symmetry with slope $2\avg{Q_T}/\Var(Q_T)$ has an exact Gaussian null
 explanation. A response
@@ -131,7 +132,7 @@ response and counting statistics.
 
 What we claim is accordingly narrower than a new observable, and we think
 stronger for being narrow. It is the \emph{joint and named} characterisation.
-The pieces above were obtained along independent routes and in unrelated
+The pieces above were obtained in largely unrelated
 vocabularies --- a propagator fitted by deconvolution, a Hurst exponent, a
 branching ratio, a variance-to-mean ratio, a log-ratio slope --- and each was
 reported without reference to the others. Read as transport they are the
@@ -151,15 +152,16 @@ Since what follows is a systematic characterisation, it is worth saying at the
 outset which part of it we regard as the finding and which part is scaffolding.
 
 \emph{The finding is that temporal organisation amplifies weekly counting
-variance beyond what the observed one-point statistics can produce.} A null
-that preserves transfer sizes, their pairing with activity, quarterly scale
-changes, and hour-of-week seasonality, while destroying temporal order, leaves
-only $30$--$46\%$ of the observed variance. The resulting ratio is independent
-of the transfer quantum and exceeds two in all four assets. The counting
-variance is also superdiffusive under drift-resistant estimators. Together
-these results isolate genuine long memory rather than broad transfer sizes as
-the source of the excess, consistent with the microscopic order-splitting
-account \cite{lillo2005,sato2023prl,sato2023prr}.
+variance beyond what the observed one-point statistics can produce.} We test
+this statement for both signed base volume and volume-normalised imbalance.
+The joint-ordering null is then decomposed: one surrogate preserves the
+magnitude path while permuting signs, and another preserves the sign path while
+permuting magnitudes. This distinguishes the dominant contribution of sign
+persistence from magnitude clustering without pretending that either
+surrogate is a structural order-book model. The counting variance is also
+superdiffusive under drift-resistant estimators, consistent with long memory
+and with the microscopic order-splitting account
+\cite{lillo2005,sato2023prl,sato2023prr}.
 
 \emph{The scaffolding is everything needed to interpret that ratio.} The
 absolute Fano level is normalisation-sensitive and can be large for an
@@ -174,7 +176,7 @@ benchmark.
 Three properties of these markets matter for this measurement. Public candle
 data carry the taker-side volume directly, so the signed flow is recoverable
 without proprietary feeds; trading runs continuously, so there are no overnight
-gaps to interrupt two-time estimates or the daily-phase analysis; and four years
+gaps to interrupt two-time estimates; and four years
 of hourly data give $3.5\times10^{4}$ observations per asset, which the counting
 statistics need since the higher cumulants converge slowly under heavy tails.
 
@@ -183,17 +185,80 @@ order-splitting mechanism whose signature we find in the slow correlation regime
 was established on equity markets \cite{lillo2005,sato2023prl,sato2023prr}. We
 regard the mechanism as the universal part and the venue as incidental, but that
 is an expectation and not something this data set can test. The statistical
-statements below are about these four pairs.
+scaling and response statements below are about these four primary pairs; the
+weekly-null attribution is additionally tested on four post-hoc assets.
+
+\subsection*{A dictionary between market microstructure and transport}
+
+The translation used in this paper is operational rather than metaphorical:
+each transport term names a quantity that can be computed from the market
+record. Table~\ref{tab:dictionary} also states where the analogy stops. A
+physicist should not infer an entropy current or a fermionic exclusion principle
+from the word ``current''; a finance reader should not read the measured
+response as a causal metaorder-impact curve.
+
+\begin{table*}[t]
+\caption{Operational dictionary. The middle column gives the transport name;
+the final column states the interpretation supported by the measurement.}
+\label{tab:dictionary}
+\begin{ruledtabular}
+\begin{tabular}{p{0.24\textwidth}p{0.20\textwidth}p{0.49\textwidth}}
+Market quantity & Transport language & Meaning and limit \\
+\colrule
+Signed taker volume $\eps_t$ & Instantaneous current & Buyer-initiated minus seller-initiated executed volume in one candle. It is an aggregate market observable, not electric charge or entropy production. \\
+$Q_T=\sum_{t=1}^{T}\eps_t$ & Transferred charge & Net signed volume accumulated over a declared window. It permits counting statistics, but no conservation law for a closed physical device is assumed. \\
+$C_\eps(\tau)$ & Current-noise kernel & Temporal memory of signed flow. Its double sum fixes $\Var(Q_T)$ exactly, so these are two views of one second-order object. \\
+$R(\tau)$ & Retarded response & Lagged covariance between later price change and present flow. It is an aggregate response diagnostic, not identified causal impact or electrical conductance. \\
+$s(Q)=\log[P(Q)/P(-Q)]$ & Fluctuation-symmetry function & A finite-window distributional asymmetry. A linear form is automatic for a Gaussian and is not by itself a fluctuation theorem. \\
+$A_T=2\avg{Q_T}/\Var(Q_T)$ & Operational affinity & The Gaussian log-ratio slope. Calling it a thermodynamic force would require stationarity, microreversibility, and an appropriate large-deviation principle, none established here. \\
+$\mathcal F$ & Fano factor & Variance relative to a declared transfer-size quantum. Its absolute level depends on the trade-size distribution; observed/null ratios remove that arbitrary quantum. \\
+$-C'_\eps/R$ & Formal FDT ratio & A derivative-based diagnostic, not a measured temperature. We derive its model form but withdraw it empirically because uncertainty is unresolved. \\
+\end{tabular}
+\end{ruledtabular}
+\end{table*}
+
+The central calculation can be read without transport vocabulary. Each hour
+supplies a signed number: positive when taker buyers dominate and negative when
+taker sellers dominate. Adding $168$ consecutive hours gives one weekly net
+flow. Its variance across weeks is compared with synthetic histories that
+retain the same calendar-conditioned values but alter their temporal order.
+Repeating the operation after shuffling only signs or only magnitudes asks which
+part of that ordering carries the excess. The transport formulation becomes
+useful after this statistical question is clear: it supplies the counting
+language, exact closures, and a calibrated short-memory benchmark.
+
+Claims are labelled by logical status throughout. A \emph{measurement} is read
+from the data and carries an uncertainty or null comparison. A \emph{closure}
+is an identity or model consequence and is not independent evidence. A
+\emph{benchmark} shows what a specified physical model produces without
+asserting that the market is that model. An \emph{open diagnostic} defines a
+future test but does not support a present conclusion.
 
 \section{Data and base measurement}
 \label{sec:data}
 
 We use hourly and four-hourly candles for four cryptocurrency pairs (BTC, ETH,
 BNB, SOL against USDT) over four years, $35\,063$ hourly and $8\,766$
-four-hourly observations per asset. The signed flow follows directly from the
-public candle fields as $\eps_t = 2\,V^{\rm taker\,buy}_t - V_t$, normalised by
-volume; no proprietary data is required. Analysis code and all logs backing the
-numbers below are available \cite{code_keldysh_finance}.
+four-hourly observations per asset. We declare two observables and carry both
+through the memory analysis: raw signed base volume
+$\eps_t^{(r)}=2V^{\rm taker\,buy}_t-V_t$ and dimensionless imbalance
+$\eps_t^{(n)}=\eps_t^{(r)}/V_t$ (set to zero for a zero-volume candle). The
+earlier correlation and scaling figures use $\eps^{(n)}$; every result below
+states which definition it uses. No proprietary data is required. Analysis
+code, numerical outputs, and data provenance are available
+\cite{code_keldysh_finance}.
+
+For the central weekly-null result only, we add hourly XRP, ADA, DOGE, and AVAX
+as a post-hoc robustness panel selected before inspecting their decomposition
+outcomes. They test cross-asset generality but do not enter the original
+all-assets decision rule or the response and scaling fits below.
+
+In microstructure terms, a taker removes resting liquidity: a buyer-initiated
+trade executes against an ask and a seller-initiated trade against a bid. The
+candle records their aggregate volumes, not the sign and size of every
+individual trade. Accordingly, $\eps^{(r)}$ is a signed volume imbalance and
+$\eps^{(n)}\in[-1,1]$ is the fraction of that candle's volume imbalance; neither
+is a sequence of individually identified market orders.
 
 We validate the candle construction against public individual-trade archives
 for one complete UTC day. The sample contains $9{,}797{,}860$ BTCUSDT and
@@ -262,14 +327,14 @@ slow exponents carry large errors. A single-exponent fit over a wide window
 returns something in between, which is why quoted values of $\gamma$ are
 sensitive to the fitting range.
 
-We checked whether the slow regime is an artefact of the daily periodicity
-documented in Sec.~\ref{sec:floquet}: a periodic mean contributes a
+We checked whether the slow regime is an artefact of daily periodicity: a
+periodic mean contributes a
 non-decaying term to the autocorrelation and could masquerade as slow memory.
 Removing the seasonal component barely moves the slopes (e.g.\ BTC:
 $-1.003\to-0.941$ fast, $-0.168\to-0.212$ slow), so the slow regime is genuine
 multi-day stochastic memory rather than the drive.
 
-\subsection{Response and the fluctuation--dissipation ratio}
+\subsection{Response and an unresolved fluctuation--dissipation diagnostic}
 \label{sec:response}
 
 The lagged impact $R(\tau)$ is nearly flat in $\tau$, in sharp contrast to
@@ -287,26 +352,26 @@ unpredictable part of the flow, the predictable part moves nothing and the
 lagged covariance saturates immediately. We recover it as a check on our
 conventions, not as a result.
 
-The consequence is that the fluctuation--dissipation ratio
+One can formally construct the fluctuation--dissipation ratio
 \begin{equation}
   \Teff(\tau) \;\equiv\; -\,C'_\eps(\tau)\big/R(\tau)
 \end{equation}
-has essentially no shape freedom of its own: with $R$ flat, $\Teff$ simply
-inherits the derivative of $C_\eps$ [Fig.~\ref{fig:base}(b)]. Reporting a single
-scalar ``violation of the fluctuation--dissipation theorem'' is therefore
-reporting one point of a curve. We give the curve.
-
-Notably, a composite single-exponent form for $\Teff$ built from the
-single-exponent $\gamma$ fails for all eight series, with discrepancies of
-$2.0$ to $7.2$ standard deviations. This is not an estimator failure: it is what
-Eq.~(1)--(2) demand, since a sum of two power laws is not a power law.
+but it differentiates a noisy sample autocorrelation and divides by an
+estimated response. The archived pointwise curve used a finite difference and
+did not propagate uncertainty from either operation; its fitted slopes range
+from $-1.02\pm0.27$ to values compatible with zero, and the proposed
+single-exponent closure fails in all eight series. We therefore withdraw
+$\Teff$ as an empirical result. Figure~\ref{fig:base}(b) is retained only to
+show why: with a nearly flat $R$, the plotted shape is largely a transformed
+version of $C_\eps$, not an independently resolved thermodynamic observable.
 
 \begin{figure}[t]
   \includegraphics[width=\columnwidth]{../output/figuras/fig1_ceps_R_Teff.png}
   \caption{Base transport measurement at hourly resolution.
   (a) The impact response is nearly flat in lag.
-  (b) The fluctuation--dissipation ratio $\Teff(\tau)$, which with flat $R$
-  inherits its shape from $C'_\eps$.
+  (b) The raw fluctuation--dissipation diagnostic $\Teff(\tau)$; no inference
+  is made from this derivative-based curve because its uncertainty is not
+  identified and, with flat $R$, its shape is inherited from $C'_\eps$.
   (c) Local decay exponents of $C_\eps$ in the fast and slow windows, raw
   (filled) and deseasonalised (open); removing the daily cycle does not move
   them, so the slow regime is not the drive.}
@@ -347,6 +412,14 @@ symmetry to be tested rather than a theorem to be confirmed, and the reader
 should read $A$ as an operational slope with the dimensions of an affinity.
 Sec.~\ref{sec:identity} makes the point sharper still: for a Gaussian $Q_T$
 the linearity is not even phenomenological, but algebraic.
+
+There is also a scaling obstruction. A conventional current large-deviation
+principle has speed $T$, whereas the measured accumulated-flow variance grows
+as $T^\nu$ with $\nu>1$. The natural fluctuation scale is therefore not the
+diffusive scale assumed by a stationary finite-correlation current. We do not
+establish an alternative large-deviation speed or rate function. Consequently
+the finite-window log ratio below is an empirical distributional statistic,
+not evidence that a Gallavotti--Cohen large-deviation theorem applies.
 
 One consequence of this framing deserves flagging, because it constrains what
 the two halves of this paper can independently claim. Andrieux and Gaspard
@@ -389,7 +462,7 @@ identity of Sec.~\ref{sec:identity}, but not proof that the distributions are
 Gaussian.
 
 The second-order closure with the correlation sector is likewise clean: the
-counting variance predicted from the independently measured $C_\eps$ agrees with
+counting variance reconstructed from the sample $C_\eps$ agrees with
 the observed one to within $4.6\%$ in the worst case, the ratio spanning
 $0.954$ to $1.040$ over $64$ window--series combinations. The counting variance
 adds no information beyond the autocorrelation. This is worth stating plainly
@@ -422,23 +495,32 @@ a memory test: an independent compound-Poisson process already gives
 $\mathcal F=\avg{q^2}/\bar q^2$, which can be large under a broad size
 distribution.
 
-We isolate temporal dependence by comparing weekly windows with a stratified
-permutation null. We retain complete Monday--Sunday UTC weeks, subtract the mean
-within each quarter--hour-of-week stratum, and jointly permute $(\eps_t,N_t)$
-within each stratum. This keeps the complete empirical size marginal, the
-flow--activity pairing, quarterly drift, and intraweek seasonality, while
-destroying cross-candle order. With $9999$ permutations,
-$\mathcal F_{\rm obs}/\operatorname{median}(\mathcal F_{\rm null})$ equals
-$2.74$, $3.37$, $2.20$, and $2.54$ for BTC, ETH, BNB, and SOL
-[Fig.~\ref{fig:counting}(c)]. Because $\bar q$ cancels, this result is unchanged
-by the trade-size correction. Under monthly conditioning the median-null ratio
-remains above two for all four assets. Under biweekly conditioning it falls
-below two for BTC and BNB, although all four observed variances remain beyond
-the $98.75$th null percentile. This finer null also conditions away part of the
-low-frequency memory; the dependence is therefore reported as a scale
-sensitivity rather than invariance. The doubled-upper-quantile screen is kept
-only as a partition-specific diagnostic (Supplemental Material
-\cite{supplement}).
+We isolate temporal dependence by comparing weekly windows with stratified
+permutation nulls. Complete Monday--Sunday UTC weeks are demeaned within each
+quarter--hour-of-week stratum. The primary null permutes the complete signed
+flow. Two attribution nulls separately permute its signs while preserving the
+magnitude path, or its magnitudes while preserving the sign path; all
+surrogates are re-centred in the same strata. Raw signed volume and normalised
+imbalance are analysed in parallel. The joint-null ratio is $2.2$--$3.4$ for
+raw flow and $3.0$--$4.3$ for normalised flow. Destroying sign order leaves
+nearly the same ratio, whereas destroying magnitude order lowers it to
+$1.7$--$2.2$ and $1.5$--$1.9$, respectively. Thus sign persistence is the
+dominant component, although magnitude organisation and sign--magnitude
+coupling remain. Moving-block bootstrap intervals over weekly sums quantify
+the sampling uncertainty (Supplemental Material \cite{supplement}).
+
+The predeclared all-assets screen
+$V_{\rm obs}>2Q_{0.9875}(V_{\rm null})$ failed under its declared raw-flow
+quarterly joint null because BNB did not pass. We do not replace that outcome
+with the later normalised-flow analysis. Monthly and biweekly strata expose
+scale sensitivity, and cross-asset correlations preclude treating the four
+assets as independent replications.
+
+The four post-hoc assets reproduce the same ordering. Their joint-null ratios
+span $2.08$--$5.67$ for raw flow and $2.83$--$5.64$ for normalised imbalance;
+in each asset the sign path retains more of the weekly variance than the
+magnitude path. This broadens the empirical panel without rewriting the failed
+predeclared gate.
 
 The same remainder appears as superdiffusive growth. Fitted over the whole
 window grid the log-slope is $1.22\pm0.02$ to $1.37\pm0.02$ across series,
@@ -450,8 +532,8 @@ $1.14$--$1.27$ at the shortest windows to $1.45$--$1.56$ at the longest. We
 report the drift but do not interpret it, because it is not identified. The
 block variance is inflated by any drift in the per-block mean, which
 contributes a term growing as $T^2$, and these series have such a drift: the
-flow carries a persistent sell-side bias and modulates with the daily cycle
-(Secs.~\ref{sec:counting} and~\ref{sec:floquet}). Estimators built from
+flow carries a persistent sell-side bias and a daily seasonal component.
+Estimators built from
 vanishing-moment filters, which annihilate a constant, linear or quadratic
 mean while preserving the exponent, return $\nu=1.10$--$1.36$ against
 $1.31$--$1.43$ for the block estimator, lower in all four assets; injecting
@@ -470,20 +552,21 @@ series. We do not know whether that turnover is a third regime or the
 small-sample noise of the last few points, and we do not have the statistics to
 decide.
 The conclusion does not rely on comparing unlike absolute Fano normalisations:
-the observed chronology contributes a factor $2.20$--$3.37$ beyond the
-size-preserving null, and the independent correlation measurement predicts its
-superdiffusive scale dependence.
+the observed chronology contributes a factor beyond the size-preserving null,
+while the correlation and accumulated variance are two exactly linked views of
+the same second-order memory.
 
-\begin{figure}[t]
-  \includegraphics[width=\columnwidth]{../output/figuras/fig3_A_vs_Agauss.png}
-  \includegraphics[width=\columnwidth]{../output/figuras/fig12_fano_memory_null.pdf}
-  \caption{Counting statistics. (a),(b) The measured affinity against the
-  Gaussian value $2\avg{Q_T}/\Var(Q_T)$; agreement is consistent with
-  Eq.~\eqref{eq:identity} and does not by itself establish a fluctuation theorem.
-  (c) Weekly observed/null Fano ratio. Bars map the central $95\%$ null
-  interval into ratio space; the transfer quantum cancels.}
+\begin{figure*}[t]
+  \includegraphics[width=0.48\textwidth]{../output/figuras/fig3_A_vs_Agauss.png}
+  \includegraphics[width=0.48\textwidth]{../output/figuras/fig15_flow_null_decomposition.pdf}
+  \caption{Counting statistics. Left: measured affinity against the Gaussian
+  value $2\avg{Q_T}/\Var(Q_T)$; agreement is consistent with
+  Eq.~\eqref{eq:identity} and does not establish a fluctuation theorem. Right:
+  weekly observed/null variance ratios for the joint, sign-order, and
+  magnitude-order nulls under both flow definitions. Bars are eight-week
+  moving-block bootstrap intervals; the transfer quantum cancels.}
   \label{fig:counting}
-\end{figure}
+\end{figure*}
 
 \section{Clocks: what ages after a shock, what does not, and what only appears
 to}
@@ -494,24 +577,25 @@ depend on the time elapsed since the quench, not only on the lag. We tested this
 directly, defining shocks as returns exceeding the $99.5$th percentile in
 absolute value and building an ensemble of $240$ hourly post-shock trajectories.
 
-The outcome of this section is easier to follow if we state it first. The mean
-ages and the correlation does not --- but the correlation \emph{appears} to
-age, strongly and monotonically, and the appearance survives every check except
-the one that matters. The reason is a property of the estimator rather than of
-the market: dividing a post-event signal by a quantity measured before the
-event manufactures ageing by construction. We regard identifying that mechanism
-and the null that exposes it as the more transferable of the two results, since
-the construction it invalidates is in routine use.
+The outcome of this section is easier to follow if we state it first. Evidence
+for an Omori-like relaxation of the mean is weak, and the apparent ageing of the
+correlation is reproduced by a placebo. The latter is a property of the
+estimator rather than of the market: dividing a post-event signal by a quantity
+measured before the event manufactures ageing by construction. Identifying that
+mechanism and the null that exposes it is the reliable result of this section.
 
-The \emph{mean} normalised absolute return does relax with an age-dependent
+The \emph{mean} normalised absolute return is compatible with an age-dependent
 profile of Omori form. We fit the \emph{amplitude} exponent $\beta$ in
 $\sigma(t)\sim t^{-\beta}$ --- not the rate exponent $p$ in
 $n(t) = K(t+\tau)^{-p}$, and the distinction matters because the two are
 routinely conflated in this literature while being related by $p = \alpha\beta$
 with $\alpha$ the tail index \cite{lillo2003}. Our conservative fit, excluding
 the first few candles where the fast relaxation dominates, gives
-$\beta = 0.61\pm1.01$; the error is large enough that the value carries little
-weight on its own.
+$\beta = 0.61\pm1.01$; the uncertainty spans zero. Moreover, six of the ten
+asset--resolution fits terminate at an optimiser bound, including several with
+orders-of-magnitude uncertainties. We therefore report these fits as
+descriptive diagnostics and make no resolved claim for a universal Omori
+exponent.
 
 It is worth being explicit about where that sits. Published amplitude
 exponents for equities cluster at $\beta \approx 0.22$--$0.32$
@@ -602,39 +686,6 @@ suggests the question is worth asking generally rather than only here.
   \label{fig:clocks}
 \end{figure}
 
-\section{The driven conductor}
-\label{sec:floquet}
-
-Markets run on a daily cycle, so the natural question is whether the transport
-coefficients themselves --- not merely the activity --- modulate with the phase
-of that cycle. Binning by hour of day and comparing against a null that rotates
-the phase labels day by day (which preserves within-day structure while
-destroying its alignment to clock time), we find that the bias, the affinity and
-the impact all modulate significantly in all four assets at hourly resolution,
-each at the smallest empirical $p$ the $K=50$ null can resolve, $p=0.020$. The
-four-hourly series reproduce this. The Fano factor modulates in only two of four
-assets and we treat it as unresolved.
-
-As a positive control we included the raw activity, which is known to have
-strong daily seasonality and which the procedure must therefore detect; it does,
-in all four assets. This matters: a null result on a phase analysis is
-uninterpretable without evidence that the machinery can see a modulation that
-is certainly there.
-
-The profile itself is coherent across assets [Fig.~\ref{fig:floquet}]: the
-selling imbalance and the affinity both peak during the Asian night, while the
-impact nearly doubles during the European--US overlap. The market is not a
-steady-state conductor with a constant bias; it is a periodically driven one,
-and any model that omits the drive is incomplete.
-
-\begin{figure}[t]
-  \includegraphics[width=\columnwidth]{../output/figuras/fig6_floquet_perfiles.png}
-  \caption{Transport coefficients as functions of daily phase (BTC, hourly):
-  (a) net flow bias, (b) affinity, (c) impact. All three modulate
-  significantly against a phase-rotation null.}
-  \label{fig:floquet}
-\end{figure}
-
 \section{Methods and statistical caveats}
 \label{sec:methods}
 
@@ -722,7 +773,7 @@ single-power-law model outright. There is therefore no single $\gamma$ for the
 four estimators to agree on: each returns a different weighted average over
 scales, according to where in the spectrum it places its weight. This is the
 same conclusion the two-window fit of Sec.~\ref{sec:acf} reaches from the
-autocorrelation, arrived at independently and with an explicit goodness-of-fit
+autocorrelation, obtained through a different estimator and with an explicit goodness-of-fit
 rather than by comparing two fitted ranges. The values in Sec.~\ref{sec:acf}
 should accordingly be read as a band of roughly $\pm0.1$ rather than as
 three-decimal measurements, and the same caution applies to any published
@@ -737,23 +788,6 @@ series to its most recent two years gives $\gamma=0.610\pm0.097$ for BTC
 against $0.380\pm0.052$ over four years. We report the four-year values
 throughout and flag the instability rather than selecting the vintage that
 agrees best with the literature.
-
-\paragraph*{The phase modulation is not an aggregation artefact.}
-Barardehi and Bernhardt \cite{barardehi2025} show that calendar-time
-aggregation, when trading intensity itself varies with the time of day,
-produces an over-aggregation bias sufficient to manufacture intraday patterns
-in volatility and in Kyle's lambda. Since activity in our data modulates by a
-factor of about $1.9$ across the daily cycle, the impact modulation of
-Sec.~\ref{sec:floquet} is exposed to exactly this objection. We repeated the
-measurement on two other clocks. Restricting every phase bin to candles whose
-trade count falls inside a band common to all phases --- so that activity is
-matched by construction --- the max/min ratio of $R(1)$ across phase is $1.53$
-to $1.86$ across the four assets, against $1.56$ to $1.98$ in calendar time.
-Aggregating consecutive candles into bars of approximately constant trade count
-gives $1.35$ to $1.67$. The modulation attenuates but survives on both clocks,
-so it is not produced by aggregation. We note the limitation that public candle
-data carry only a trade count, so the second clock is a coarse trade clock
-rather than a true one.
 
 \paragraph*{Finite-sample autocorrelation bias cannot explain the apparent
 ageing.} A second mechanism could in principle produce the artefact of
@@ -771,7 +805,15 @@ controls for it in any case.
 
 \section{Response-field theory}
 \label{sec:model}
-\section{The action}
+We now encode the measured second-order structure in a minimal stochastic field
+theory. The purpose is organisational, not microscopic: the action states which
+relations follow once the correlation kernel and innovation coupling are fixed,
+and therefore which observations cannot count as new evidence. Readers from
+finance may view the construction as a compact generator of covariances and
+cumulants; readers from physics should view it as a classical MSRJD theory, not
+as a quantum Keldysh contour for noncommuting market operators.
+
+\subsection{The action}
 \label{model:sec:action}
 
 We use two fields, the signed flow $\eps(t)$ and the log-price $p(t)$, with
@@ -832,7 +874,7 @@ Eq.~\eqref{model:eq:Sp} respects causality, as it must.
 Equations \eqref{model:eq:Seps}--\eqref{model:eq:Sp} are the entire model. Everything below
 is a consequence.
 
-\section{The response is flat}
+\subsection{Why the response is flat}
 \label{model:sec:flat}
 
 \begin{proposition}[Flat impact]
@@ -872,10 +914,10 @@ idealisation, and the residual slope is a measure of how far real flow departs
 from the pure-innovation coupling.
 \end{remark}
 
-\section{Effective temperature in closed form}
+\subsection{A formal fluctuation--dissipation ratio}
 \label{model:sec:teff}
 
-The fluctuation--dissipation ratio measured on the data is
+Define formally
 $\Teff(\tau)\equiv-C'_\eps(\tau)/R(\tau)$. By Proposition~\ref{model:prop:flat} the
 denominator is constant, so
 \begin{equation}
@@ -899,14 +941,16 @@ Eq.~\eqref{model:eq:teff} becomes
   \Teff(\tau)\,R_0=a_fA_f\,\tau^{-(1+a_f)}+a_sA_s\,\tau^{-(1+a_s)} .
   \label{model:eq:teff2}
 \end{equation}
-Two consequences follow, and both are testable. The exponents of $\Teff$ are not
-free parameters: they are $1+a_f$ and $1+a_s$, fixed by the correlation sector.
-And a sum of two power laws is not a power law, so a single-exponent form for
-$\Teff$ must fail --- which it does, for all eight series measured, at $2.0$ to
-$7.2$ standard deviations \cite{code_keldysh_finance}. That failure is a prediction of
-Eq.~\eqref{model:eq:bicomp}, not a defect of the estimator.
+The exponents in this formal expression are not free parameters: they are
+$1+a_f$ and $1+a_s$. Empirically testing the expression is harder than writing
+it, because differentiating a noisy sample correlation and dividing by an
+estimated response requires joint uncertainty propagation. The archived
+finite-difference diagnostic did not provide that propagation and failed its
+proposed single-exponent form in all eight series. We therefore retain
+Eqs.~\eqref{model:eq:teff}--\eqref{model:eq:teff2} as model identities and make
+no empirical $\Teff$ claim \cite{code_keldysh_finance}.
 
-\section{The counting sector}
+\subsection{The counting sector}
 \label{model:sec:counting}
 
 Let $Q_T=\sum_{t=1}^{T}\eps_t$ be the flow transferred in a window of $T$
@@ -923,11 +967,12 @@ action \eqref{model:eq:Seps} it truncates exactly at second order,
   \label{model:eq:cgf}
 \end{equation}
 so every cumulant $\kappa_n$ with $n\ge3$ vanishes identically. The relation
-$V_T=\sum_{t,t'}C_\eps(t-t')$ is the closure between the counting variance and
-the independently measured autocorrelation, confirmed at the $4\%$ level over
-$64$ window--series combinations \cite{code_keldysh_finance}.
+$V_T=\sum_{t,t'}C_\eps(t-t')$ is an exact sample-covariance identity. Its
+$4\%$ numerical reconstruction error over $64$ window--series combinations is
+a pipeline check, not independent empirical confirmation
+\cite{code_keldysh_finance}.
 
-\subsection{An identity, not a fluctuation theorem}
+\subsubsection{An identity, not a fluctuation theorem}
 \label{model:sec:identity}
 
 \begin{proposition}[Gaussian affinity]
@@ -980,6 +1025,10 @@ here. Proposition~\ref{model:prop:affinity} shows the symmetry holds trivially i
 Gaussian sector; outside it, nothing guarantees the symmetry at all, which is
 one more reason to read the linearity of $s(Q)$ as an empirical regularity to
 be tested rather than a law to be confirmed.
+
+The superdiffusive variance adds a separate caution: a conventional current
+large-deviation principle has speed $T$, while $V_T\propto T^\nu$ with
+$\nu>1$. No alternative speed or rate function is established here.
 \end{remark}
 
 \begin{remark}[The affinity and the response are not independent]
@@ -992,7 +1041,7 @@ independently informative, and we treat their consistency as a check on the
 framework rather than as two separate results.
 \end{remark}
 
-\subsection{Affinity dilution and a crossover prediction}
+\subsubsection{Affinity dilution and a crossover prediction}
 \label{model:sec:crossover}
 
 For a single power-law kernel $C_\eps(\tau)=A\tau^{-a}$ with $0<a<1$, the double
@@ -1001,7 +1050,11 @@ sum in Eq.~\eqref{model:eq:cgf} gives for $T\gg1$
   V_T\simeq2A\!\int_0^T\!(T-k)k^{-a}\dd k=\frac{2A}{(1-a)(2-a)}\,T^{\,2-a} ,
   \label{model:eq:varscaling}
 \end{equation}
-so the counting variance is superdiffusive with exponent $\nu=2-a$. Since
+so the counting variance is superdiffusive with exponent $\nu=2-a$. At the
+marginal point $a=1$ the leading form is $T\log T$; for $a>1$ the correlation
+is summable and the asymptotic variance is diffusive, $V_T\propto T$. This
+domain distinction matters for BTC and SOL, whose fast-regime point estimates
+are at or above one. Since
 $m_T=\bar\mu T$ is strictly linear, Proposition~\ref{model:prop:affinity} forces the
 affinity to dilute with observation scale,
 \begin{equation}
@@ -1019,7 +1072,7 @@ across the sample, and fails by $43\%$ and $132\%$ for the two whose affinity
 is at the noise level [Fig.~\ref{model:fig:crossover}(b)] --- failing, that is,
 exactly where the quantity being predicted is not well determined.
 
-\paragraph*{The prediction.} With the two-component kernel \eqref{model:eq:bicomp},
+\paragraph*{A finite-scale consistency check.} With the two-component kernel \eqref{model:eq:bicomp},
 Eq.~\eqref{model:eq:varscaling} cannot hold with a single $\nu$. Short windows sample
 the fast regime and long windows the slow one, so the \emph{local} logarithmic
 slope of $V_T$ must drift,
@@ -1033,20 +1086,22 @@ is a weight-average of the two exponents with the slow weight increasing in
 $T$. We state the prediction in the weaker form --- direction and band --- for
 two reasons: the empirical kernel is only approximately a two-component power
 law, and the strict form is the one the data will be seen below to strain.
-This is parameter-free and it crosses observable families: $a_f$ and $a_s$ are
-measured in the correlation sector while $\nu_{\rm loc}(T)$ is measured in the
-counting sector, so the test cannot be circular. A single-component bath
-predicts constant $\nu_{\rm loc}$, and would be excluded by a systematic drift
-\emph{provided the drift is a property of the correlations and not of the
-estimator}. That proviso turns out to carry the whole test, and we take it up
-below.
+This is not an independent test: $C_\eps$ and $V_T$ are linked by the exact
+finite-sample second-order identity. Nor is the interval a quantitative
+two-component prediction, because the fitted regime amplitudes and crossover
+scale were not propagated. It is only a consistency band. A single-component
+bath predicts constant $\nu_{\rm loc}$, and would be excluded by a systematic
+drift \emph{provided the drift is a property of the correlations and not of the
+estimator}. That proviso turns out to carry the whole test.
 
-Using the measured hourly exponents for BTC, $a_f=1.00\pm0.15$ and
-$a_s=0.17\pm0.13$, the predicted band is $\nu_{\rm loc}\in[1.00,1.83]$. The
-observed local slope drifts upward with window size in all four assets over
+Applying the correct domain asset by asset gives the point-estimate bands
+$[1.00,1.83]$ (BTC), $[1.13,1.78]$ (ETH), $[1.54,1.71]$ (BNB), and
+$[1.00,1.84]$ (SOL). The observed block exponents for BNB, $1.37$ at both
+hourly and four-hourly resolution, lie outside its band. Thus even this weak
+consistency check fails in one of four assets and cannot be advertised as a
+universal closure. The observed local slope drifts upward over much of
 $T=1\ldots256$, from $1.14$--$1.27$ at the short end to $1.45$--$1.56$ at the
-long end, and stays inside the predicted band throughout
-[Fig.~\ref{model:fig:crossover}(a)]. The drift is not monotone everywhere: in BNB the
+long end [Fig.~\ref{model:fig:crossover}(a)]. The drift is not monotone everywhere: in BNB the
 local slope peaks near $1.48$ at $T=64$ and falls back to $1.39$ by $T=256$ on
 the hourly series, with the same turnover on the four-hourly one.
 
@@ -1107,16 +1162,18 @@ $1.42$ to $1.09$ in BTC. The gap is the drift.
 \end{table}
 
 \paragraph*{What this leaves standing.}
-Two things survive and one does not. Surviving first: $\nu>1$ in all four
+One result survives and two stronger readings do not. The robust result is
+$\nu>1$ in all four
 assets by all four estimators, ranging over $1.10$--$1.43$. Superdiffusive
 growth of the counting variance is a statement about memory alone --- it
 follows from a correlation decaying more slowly than $\tau^{-1}$ --- and it is
 robust to the confounder by construction, since removing the mean cannot
-manufacture it. Surviving second: the observed $\nu$ remains inside the band
-$[1.00,1.83]$ predicted from the correlation exponents under every estimator,
-so the cross-family consistency of Eq.~\eqref{model:eq:varscaling} is unaffected.
+manufacture it. What does not survive is a universal two-regime closure: BNB
+falls below its asset-specific consistency band, and a fit without amplitudes
+cannot establish quantitative agreement in the other assets.
 
-What does not survive is the drift of $\nu_{\rm loc}$ as an established result.
+The second result that does not survive is the drift of $\nu_{\rm loc}$ as an
+established result.
 It is exhibited only by the estimator we have shown to be susceptible, and the
 drift-blind estimators are underpowered exactly where it is claimed: the
 standard error on their local slope grows from $\pm0.05$ at $T=8$ to $\pm0.22$
@@ -1130,38 +1187,14 @@ would need either a longer record or an asset with a stationary mean flow, and
 we regard it as the sharpest open test the framework offers.
 
 \begin{figure}[t]
-  \includegraphics[width=\columnwidth]{../output/figuras/fig9_crossover_exponente.png}
-  \caption{Testing Sec.~\ref{model:sec:crossover}. (a) The local logarithmic slope of
-  the block counting variance drifts upward with window size in every asset,
-  within the band set by the two decay exponents measured independently in the
-  correlation sector. A single-component bath would give a horizontal line
-  --- but so would one combined with a drifting mean, which inflates this
-  estimator; see Table~\ref{model:tab:haar} and the accompanying text, where
-  drift-blind estimators do not reproduce the drift. The panel is shown as the
-  measurement that motivates the control, not as the test.
-  (b) The exact affinity dilution of Eq.~\eqref{model:eq:Aexact} against the measured
-  ratio; filled symbols are the assets with a stable affinity, open symbols
-  those at the noise level.}
+  \includegraphics[width=\columnwidth]{../output/figuras/fig16_scaling_reassessment.pdf}
+  \caption{Scaling reassessment. (a) The broad-window single-power prediction
+  misses all eight series. Circles and squares denote hourly and four-hourly
+  data. (b) Asset-specific bands implied by the two fitted decay regimes; BNB
+  lies outside. The bands omit amplitudes and crossover uncertainty and are
+  therefore consistency checks rather than quantitative predictions.}
   \label{model:fig:crossover}
 \end{figure}
-
-\section{Periodic driving}
-\label{model:sec:floquet}
-
-Under a periodic drive the process is, at fixed phase $\phi$, still Gaussian with
-phase-dependent moments, so Proposition~\ref{model:prop:affinity} applied phase by
-phase gives
-\begin{equation}
-  A(\phi)=\frac{2\mu(\phi)}{\sigma^2(\phi)} .
-  \label{model:eq:Afloquet}
-\end{equation}
-The drive enters the counting sector \emph{only} through the first two moments;
-any measured phase dependence beyond Eq.~\eqref{model:eq:Afloquet} would falsify the
-Gaussian closure in the driven sector, and none is found \cite{code_keldysh_finance}. The
-impact is not fixed by Eq.~\eqref{model:eq:Afloquet}: by Proposition~\ref{model:prop:flat}
-its phase profile is independent information about $\lambda(\phi)$ and
-$\sigma_w^2(\phi)$, which is consistent with the observation that impact peaks at
-a different phase from the bias and the affinity.
 
 \section{A minimal transport device}
 \label{model:sec:device}
@@ -1234,8 +1267,8 @@ classical transfers and is not numerically interchangeable with
 $\kappa_2/|\kappa_1|$. We therefore do not use the difference in absolute levels
 as an exclusion. The controlled comparison is structural: the calibrated
 device is diffusive, whereas every drift-resistant market estimator gives
-$\nu=1.10$--$1.36$ and the observed weekly variance exceeds a size-preserving
-memory-destroying null by factors $2.20$--$3.37$
+$\nu=1.10$--$1.36$ and the observed weekly variance exceeds stratified
+memory-destroying nulls under both raw and normalised flow definitions
 [Fig.~\ref{model:fig:device}(c)]. The model thus supplies an explicit
 short-memory benchmark; the empirical attribution to memory comes from the null
 and from Eq.~\eqref{model:eq:varscaling}, not from importing a fermionic Fano
@@ -1285,18 +1318,15 @@ i.e.\ biases an order of magnitude smaller than those used here.
 \section{Integrated discussion}
 \label{sec:integrated-discussion}
 The measurements and the model form one argument, but not one undifferentiated
-claim. The robust empirical statements are the superdiffusive counting
-variance and its factor $2.20$--$3.37$ amplification over a null that preserves
-sizes, activity, seasonality, and quarterly drift. The absolute Fano level is
-reported only with its declared proxy normalisation. Monthly conditioning
-preserves the factor-of-two separation in all four assets; biweekly conditioning
-does not for BTC and BNB, locating part of the excess at scales longer than two
-weeks and ruling out a claim of partition invariance. The response and
-second-order counting closure are useful consistency checks: once the
-correlation kernel is fixed, they carry little independent information.  The
-response-field formulation makes this distinction precise and predicts the
-variance exponent from an observable family different from the one in which it
-is measured.
+claim. The robust empirical statements are superdiffusive counting variance and
+weekly amplification over stratified temporal nulls under both raw and
+normalised flow. The sign--magnitude decomposition attributes the larger share
+to sign persistence in all four primary and all four post-hoc assets. The
+absolute Fano level is reported only with its declared
+proxy normalisation, the predeclared all-assets gate is explicitly failed, and
+calendar sensitivity and cross-asset dependence limit universality claims. The
+response and second-order counting closure are consistency checks: once the
+correlation kernel is fixed, they carry no independent second-order evidence.
 
 The exactly solved conductor supplies a calibrated benchmark. It can
 produce a relaxing mean without ageing its correlation, but its counting
@@ -1304,7 +1334,7 @@ statistics remain sub-Poissonian and diffusive under the device's conventional
 normalisation. Thus the comparison neither identifies a unique microscopic
 market model nor transfers a fermionic bound to heterogeneous classical trades.
 It shows concretely what a finite-memory reference does; the market's departure
-is established independently by its size-preserving null. A marked flow process
+is established by its stratified temporal nulls. A marked flow process
 with long memory is the minimal direction left open by the data.
 
 The local drift of the counting exponent is deliberately not promoted to a

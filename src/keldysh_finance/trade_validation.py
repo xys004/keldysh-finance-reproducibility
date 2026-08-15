@@ -133,4 +133,3 @@ def reconcile_hourly(trade_hours: pd.DataFrame, klines: pd.DataFrame) -> dict:
             abs(actual.sum() - reference.sum()) / max(abs(reference.sum()), 1e-12)
         )
     return errors
-

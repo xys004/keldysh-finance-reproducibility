@@ -344,24 +344,21 @@ def fano_factor(flow_raw: np.ndarray, volume: np.ndarray, trades: np.ndarray,
 
 def synthetic_flow(n: int, gamma: float, mu: float = 0.0,
                    seed: int = 0) -> np.ndarray:
-    r"""Flujo gaussiano con ACF ~ (1+τ)^γ, sd 1 y media `mu`.
+    r"""Ruido gaussiano fraccional exacto with Var(Q_T) ~ T^(2+gamma).
 
     CONTROL POSITIVO de la FCS (regla 11): un proceso donde el escalado es
     verdad por construcción — Var(Q_T) ~ T^(2+γ) y, por gaussianidad, la
     simetría s(Q)=A·Q exacta con A(T) = 2·μT/Var(Q_T). El pipeline tiene que
     recuperar ambas cosas o los negativos/positivos sobre datos reales no
-    significan nada. Mismo embedding circulante que
-    `transient.synthetic_series_with_acf`, con cola en ley de potencias (la
-    memoria tipo Lillo-Farmer) en vez de KWW.
+    significan nada.  La implementación usa el generador fGn de Davies--Harte
+    validado por el experimento 10; no recorta autovalores de una covarianza
+    aproximada.
     """
-    from scipy.fft import next_fast_len
+    if not (-1.0 < float(gamma) < 0.0):
+        raise ValueError("gamma must lie in (-1, 0) for stationary long-memory fGn")
+    from .wavelets import fgn
 
-    rng = np.random.default_rng(seed)
-    m = next_fast_len(4 * int(n))
-    d = np.minimum(np.arange(m), m - np.arange(m)).astype(float)
-    c = (1.0 + d) ** float(gamma)
-    lam = np.clip(np.fft.rfft(c).real, 0.0, None)
-    x = np.fft.irfft(np.fft.rfft(rng.normal(size=m)) * np.sqrt(lam), m)[:int(n)]
+    x = fgn(int(n), H=1.0 + float(gamma) / 2.0, seed=seed)
     sd = x.std()
     if sd > 0:
         x = x / sd

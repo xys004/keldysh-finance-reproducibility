@@ -1,7 +1,19 @@
 __pycache__/
 *.pyc
 .pytest_cache/
+
+# Caché de descargas: re-descargable desde la API pública de Binance,
+# no aporta nada al repo y pesa.
 output/cache/
+
+# Los logs de experimentos SÍ se versionan: ninguna cifra del README entra
+# sin su log depositado (misma regla que trading-ma-montecarlo).
+!output/*.json
+output/*.log
+dist/
+
+# Auxiliares de LaTeX. El .tex y el .bib SÍ se versionan; el PDF se regenera
+# con `pdflatex` y no se versiona.
 paper/*.aux
 paper/*.log
 paper/*.out
@@ -12,3 +24,6 @@ paper/*.pdf
 paper/*.fdb_latexmk
 paper/*.fls
 paper/*Notes.bib
+
+# Rendered QA sheets and review mail packages are local handoff artifacts.
+tmp/

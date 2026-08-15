@@ -49,4 +49,3 @@ def test_calibration_and_reconciliation(tmp_path):
     comparison = reconcile_hourly(hours, hours)
     assert comparison["Volume_max_relative_error"] == 0.0
     assert comparison["trades_sum_relative_error"] == 0.0
-

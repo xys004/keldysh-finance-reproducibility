@@ -75,19 +75,12 @@ def test_cumulantes_estandarizados_detectan_asimetria_y_colas():
 
 
 def _var_teorica(T: int, gamma: float) -> float:
-    """Var(Q_T) EXACTA para ACF (1+k)^gamma y varianza 1:
-    Var = T + 2·Σ_{k=1}^{T-1} (T-k)·c(k). Sin asintótica: la forma
-    (8/3)T^1.5 − 3T sólo vale a T grande y el crossover sesga cualquier
-    pendiente ajustada sobre un rango finito."""
-    k = np.arange(1, int(T))
-    return float(T + 2.0 * np.sum((T - k) * (1.0 + k) ** gamma))
+    """Var(Q_T) exacta del fGn unitario: T^(2H), H=1+gamma/2."""
+    return float(T ** (2.0 + gamma))
 
 
 def test_escalado_superdifusivo_con_memoria():
-    """ACF ~ tau^gamma con gamma=-0.5: kappa_2(T) tiene que seguir la
-    predicción discreta EXACTA de la ACF, y la pendiente en el tramo alto
-    tiene que ser claramente superdifusiva (>1.3, frente a 1 difusivo).
-    Es el control que ata la FCS al exponente de Lillo-Farmer."""
+    """El fGn con gamma=-0.5 tiene Var(Q_T)=T^1.5 exactamente."""
     x = synthetic_flow(600_000, gamma=-0.5, seed=3)
     esc = cumulant_scaling(x, [16, 32, 64, 128, 256])
     for fila in esc["tabla"]:
@@ -191,6 +184,11 @@ def test_sintetico_tiene_media_y_acf_correctas():
     denom = float(np.dot(xc, xc))
     lags = np.array([1, 2, 4, 8, 16, 32])
     acf = np.array([np.dot(xc[:-k], xc[k:]) / denom for k in lags])
-    objetivo = (1.0 + lags) ** -0.5
+    H = 0.75
+    objetivo = 0.5 * (
+        (lags + 1.0) ** (2.0 * H)
+        - 2.0 * lags ** (2.0 * H)
+        + (lags - 1.0) ** (2.0 * H)
+    )
     assert np.max(np.abs(acf - objetivo)) < 0.06, \
-        "el embedding no reproduce la ACF en ley de potencias"
+        "Davies--Harte no reproduce la covarianza exacta del fGn"

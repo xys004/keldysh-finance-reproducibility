@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-title: "Signed order flow as a transport current"
+title: "Sign memory and counting noise in market order flow"
 message: "If you use this software or archived outputs, please cite the repository and the associated manuscript."
 type: software
 authors:
@@ -9,8 +9,8 @@ authors:
     given-names: Gabriel
   - family-names: Verrilli
     given-names: David
-version: 1.0.0
-date-released: 2026-08-14
+version: 1.1.0
+date-released: 2026-08-15
 repository-code: https://github.com/xys004/keldysh-finance-reproducibility
 doi: 10.5281/zenodo.21927599
 license: MIT
