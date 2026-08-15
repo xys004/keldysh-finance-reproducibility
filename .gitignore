@@ -1,5 +1,5 @@
 __pycache__/
-*.py[cod]
+*.pyc
 .pytest_cache/
 output/cache/
 paper/*.aux
@@ -8,6 +8,7 @@ paper/*.out
 paper/*.bbl
 paper/*.blg
 paper/*.synctex.gz
+paper/*.pdf
 paper/*.fdb_latexmk
 paper/*.fls
-paper/*.pdf
+paper/*Notes.bib

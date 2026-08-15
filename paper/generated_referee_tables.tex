@@ -1,0 +1,52 @@
+\begin{table}[t]
+\caption{Standardised cumulants at the endpoints of the dyadic scale grid. Intervals in Fig.~\ref{fig:supp-cumulants} use the full grid.}
+\label{tab:supp-cumulants}
+\begin{ruledtabular}
+\begin{tabular}{lrrrr}
+ & $\gamma_1(1)$ & $\gamma_1(128)$ & $\gamma_2(1)$ & $\gamma_2(128)$ \\
+\colrule
+BTC & -0.10 & -0.55 & 1.24 & 0.12 \\
+ETH & -0.09 & -1.40 & 0.76 & 8.53 \\
+BNB & 0.02 & -0.63 & 0.54 & 1.60 \\
+SOL & -0.02 & -0.47 & 0.61 & 1.17 \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+\begin{table*}[t]
+\caption{Sensitivity of the weekly counting-variance null. $R_{50}=F_{\rm obs}/\mathrm{median}(F_{\rm null})$ and $R_{98.75}=F_{\rm obs}/Q_{0.9875}(F_{\rm null})$. The empirical $p$ value includes the observed ordering. The last column is the fraction of candles fixed because their edge stratum contains one observation.}
+\label{tab:supp-null}
+\begin{ruledtabular}
+\begin{tabular}{llrrrr}
+asset & conditioning & $R_{50}$ & $R_{98.75}$ & $p_{\rm emp}$ & fixed fraction \\
+\colrule
+BTC & quarterly & 2.75 & 2.07 & $0.0001$ & 0.00\% \\
+BTC & monthly & 2.51 & 1.82 & $0.0001$ & 0.14\% \\
+BTC & biweekly & 1.58 & 1.05 & $0.0054$ & 0.97\% \\
+ETH & quarterly & 3.36 & 2.62 & $0.0001$ & 0.00\% \\
+ETH & monthly & 3.24 & 2.41 & $0.0001$ & 0.14\% \\
+ETH & biweekly & 2.77 & 1.86 & $0.0001$ & 0.97\% \\
+BNB & quarterly & 2.20 & 1.69 & $0.0001$ & 0.00\% \\
+BNB & monthly & 2.08 & 1.54 & $0.0001$ & 0.14\% \\
+BNB & biweekly & 1.76 & 1.16 & $0.0013$ & 0.97\% \\
+SOL & quarterly & 2.54 & 2.01 & $0.0001$ & 0.00\% \\
+SOL & monthly & 2.12 & 1.63 & $0.0001$ & 0.14\% \\
+SOL & biweekly & 2.07 & 1.46 & $0.0002$ & 0.97\% \\
+\end{tabular}
+\end{ruledtabular}
+\end{table*}
+
+\begin{table}[t]
+\caption{Global exponent $\nu$ over $T=8,\ldots,256$. The wavelet estimators act directly on signed flow: db1 removes a constant, db2 a linear trend, and db3 a quadratic trend.}
+\label{tab:supp-wavelets}
+\begin{ruledtabular}
+\begin{tabular}{lrrrr}
+asset & block variance & db1 & db2 & db3 \\
+\colrule
+BTC & 1.42 & 1.20 & 1.14 & 1.13 \\
+ETH & 1.37 & 1.24 & 1.26 & 1.29 \\
+BNB & 1.43 & 1.35 & 1.36 & 1.30 \\
+SOL & 1.31 & 1.15 & 1.13 & 1.10 \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}

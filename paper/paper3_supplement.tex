@@ -1,0 +1,106 @@
+\documentclass[aps,prl,onecolumn,superscriptaddress,floatfix,nofootinbib]{revtex4-2}
+
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage[colorlinks=true,allcolors=blue]{hyperref}
+
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\newcommand{\Var}{\mathrm{Var}}
+
+\begin{document}
+
+\title{Supplemental Material for ``Memory-amplified counting noise in signed market order flow''}
+
+\author{Nelson Bol\'{\i}var}
+\affiliation{Escuela de F\'isica, Facultad de Ciencias, Universidad Central de Venezuela, Caracas 1041-A, Venezuela}
+\affiliation{Astrum Drive Technologies, 13024 Dallas Pkwy Unit 120 B, Frisco, TX 75034, USA}
+\author{Gabriel Abell\'an}
+\affiliation{Escuela de F\'isica, Facultad de Ciencias, Universidad Central de Venezuela, Caracas 1041-A, Venezuela}
+\affiliation{Astrum Drive Technologies, 13024 Dallas Pkwy Unit 120 B, Frisco, TX 75034, USA}
+\author{David Verrilli}
+\affiliation{Escuela de F\'isica, Facultad de Ciencias, Universidad Central de Venezuela, Caracas 1041-A, Venezuela}
+
+\maketitle
+
+\section{Higher cumulants do not define a Gaussian crossover}
+
+For each asset and dyadic counting window $T=1,2,\ldots,128$ hours, we form
+non-overlapping accumulated flows $Q_T$ and report the standardised third and
+fourth cumulants
+\begin{equation}
+ \gamma_1(T)=\frac{\kappa_3(T)}{\kappa_2(T)^{3/2}},\qquad
+ \gamma_2(T)=\frac{\kappa_4(T)}{\kappa_2(T)^2}.
+\end{equation}
+The $95\%$ intervals use $999$ circular moving-block bootstrap replicates. The
+block length corresponds to four weeks of clock time at every $T$, so the
+resampling retains short- and intermediate-range dependence within each block.
+
+Neither statistic approaches zero uniformly across assets
+[Fig.~\ref{fig:supp-cumulants} and Table~\ref{tab:supp-cumulants}]. BTC loses
+most of its excess kurtosis by $T=128$ but remains skewed; ETH becomes markedly
+more skewed and heavy-tailed; BNB and SOL retain nonzero excess kurtosis. We
+therefore do not define a characteristic Gaussian scale $T^*$. This does not
+alter the algebraic statement in the Letter: Gaussianity is a sufficient null
+explanation for a linear symmetry function, not an empirical description we
+impose on all windows. Conversely, a linear $\log[P(Q)/P(-Q)]$ can occur for a
+non-Gaussian exponentially tilted distribution, so linearity alone does not
+establish either Gaussianity or a nontrivial fluctuation theorem.
+
+\begin{figure}[t]
+ \includegraphics[width=0.95\linewidth]{../output/figuras/fig13_standardized_cumulants.pdf}
+ \caption{Scale dependence of (a) skewness and (b) excess kurtosis. Shading is
+ the moving-block bootstrap $95\%$ interval. The zero line is Gaussian.}
+ \label{fig:supp-cumulants}
+\end{figure}
+
+\section{Sensitivity to the temporal conditioning of the null}
+
+The primary null jointly permutes signed flow and activity within
+$(\text{calendar quarter},\text{hour of week})$ strata. We repeat the entire
+$9999$-permutation calculation with calendar-month strata and with consecutive
+14-day blocks anchored on the first complete Monday in the sample. In every
+case the mean is removed within the same strata used for permutation. Calendar
+edge strata containing one retained candle are left fixed; their fraction is
+reported in Table~\ref{tab:supp-null}.
+
+Monthly conditioning retains $R_{50}>2$ in all four assets. Biweekly
+conditioning retains an upper-tail rejection in every asset but lowers
+$R_{50}$ below two for BTC and BNB. This is physically interpretable rather
+than a contradiction: conditioning separately every two weeks removes part of
+the low-frequency organisation whose contribution the quarterly null measures.
+The sensitivity therefore identifies scale content in the excess and rules out
+a claim that the factor-of-two effect is invariant under arbitrary temporal
+partitioning. For the same reason, the screen
+$F_{\rm obs}>2Q_{0.9875}(F_{\rm null})$ is descriptive and
+partition-specific; it is not used as the central universality criterion.
+
+\begin{figure}[t]
+ \includegraphics[width=0.72\linewidth]{../output/figuras/fig14_stratification_sensitivity.pdf}
+ \caption{Observed weekly variance relative to the median of each conditioned
+ null. The dashed line marks a factor of two.}
+ \label{fig:supp-null}
+\end{figure}
+
+\section{Wavelet control of mean drift}
+
+The wavelet estimators are applied directly to the hourly signed-flow series,
+not to a separately integrated profile. A Daubechies wavelet with $p$ vanishing
+moments annihilates polynomial trends of degree smaller than $p$
+\cite{daubechies1992,percival2000}. Thus db1 (Haar) removes a constant mean,
+db2 a linear trend, and db3 a quadratic trend.
+
+The implementation is calibrated on fractional Gaussian noise with known
+$\nu=1.40$. The block-variance, db1, db2 and db3 estimates agree within $0.01$
+without drift. Injecting linear or quadratic trends inflates the block estimate
+while leaving the appropriate wavelet estimates fixed. On market data all three
+wavelet estimates remain superdiffusive, $\nu=1.10$--$1.36$
+[Table~\ref{tab:supp-wavelets}], but their local slopes do not resolve the
+monotone crossover seen in the drift-sensitive block variance. This establishes
+global superdiffusion while leaving the local crossover undecided.
+
+\input{generated_referee_tables}
+
+\bibliographystyle{apsrev4-2}
+\bibliography{refs}
+
+\end{document}

@@ -21,8 +21,15 @@ from .stationarity import tti_breaking, correlation_time, aging_collapse
 from .transient import (TransientTrajectory, fit_stretched_exp,
                         rolling_transient_fit, rolling_teff,
                         synthetic_series_with_acf)
-from .counting import (cumulant_scaling, fano_factor, fit_affinity,
-                       net_charge, symmetry_function, synthetic_flow)
+from .counting import (block_bootstrap_standardized_cumulants,
+                       cumulant_scaling, fano_factor, fit_affinity,
+                       net_charge, standardized_cumulants,
+                       symmetry_function, synthetic_flow)
+from .fano_validation import (prepare_complete_weeks,
+                              stratified_fano_memory_test,
+                              validate_hourly_klines)
+from .trade_validation import (aggregate_trade_hours, normalization_calibration,
+                               read_daily_trades, reconcile_hourly)
 from .quench import (campo_post_shock, correlacion_por_edad, detectar_shocks,
                      estadistico_envejecimiento, exponente_omori, tau_c_filas)
 from .floquet import (modulacion, observables_por_fase, p_empirico,
@@ -36,8 +43,13 @@ __all__ = [
     "tti_breaking", "correlation_time", "aging_collapse",
     "TransientTrajectory", "fit_stretched_exp", "rolling_transient_fit",
     "rolling_teff", "synthetic_series_with_acf",
-    "cumulant_scaling", "fano_factor", "fit_affinity", "net_charge",
+    "block_bootstrap_standardized_cumulants", "cumulant_scaling",
+    "fano_factor", "fit_affinity", "net_charge", "standardized_cumulants",
     "symmetry_function", "synthetic_flow",
+    "prepare_complete_weeks", "stratified_fano_memory_test",
+    "validate_hourly_klines",
+    "aggregate_trade_hours", "normalization_calibration",
+    "read_daily_trades", "reconcile_hourly",
     "campo_post_shock", "correlacion_por_edad", "detectar_shocks",
     "estadistico_envejecimiento", "exponente_omori", "tau_c_filas",
     "modulacion", "observables_por_fase", "p_empirico", "rotar_horas_por_dia",

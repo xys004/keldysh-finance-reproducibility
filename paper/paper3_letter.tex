@@ -13,8 +13,7 @@
 
 \begin{document}
 
-\title{Counting statistics of signed order flow:\\
-bunching beyond free transport and a memory-fixed variance exponent}
+\title{Memory-amplified counting noise in signed market order flow}
 
 \author{Nelson Bol\'{\i}var}
 \affiliation{Escuela de F\'isica, Facultad de Ciencias, Universidad Central de Venezuela, Caracas 1041-A, Venezuela}
@@ -28,28 +27,19 @@ bunching beyond free transport and a memory-fixed variance exponent}
 \date{\today}
 
 \begin{abstract}
-Reading the signed order flow of a market as the current of an open conductor
-makes its full counting statistics measurable. We find the transferred flow to
-be strongly bunched --- Fano factor of order $10^{3}$, growing with the counting
-window, with superdiffusive variance --- which no free-fermion counting problem
-can produce, since Pauli statistics bound the Fano factor below unity and give
-diffusive growth. We confirm this against an explicit nonequilibrium Green
-function calculation, which yields $\mathcal{F}=0.33$ and a variance exponent of
-$0.99$. We then derive and confirm a parameter-free prediction: because a
-correlation decaying as $\tau^{-a}$ produces a counting variance growing as
-$T^{2-a}$, the two-component memory kernel measured in the correlation sector
-fixes the counting exponent to the band $[1.00,1.83]$ with no free parameters.
-The measured exponent falls inside it and exceeds unity in every asset under
-four independent estimators, three of them constructed to be blind to a
-drifting mean --- a confounder we show can imitate the finer prediction of a
-drift \emph{within} that band, which we therefore report as consistent with the
-data rather than established by it. Underlying both
-results is
-a structural observation that we believe corrects a growing literature: the
-linear fluctuation symmetry $s(Q)=[2\avg{Q}/\Var(Q)]\,Q$, which this and related
-systems display and which is naturally read as a fluctuation theorem, is an
-algebraic identity satisfied by any Gaussian variable. The physical content of
-market counting statistics lies entirely in the departures from it.
+Counting statistics can separate broad transfer sizes from temporal
+organisation in a market. We treat signed order flow as a transferred current
+and construct a stratified permutation null that preserves its empirical
+marginal, pairing with activity, quarterly drift, and hour-of-week seasonality,
+while destroying cross-candle ordering. For four cryptocurrency assets, the
+weekly counting variance exceeds the null median by factors $2.20$--$3.37$.
+This ratio is independent of the transfer-size normalisation. A calibration on $14.8$ million
+individual trades shows why the absolute Fano level is not itself a memory
+test. Independently, the measured correlation kernel predicts
+$\Var(Q_T)\sim T^{2-a}$, and drift-resistant estimators confirm superdiffusive
+growth. A noninteracting transport calculation provides a calibrated
+benchmark, while the robust empirical result is memory-amplified counting noise
+beyond the size-preserving null.
 \end{abstract}
 
 \maketitle
@@ -90,9 +80,9 @@ candles, and
 \begin{equation}
   s(Q)=\ln\frac{P(Q_T=+Q)}{P(Q_T=-Q)}
 \end{equation}
-its fluctuation symmetry function. Analysis code and all logs are available
-\cite{code_keldysh_finance}; the measurement and the model are developed at
-length in companion papers \cite{paper1,paper2}.
+its fluctuation symmetry function. Analysis code, deposited numerical outputs,
+and data provenance are available \cite{code_keldysh_finance}; the measurement
+and model are developed at length in a companion article \cite{combined_pre}.
 
 \paragraph*{The identity.}
 For a Gaussian $Q_T$ with mean $m_T$ and variance $V_T$,
@@ -106,73 +96,69 @@ $\chi\to-A_T-\chi$ with $A_T=2m_T/V_T$ returns $F_T(\chi)$ identically, so the
 Gallavotti--Cohen symmetry \cite{gallavotti1995,lebowitz1999} is satisfied as
 well.
 
-The consequence is worth stating without hedging. \emph{A measured linear
-fluctuation symmetry whose slope equals $2\avg{Q}/\Var(Q)$ is not evidence of a
-nontrivial fluctuation theorem.} It confirms that the estimator agrees with the
-first two moments, and nothing more. In our data the measured affinity tracks
-$2\avg{Q_T}/\Var(Q_T)$ across all windows and assets, and the cubic coefficient
-of $s(Q)$ is consistent with zero where the data have power to resolve it
-($c_3=0.024\pm0.119$ for one series at $T=16$) --- which is exactly what
-Eq.~\eqref{eq:identity} demands and therefore carries no information about the
-market.
+The consequence is a methodological guardrail. \emph{A measured linear
+fluctuation symmetry whose slope equals $2\avg{Q}/\Var(Q)$ is not, by itself,
+evidence of a nontrivial fluctuation theorem.} The measured affinity tracks this
+Gaussian slope across windows and assets. Cubic fits to $s(Q)$ and independently
+measured higher cumulants are reported in the Supplemental Material; the latter
+do not converge uniformly to zero with scale, so we neither impose Gaussianity
+nor define a Gaussian crossover scale \cite{supplement}. Agreement with
+Eq.~\eqref{eq:identity} therefore does not distinguish a nontrivial symmetry from
+its Gaussian null explanation.
 
-This is a negative result, but it is the load-bearing one: it tells us that
-anything informative must be sought in departures from Gaussianity, and it tells
-us where to look.
-
-\paragraph*{Bunching beyond free transport.}
-The first departure is large. Because the carriers here are trades with a broad
-size distribution, the Fano factor must be referred to the Poisson expectation
-for carriers of the typical size rather than to the net transferred charge:
+\paragraph*{Memory amplification beyond the marginal.}
+Because trades have a broad size distribution, the absolute Fano factor depends
+on the chosen transfer quantum,
 \begin{equation}
   \mathcal{F}(T)=\frac{\Var(Q_T)}{\bar q^{\,2}\,\avg{N_T}} ,
   \label{eq:fano}
 \end{equation}
-with $\bar q$ the median traded volume per trade --- the effective transfer
-quantum --- and $N_T$ the number of trades in the window. A Poisson stream of
-$N_T$ independent transfers of size $\pm\bar q$ gives $\mathcal{F}=1$
-identically, so Eq.~\eqref{eq:fano} is the noise-to-Poisson ratio and is
-directly comparable with the device value below. Measured at $T=1$ it ranges
-from $905$ to $3342$ across the eight series studied, and grows as $T^{0.19}$
-to $T^{0.28}$ [Fig.~\ref{fig:fano}]. The counting variance grows
-superdiffusively, with log-slopes of $1.22$ to $1.37$ --- and $1.10$ to $1.36$
-under the drift-blind estimators introduced below, so the excess over unity
-does not rest on the mean --- against $[0.90,1.14]$ for a permutation null that
-preserves the marginal distribution while destroying memory.
+where $N_T$ is the number of trades. Hourly candles do not contain individual
+sizes: the earlier estimator $\bar q_{\rm proxy}=\operatorname{median}_t
+(V_t/N_t)$ is a median of hourly \emph{mean} sizes. Public trade files for one
+complete UTC day contain $9.80$ million BTCUSDT and $4.97$ million ETHUSDT
+operations. Aggregating them reproduces hourly volume, taker-buy volume, and
+trade count to machine precision. Their exact median sizes are smaller than
+$\bar q_{\rm proxy}$ by factors $87.5$ and $71.6$, respectively. Thus the
+previous absolute $\mathcal F$ values were conservative, but their magnitude is
+normalisation-sensitive; moreover, even an independent compound-Poisson process
+has $\mathcal F=\avg{q^2}/\bar q^2$ and can be large without memory.
 
-To fix what this excludes, we computed the same quantities for an explicit
-transport device: a single level between two biased leads with a structured
-hybridisation, evolved through a bias quench with nonequilibrium Green functions
-\cite{jauho1994} and counted with the standard construction
-\cite{levitov1996,schoenhammer2007}. Numerical controls bound the calculation
---- unitarity to $8\times10^{-16}$, and agreement between the zero-frequency
-noise and the second counting cumulant, computed by independent routes, to
-$1.3\times10^{-9}$. The device returns $\mathcal{F}=0.332$--$0.341$ and a
-variance exponent running from $0.94$ to $0.99$.
+We therefore test memory with a ratio in which $\bar q$ cancels. We retain only
+complete Monday--Sunday UTC weeks, remove the mean separately in every
+quarter--hour-of-week stratum, and jointly permute $(\eps_t,N_t)$ within each
+stratum. This preserves the empirical flow-size distribution, the pairing of
+flow with activity, intraweek seasonality, and quarterly scale changes; it
+destroys only the ordering across candles. From $9999$ permutations,
+$\mathcal F_{\rm obs}/\operatorname{median}(\mathcal F_{\rm null})$ is $2.74$,
+$3.37$, $2.20$, and $2.54$ for BTC, ETH, BNB, and SOL [Fig.~\ref{fig:fano}].
+All four therefore show memory amplification beyond their preserved marginals.
+The ratio remains above two with monthly conditioning, but falls below two for
+BTC and BNB with biweekly strata; all four still exceed the $98.75$th null
+percentile. Finer conditioning removes part of the low-frequency organisation,
+so this is a scale sensitivity rather than partition invariance. The stronger
+$\mathcal F_{\rm obs}>2Q_{0.9875}(\mathcal F_{\rm null})$ screen is reported only
+as a partition-specific diagnostic \cite{supplement}.
 
-The gap is three to four orders of magnitude in level and qualitative in growth,
-and it cannot be closed by tuning. Sub-Poissonian noise is the Pauli
-antibunching of free fermions and is bounded above by unity for any coupling,
-bias or temperature; diffusive growth is what finite-memory single-channel
-transport gives at long times. Because these are bounds on statistics rather
-than on parameters, the measured values require two separable ingredients: a
-heavy-tailed distribution of transfer sizes for the level, since a compound
-process gives $\mathcal{F}\sim\avg{q^2}/\bar q^{2}$, and genuine long memory for
-the growth. This places the missing physics in the interaction between order
-flow and available liquidity, which is where the microscopic account of
-order splitting puts it \cite{lillo2005,sato2023prl,sato2023prr}.
+For scale, we also compute a single-level, two-terminal noninteracting device
+with nonequilibrium Green functions \cite{jauho1994} and standard counting
+fields \cite{levitov1996,schoenhammer2007}. Under its conventional
+normalisation it yields $\mathcal F=0.332$--$0.341$ and a variance exponent
+$0.94$--$0.99$. This is a calibrated reference for short-memory fermionic
+transport, not a universal bound on a market statistic with heterogeneous
+classical transfer sizes. The exclusion in the data comes instead from the
+size-preserving temporal null.
 
 \begin{figure}[t]
-  \includegraphics[width=\columnwidth]{../output/figuras/fig4_fano.png}
-  \caption{Fano factor of the transferred signed flow against counting window,
-  hourly data. The level is of order $10^{3}$ and grows with $T$. A free-fermion
-  counting problem is bounded below the dashed Poisson line, and the explicit
-  device calculation described in the text returns $\mathcal{F}=0.33$.}
+  \includegraphics[width=\columnwidth]{../output/figuras/fig12_fano_memory_null.pdf}
+  \caption{Normalisation-free weekly memory amplification. Points are ratios to
+  the null median; bars map its central $95\%$ interval into ratio space. The
+  null preserves sizes, activity, seasonality, and quarterly drift.}
   \label{fig:fano}
 \end{figure}
 
-\paragraph*{A crossover prediction, and its test.}
-The second departure is more specific, and it is predictive. For a single
+\paragraph*{An independent scaling test.}
+The same memory-amplification claim has a prediction in another observable. For a single
 power-law kernel $C_\eps(\tau)=A\tau^{-a}$ with $0<a<1$,
 \begin{equation}
   V_T=\!\!\sum_{t,t'=1}^{T}\!\!C_\eps(t-t')
@@ -197,24 +183,21 @@ here a band $[1.00,1.83]$.
 
 The prediction has no free parameters and crosses observable families: $a_f$ and
 $a_s$ are measured in the correlation sector, $\nu$ in the counting sector, so
-the test cannot be circular. It is confirmed. The measured exponent lies inside
+the test cannot be circular. The measured exponent lies inside
 the predicted band, and exceeds unity in every asset:
 $\nu=1.31$--$1.43$ from the block variance and $1.10$--$1.36$ from three
 estimators built to be insensitive to the mean (below), against $\nu=1$ for the
-free-fermion device and $[0.90,1.14]$ for a permutation null that preserves the
+calibrated noninteracting device and $[0.90,1.14]$ for a simpler permutation null that preserves the
 marginal distribution and destroys memory. Superdiffusive growth of the
 counting variance is a statement about memory alone, and it is what the
 correlation sector demands.
 
-The apparent \emph{drift} of the local exponent, however, is not identified,
-and we flag it rather than claim it. $V_T$ is a sample variance over
-non-overlapping blocks, so a drift in the per-block mean enters it with a term
-growing as $T^2$ --- steeper than the kernel allows and biased the same way. The
-flow does drift: it carries a persistent sell-side bias and modulates with the
-daily cycle. The Haar difference between adjacent blocks separates the two,
+The apparent \emph{drift} of the local exponent is not identified. A drifting
+block mean adds a $T^2$ term to $V_T$, steeper than the kernel allows. The Haar
+(db1) difference between adjacent blocks separates the two,
 since $\Var(Q_T^{(2)}-Q_T^{(1)})=4V_T-V_{2T}=A(4-2^{\nu})T^{\nu}$ carries the
-same exponent with a constant mean cancelled exactly, and filters with more
-vanishing moments remove linear and quadratic drifts as well
+same exponent with a constant mean cancelled exactly. Applied directly to the
+flow, db2 additionally removes linear drift and db3 quadratic drift
 \cite{daubechies1992}. All four estimators agree to $0.01$ on synthetic series
 of known $\nu$, and the injected drift moves only the block one --- so the
 comparison has the required sensitivity. On the data the block estimator is the
@@ -225,7 +208,8 @@ neither reproduce the crossover nor exclude it, their local slopes carrying
 errors of $\pm0.05$ to $\pm0.22$ against a claimed excursion of $0.28$. We
 therefore report Eq.~\eqref{eq:crossover} as consistent with the data and not
 discriminated by them, and make no inference from it against a one-component
-bath.
+bath. The db1--db3 values and local slopes are tabulated in the Supplemental
+Material \cite{supplement}.
 
 A corollary of Eq.~\eqref{eq:identity} combined with
 Eq.~\eqref{eq:varscaling} is that the affinity must dilute with scale as
@@ -236,11 +220,11 @@ for the two whose affinity sits at the noise level --- failing, that is,
 precisely where the predicted quantity is not determined.
 
 \begin{figure}[t]
-  \includegraphics[width=\columnwidth]{../output/figuras/fig9_crossover_exponente.png}
+  \includegraphics[width=0.94\columnwidth]{../output/figuras/fig9_crossover_exponente.png}
   \caption{Test of Eq.~\eqref{eq:varscaling}. (a) The local logarithmic slope
   of the block counting variance against window size, in all four assets,
   within the band set by the two correlation exponents measured independently.
-  The band is the confirmed prediction; the upward drift within it is not
+  Membership in the band is a consistency test; the upward drift within it is not
   identified, since a drifting mean inflates this estimator and drift-blind
   estimators do not reproduce the drift (text). (b) The parameter-free
   affinity dilution against the measured ratio; filled symbols mark assets with
@@ -249,24 +233,19 @@ precisely where the predicted quantity is not determined.
 \end{figure}
 
 \paragraph*{Discussion.}
-Three statements, in the order in which they constrain each other. The
-second-order counting sector of order flow is closed and empty: its fluctuation
-symmetry is an identity, and its variance is the autocorrelation. The counting
-sector beyond second order is not empty and is not reachable by free transport,
-by margins that are set by statistics rather than by parameters. And the memory
-that produces the excess is two-component, in a way that makes a falsifiable and
-parameter-free prediction about the counting variance which the data confirm.
+The absolute Fano level is not a memory diagnostic because it depends on transfer
+sizes and the declared quantum. By contrast, the quarterly size-, activity-,
+seasonality-, and drift-preserving null leaves a factor above two in every asset;
+finer conditioning locates part of that excess beyond two-week scales. The same
+long memory independently predicts the superdiffusive counting variance. The two
+measurements thus close on one result: signed order flow carries
+memory-amplified noise that its one-point statistics cannot explain.
 
-We would emphasise the methodological point alongside the physical one. The
-appeal of a fluctuation-theorem reading of markets is that a log-ratio of
-forward and reversed distributions is easy to measure and lands on a clean
-straight line. Equation~\eqref{eq:identity} says that the straight line is
-guaranteed for any Gaussian observable, so its appearance is not a discovery,
-and the slope is not an independent parameter. As statistical-physics
-descriptions of markets continue to be developed, we think this distinction is
-worth having explicitly, because the informative content lives entirely on the
-other side of it --- in the Fano factor, in the higher cumulants, and in the
-scale dependence of the memory.
+The methodological point is equally important. A linear forward--reverse
+log-ratio is guaranteed for any Gaussian observable, so its appearance alone is
+not a discovery and its slope need not be independent. The informative content
+lies instead in normalisation-free null comparisons, higher cumulants, and the
+scale dependence of memory.
 
 \begin{acknowledgments}
 \end{acknowledgments}

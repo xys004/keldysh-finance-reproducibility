@@ -39,8 +39,8 @@ TRES OBSERVABLES
        s(Q) := ln[ P(Q_T=Q) / P(Q_T=−Q) ] = A·Q      (lineal, pendiente A)
 
    con A la afinidad — el sesgo termodinámico, el análogo de eV/kT. Para Q
-   gaussiana la relación es EXACTA con A = 2μ/σ², así que la curvatura c₃ de
-   s(Q) mide directamente cuánto se aparta la cola del régimen gaussiano.
+   gaussiana la relación es EXACTA con A = 2μ/σ². Denotamos por b₃ la
+   curvatura cúbica de s(Q), para no confundirla con el tercer cumulante κ₃.
    HONESTIDAD FÍSICA: GC se deriva de microreversibilidad + estado
    estacionario y un mercado no garantiza ninguna; aquí la simetría es una
    PREDICCIÓN RÍGIDA DE UN PARÁMETRO que se contrasta, y medir cómo se rompe
@@ -53,13 +53,14 @@ TRES OBSERVABLES
    exponente de κ₂ tiene que REENCONTRAR el γ ya medido por la ACF, por una
    vía independiente (varianzas de sumas, no correlaciones).
 
-3. El FACTOR DE FANO. F(T) = Var(Q_T) / (q̄²·⟨N_T⟩), con q̄ el "cuanto de
-   carga" (volumen mediano por trade, columna `trades` de las klines) y N_T
-   los trades por ventana. El nulo son N trades independientes de tamaño ±q̄:
-   F=1. F≫1 es bunching de portadores — que en mercados ES el order
-   splitting, el mecanismo microscópico documentado a nivel de cuenta
-   (arXiv:2308.01112) detrás de la memoria de Lillo-Farmer. Con memoria
-   τ^γ, F(T) crece como T^(1+γ).
+3. El FACTOR DE FANO. F(T) = Var(Q_T) / (q̄²·⟨N_T⟩). Las klines no contienen
+   tamaños individuales: `Volume/trades` es el tamaño MEDIO de cada vela, no
+   la mediana por trade. Por compatibilidad histórica este módulo usa la
+   mediana de esos promedios horarios como proxy declarado. La calibración
+   exacta con archivos `trades` vive en `trade_validation.py`. El nivel
+   absoluto depende de q̄ y de la distribución de tamaños; el cociente contra
+   el nulo estratificado de `fano_validation.py` cancela q̄ y es el diagnóstico
+   de memoria.
 
 QUÉ NO ES ESTE MÓDULO
 ---------------------
@@ -126,19 +127,22 @@ def symmetry_function(Q: np.ndarray, n_bins: int = 15,
 
 
 def fit_affinity(q: np.ndarray, s: np.ndarray, se: np.ndarray) -> dict:
-    r"""Ajusta la simetría: s = A·q (GC) y s = A·q + c₃·q³ (curvatura).
+    r"""Ajusta la simetría: s = A·q (GC) y s = A·q + b₃·q³ (curvatura).
 
     s(q) es impar por construcción, así que el desarrollo sólo tiene términos
-    impares y el primer test de no-linealidad es c₃. La simetría de
-    intercambio exige c₃ = 0; un c₃ incompatible con cero significa que la
+    impares y el primer test de no-linealidad es b₃. La simetría de
+    intercambio exige b₃ = 0; un b₃ incompatible con cero significa que la
     "afinidad" depende de la escala de Q — la simetría se rompe y no hay un
     solo sesgo termodinámico que resuma el transporte.
 
     Returns
     -------
-    dict con A, se_A, chi2_dof (del ajuste lineal), c3, se_c3, n_bins.
+    dict con A, se_A, chi2_dof (del ajuste lineal), b3, se_b3, n_bins.
+    Las claves históricas ``c3`` y ``se_c3`` se conservan como alias para
+    poder leer logs anteriores, pero no deben usarse en texto científico.
     """
     out = {"A": np.nan, "se_A": np.nan, "chi2_dof": np.nan,
+           "b3": np.nan, "se_b3": np.nan,
            "c3": np.nan, "se_c3": np.nan, "n_bins": int(len(q))}
     if len(q) < 3 or np.any(se <= 0):
         return out
@@ -158,11 +162,102 @@ def fit_affinity(q: np.ndarray, s: np.ndarray, se: np.ndarray) -> dict:
         try:
             cov = np.linalg.inv(XtW @ X)
             beta = cov @ (XtW @ s)
-            out["c3"] = float(beta[1])
-            out["se_c3"] = float(np.sqrt(max(cov[1, 1], 0.0)))
+            out["b3"] = out["c3"] = float(beta[1])
+            out["se_b3"] = out["se_c3"] = float(np.sqrt(max(cov[1, 1], 0.0)))
         except np.linalg.LinAlgError:
             pass
     return out
+
+
+def standardized_cumulants(values: np.ndarray) -> dict:
+    r"""Unbiased sample skewness and excess kurtosis of a one-dimensional sample.
+
+    These are the standardised third and fourth cumulants,
+    ``gamma1 = kappa3/kappa2^(3/2)`` and ``gamma2 = kappa4/kappa2^2``.  They are
+    deliberately named ``gamma1`` and ``gamma2`` rather than ``c3``/``c4`` to
+    keep them distinct from polynomial coefficients in the symmetry function.
+    """
+    x = np.asarray(values, dtype=float)
+    x = x[np.isfinite(x)]
+    if len(x) < 4:
+        return {"n": int(len(x)), "gamma1": np.nan, "gamma2": np.nan}
+    g1, g2 = _standardized_moments_matrix(x[None, :])
+    return {"n": int(len(x)), "gamma1": float(g1[0]), "gamma2": float(g2[0])}
+
+
+def block_bootstrap_standardized_cumulants(
+    values: np.ndarray,
+    block_length: int,
+    replicates: int = 999,
+    seed: int = 0,
+    batch_size: int = 16,
+) -> dict:
+    r"""Circular moving-block bootstrap intervals for gamma1 and gamma2.
+
+    The resampling unit is a contiguous block of the already non-overlapping
+    ``Q_T`` sequence.  A circular construction avoids discarding boundary
+    observations.  The caller chooses ``block_length`` in units of Q windows;
+    the publication experiment uses four weeks of clock time at every T.
+    """
+    x = np.asarray(values, dtype=float)
+    x = x[np.isfinite(x)]
+    n = len(x)
+    block_length = int(block_length)
+    replicates = int(replicates)
+    batch_size = int(batch_size)
+    if n < 30:
+        raise ValueError("at least 30 finite observations are required")
+    if not (1 <= block_length <= n):
+        raise ValueError("block_length must lie in [1, n]")
+    if replicates < 99:
+        raise ValueError("at least 99 bootstrap replicates are required")
+    if batch_size < 1:
+        raise ValueError("batch_size must be positive")
+
+    observed = standardized_cumulants(x)
+    rng = np.random.default_rng(seed)
+    n_blocks = int(np.ceil(n / block_length))
+    offsets = np.arange(block_length, dtype=int)
+    boot_g1 = np.empty(replicates, dtype=float)
+    boot_g2 = np.empty(replicates, dtype=float)
+    cursor = 0
+    while cursor < replicates:
+        b = min(batch_size, replicates - cursor)
+        starts = rng.integers(0, n, size=(b, n_blocks, 1))
+        indices = (starts + offsets[None, None, :]) % n
+        samples = x[indices.reshape(b, -1)[:, :n]]
+        g1, g2 = _standardized_moments_matrix(samples)
+        boot_g1[cursor:cursor + b] = g1
+        boot_g2[cursor:cursor + b] = g2
+        cursor += b
+
+    return {
+        **observed,
+        "block_length": block_length,
+        "bootstrap_replicates": replicates,
+        "gamma1_ci95": [float(v) for v in np.quantile(boot_g1, [0.025, 0.975])],
+        "gamma2_ci95": [float(v) for v in np.quantile(boot_g2, [0.025, 0.975])],
+    }
+
+
+def _standardized_moments_matrix(samples: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """Bias-corrected Fisher-Pearson moments, vectorised over rows."""
+    x = np.asarray(samples, dtype=float)
+    if x.ndim != 2 or x.shape[1] < 4:
+        raise ValueError("samples must be a 2D array with at least four columns")
+    n = x.shape[1]
+    centered = x - x.mean(axis=1, keepdims=True)
+    m2 = np.mean(centered ** 2, axis=1)
+    m3 = np.mean(centered ** 3, axis=1)
+    m4 = np.mean(centered ** 4, axis=1)
+    with np.errstate(divide="ignore", invalid="ignore"):
+        raw_g1 = m3 / np.power(m2, 1.5)
+        raw_g2 = m4 / (m2 * m2) - 3.0
+        gamma1 = np.sqrt(n * (n - 1)) / (n - 2) * raw_g1
+        gamma2 = ((n - 1) / ((n - 2) * (n - 3))) * (
+            (n + 1) * raw_g2 + 6.0
+        )
+    return gamma1, gamma2
 
 
 def cumulant_scaling(flow: np.ndarray, T_grid) -> dict:
@@ -210,10 +305,10 @@ def fano_factor(flow_raw: np.ndarray, volume: np.ndarray, trades: np.ndarray,
                 T_grid) -> dict:
     r"""F(T) = Var(Q_T) / (q̄² · ⟨N_T⟩), con Q en unidades de volumen CRUDO.
 
-    q̄ es el volumen MEDIANO por trade de toda la muestra (el cuanto de carga;
-    la mediana y no la media porque la distribución de tamaños tiene cola).
-    ⟨N_T⟩ es el número medio de trades por ventana. El nulo es N_T trades
-    independientes de tamaño ±q̄, que da exactamente F = 1 (Var = N·q̄²).
+    ``q̄`` es aquí la mediana temporal de ``Volume/trades``: un proxy de tamaño
+    medio horario, no la mediana de los tamaños individuales. La distinción es
+    material para el nivel absoluto y se calibra por separado con datos trade a
+    trade. ⟨N_T⟩ es el número medio de trades por ventana.
 
     F se calcula sobre el flujo CRUDO (unidades de volumen) porque el cuanto
     vive en esas unidades; la no-estacionariedad del volumen a 4 años se
@@ -238,7 +333,8 @@ def fano_factor(flow_raw: np.ndarray, volume: np.ndarray, trades: np.ndarray,
                       "fano": float(np.var(Q, ddof=1)
                                     / (q_barra ** 2 * float(np.mean(n_t)))),
                       "trades_por_ventana": float(np.mean(n_t))})
-    out = {"q_barra": q_barra, "tabla": filas, "pendiente_log": np.nan}
+    out = {"q_barra": q_barra, "q_barra_proxy": q_barra,
+           "tabla": filas, "pendiente_log": np.nan}
     if len(filas) >= 3:
         lt = np.log([f["T"] for f in filas])
         lf = np.log([f["fano"] for f in filas])

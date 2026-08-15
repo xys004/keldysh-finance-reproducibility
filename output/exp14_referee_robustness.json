@@ -1,0 +1,877 @@
+{
+  "method": {
+    "cumulants": "bias-corrected standardized cumulants of non-overlapping Q_T; circular moving-block bootstrap with four-week block span",
+    "null": "joint within-(calendar/block period,hour-of-week) permutation; complete UTC weeks; singleton edge strata fixed and reported",
+    "T_grid": [
+      1,
+      2,
+      4,
+      8,
+      16,
+      32,
+      64,
+      128
+    ],
+    "bootstrap_replicates": 999,
+    "null_permutations": 9999,
+    "stratifications": [
+      "quarterly",
+      "monthly",
+      "biweekly"
+    ]
+  },
+  "results": [
+    {
+      "asset": "BTC",
+      "symbol": "BTCUSDT",
+      "n_hourly_candles": 35063,
+      "start_utc": "2022-08-08T19:00:00+00:00",
+      "end_utc": "2026-08-08T18:00:00+00:00",
+      "source_cache": "output\\cache\\flow_BTCUSDT_1h_4.0y.csv",
+      "source_sha256": "e91bcd5acfa2fd289d5bea6726cbdc8c4ab2dfad88e4fa0fa096d19475757e30",
+      "standardized_cumulants": [
+        {
+          "n": 35063,
+          "gamma1": -0.10466596599486948,
+          "gamma2": 1.240780239547379,
+          "block_length": 672,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -0.20099479148728888,
+            -0.024006829547323028
+          ],
+          "gamma2_ci95": [
+            0.8284945495337875,
+            1.843377955053866
+          ],
+          "T": 1
+        },
+        {
+          "n": 17531,
+          "gamma1": -0.16958508895886076,
+          "gamma2": 1.3390086116658235,
+          "block_length": 336,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -0.3003012463481882,
+            -0.05883610404522591
+          ],
+          "gamma2_ci95": [
+            0.8983901943154914,
+            1.917185428999542
+          ],
+          "T": 2
+        },
+        {
+          "n": 8765,
+          "gamma1": -0.23770201709065922,
+          "gamma2": 1.4449132200679546,
+          "block_length": 168,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -0.4082153030848034,
+            -0.08879405598504983
+          ],
+          "gamma2_ci95": [
+            0.9786824873993587,
+            2.017907378546327
+          ],
+          "T": 4
+        },
+        {
+          "n": 4382,
+          "gamma1": -0.3497458444965311,
+          "gamma2": 1.3547486862012625,
+          "block_length": 84,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -0.5550145111940223,
+            -0.15070339574473446
+          ],
+          "gamma2_ci95": [
+            0.8713223671518655,
+            2.0021342711491448
+          ],
+          "T": 8
+        },
+        {
+          "n": 2191,
+          "gamma1": -0.3783872012828187,
+          "gamma2": 0.8641920180487248,
+          "block_length": 42,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -0.6586278428286788,
+            -0.1391708894559061
+          ],
+          "gamma2_ci95": [
+            0.40662084821416966,
+            1.5191620914646988
+          ],
+          "T": 16
+        },
+        {
+          "n": 1095,
+          "gamma1": -0.485065770701311,
+          "gamma2": 0.7712369615871372,
+          "block_length": 21,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -0.7752363439056823,
+            -0.19077918625861856
+          ],
+          "gamma2_ci95": [
+            0.07612556319583362,
+            1.6533735300455332
+          ],
+          "T": 32
+        },
+        {
+          "n": 547,
+          "gamma1": -0.5752548136656921,
+          "gamma2": 0.6545302599068749,
+          "block_length": 11,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -0.9004194207330676,
+            -0.2753329575335817
+          ],
+          "gamma2_ci95": [
+            -0.11420627610165772,
+            1.6806200265859808
+          ],
+          "T": 64
+        },
+        {
+          "n": 273,
+          "gamma1": -0.5511024014079954,
+          "gamma2": 0.11750352422747903,
+          "block_length": 6,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -0.9067291333622002,
+            -0.24400023008802788
+          ],
+          "gamma2_ci95": [
+            -0.45753693574525905,
+            0.8943565270158025
+          ],
+          "T": 128
+        }
+      ],
+      "stratified_nulls": [
+        {
+          "stratification": "quarterly",
+          "horizon_hours": 168,
+          "n_complete_weeks": 206,
+          "n_candles": 34608,
+          "permutations": 9999,
+          "null_quantile_level": 0.9875,
+          "qbar_proxy": 0.012545617545982733,
+          "fano_observed": 6912.418948067926,
+          "fano_null_median": 2517.4829066508637,
+          "fano_null_quantile": 3337.8781679785097,
+          "variance_ratio_to_null_median": 2.74576599102469,
+          "variance_ratio_to_null_quantile": 2.0709021121205975,
+          "above_twice_null_median": true,
+          "above_null_quantile": true,
+          "memory_majority_gate": true,
+          "empirical_p_upper": 0.0001,
+          "n_strata": 2856,
+          "min_stratum_size": 4,
+          "max_stratum_size": 14,
+          "singleton_fraction": 0.0,
+          "null_fano_q025": 1963.4832393657448,
+          "null_fano_q975": 3213.9146077587675
+        },
+        {
+          "stratification": "monthly",
+          "horizon_hours": 168,
+          "n_complete_weeks": 206,
+          "n_candles": 34608,
+          "permutations": 9999,
+          "null_quantile_level": 0.9875,
+          "qbar_proxy": 0.012545617545982733,
+          "fano_observed": 5218.879961620527,
+          "fano_null_median": 2079.629085401555,
+          "fano_null_quantile": 2862.4781396604367,
+          "variance_ratio_to_null_median": 2.5095244138753783,
+          "variance_ratio_to_null_quantile": 1.8232034296826525,
+          "above_twice_null_median": true,
+          "above_null_quantile": true,
+          "memory_majority_gate": false,
+          "empirical_p_upper": 0.0001,
+          "n_strata": 8112,
+          "min_stratum_size": 1,
+          "max_stratum_size": 5,
+          "singleton_fraction": 0.0013869625520110957,
+          "null_fano_q025": 1567.780508720155,
+          "null_fano_q975": 2744.406519103888
+        },
+        {
+          "stratification": "biweekly",
+          "horizon_hours": 168,
+          "n_complete_weeks": 206,
+          "n_candles": 34608,
+          "permutations": 9999,
+          "null_quantile_level": 0.9875,
+          "qbar_proxy": 0.012545617545982733,
+          "fano_observed": 2065.501519587709,
+          "fano_null_median": 1307.6899485633273,
+          "fano_null_quantile": 1970.8562308947103,
+          "variance_ratio_to_null_median": 1.5795040115257744,
+          "variance_ratio_to_null_quantile": 1.0480224215289577,
+          "above_twice_null_median": false,
+          "above_null_quantile": true,
+          "memory_majority_gate": false,
+          "empirical_p_upper": 0.0054,
+          "n_strata": 17472,
+          "min_stratum_size": 1,
+          "max_stratum_size": 2,
+          "singleton_fraction": 0.009708737864077669,
+          "null_fano_q025": 916.6919794541008,
+          "null_fano_q975": 1872.6385219150588
+        }
+      ]
+    },
+    {
+      "asset": "ETH",
+      "symbol": "ETHUSDT",
+      "n_hourly_candles": 35063,
+      "start_utc": "2022-08-08T19:00:00+00:00",
+      "end_utc": "2026-08-08T18:00:00+00:00",
+      "source_cache": "output\\cache\\flow_ETHUSDT_1h_4.0y.csv",
+      "source_sha256": "53c4e41d1c096e7df13d966decb8d6cbba223971b4ab6929e4b1df84c59bbbf6",
+      "standardized_cumulants": [
+        {
+          "n": 35063,
+          "gamma1": -0.08730747559139082,
+          "gamma2": 0.7593089737018714,
+          "block_length": 672,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -0.1513046100133415,
+            -0.02690662843561358
+          ],
+          "gamma2_ci95": [
+            0.5662457463122416,
+            0.9632809464299732
+          ],
+          "T": 1
+        },
+        {
+          "n": 17531,
+          "gamma1": -0.15759918257757574,
+          "gamma2": 1.089256711107571,
+          "block_length": 336,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -0.28114641306033755,
+            -0.04512935883621929
+          ],
+          "gamma2_ci95": [
+            0.740667842497746,
+            1.4690824974658767
+          ],
+          "T": 2
+        },
+        {
+          "n": 8765,
+          "gamma1": -0.2798920865695648,
+          "gamma2": 1.6780044116154593,
+          "block_length": 168,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -0.5129651375759487,
+            -0.07556214238499855
+          ],
+          "gamma2_ci95": [
+            0.9179518535347598,
+            2.547729182313785
+          ],
+          "T": 4
+        },
+        {
+          "n": 4382,
+          "gamma1": -0.40574191851747804,
+          "gamma2": 2.1763081351626252,
+          "block_length": 84,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -0.8024603993526638,
+            -0.08379328561826532
+          ],
+          "gamma2_ci95": [
+            0.7899372931705427,
+            3.9105137479551533
+          ],
+          "T": 8
+        },
+        {
+          "n": 2191,
+          "gamma1": -0.5715962643525095,
+          "gamma2": 3.1840669239760184,
+          "block_length": 42,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -1.141341339011033,
+            -0.08528805238893897
+          ],
+          "gamma2_ci95": [
+            0.5695100901793239,
+            6.185466402562563
+          ],
+          "T": 16
+        },
+        {
+          "n": 1095,
+          "gamma1": -0.7956502412661306,
+          "gamma2": 4.070214574872433,
+          "block_length": 21,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -1.6235443480652194,
+            -0.04955654866460058
+          ],
+          "gamma2_ci95": [
+            0.2618799332375783,
+            7.946483217313779
+          ],
+          "T": 32
+        },
+        {
+          "n": 547,
+          "gamma1": -1.2625286292818356,
+          "gamma2": 8.409583671353646,
+          "block_length": 11,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -2.394551286330797,
+            -0.06222528776840998
+          ],
+          "gamma2_ci95": [
+            0.009923591015000096,
+            15.241481004192211
+          ],
+          "T": 64
+        },
+        {
+          "n": 273,
+          "gamma1": -1.399073707969258,
+          "gamma2": 8.528319722224401,
+          "block_length": 6,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -2.560371572963874,
+            0.07203128553368539
+          ],
+          "gamma2_ci95": [
+            -0.3491206408435675,
+            14.226922517643876
+          ],
+          "T": 128
+        }
+      ],
+      "stratified_nulls": [
+        {
+          "stratification": "quarterly",
+          "horizon_hours": 168,
+          "n_complete_weeks": 206,
+          "n_candles": 34608,
+          "permutations": 9999,
+          "null_quantile_level": 0.9875,
+          "qbar_proxy": 0.239260785370409,
+          "fano_observed": 5243.222213790347,
+          "fano_null_median": 1560.7202451045782,
+          "fano_null_quantile": 1997.8158080465307,
+          "variance_ratio_to_null_median": 3.3594888194962946,
+          "variance_ratio_to_null_quantile": 2.6244772879824105,
+          "above_twice_null_median": true,
+          "above_null_quantile": true,
+          "memory_majority_gate": true,
+          "empirical_p_upper": 0.0001,
+          "n_strata": 2856,
+          "min_stratum_size": 4,
+          "max_stratum_size": 14,
+          "singleton_fraction": 0.0,
+          "null_fano_q025": 1237.0501377173287,
+          "null_fano_q975": 1949.0342054820553
+        },
+        {
+          "stratification": "monthly",
+          "horizon_hours": 168,
+          "n_complete_weeks": 206,
+          "n_candles": 34608,
+          "permutations": 9999,
+          "null_quantile_level": 0.9875,
+          "qbar_proxy": 0.239260785370409,
+          "fano_observed": 4230.35231265707,
+          "fano_null_median": 1304.2018056917893,
+          "fano_null_quantile": 1754.0508407095172,
+          "variance_ratio_to_null_median": 3.243633227768121,
+          "variance_ratio_to_null_quantile": 2.411761514817828,
+          "above_twice_null_median": true,
+          "above_null_quantile": true,
+          "memory_majority_gate": true,
+          "empirical_p_upper": 0.0001,
+          "n_strata": 8112,
+          "min_stratum_size": 1,
+          "max_stratum_size": 5,
+          "singleton_fraction": 0.0013869625520110957,
+          "null_fano_q025": 1005.9629109408128,
+          "null_fano_q975": 1690.0049139734592
+        },
+        {
+          "stratification": "biweekly",
+          "horizon_hours": 168,
+          "n_complete_weeks": 206,
+          "n_candles": 34608,
+          "permutations": 9999,
+          "null_quantile_level": 0.9875,
+          "qbar_proxy": 0.239260785370409,
+          "fano_observed": 2306.2090677756055,
+          "fano_null_median": 831.9261889348321,
+          "fano_null_quantile": 1241.0938863524025,
+          "variance_ratio_to_null_median": 2.7721318290609305,
+          "variance_ratio_to_null_quantile": 1.8582067747941262,
+          "above_twice_null_median": true,
+          "above_null_quantile": true,
+          "memory_majority_gate": false,
+          "empirical_p_upper": 0.0001,
+          "n_strata": 17472,
+          "min_stratum_size": 1,
+          "max_stratum_size": 2,
+          "singleton_fraction": 0.009708737864077669,
+          "null_fano_q025": 585.2138554444218,
+          "null_fano_q975": 1174.4956575441172
+        }
+      ]
+    },
+    {
+      "asset": "BNB",
+      "symbol": "BNBUSDT",
+      "n_hourly_candles": 35063,
+      "start_utc": "2022-08-08T19:00:00+00:00",
+      "end_utc": "2026-08-08T18:00:00+00:00",
+      "source_cache": "output\\cache\\flow_BNBUSDT_1h_4.0y.csv",
+      "source_sha256": "1cc0039d0c5bb89052616eb2e49b3f48ca0ae7fd4d9a04cd4fe8e4aa88501232",
+      "standardized_cumulants": [
+        {
+          "n": 35063,
+          "gamma1": 0.01785744182766396,
+          "gamma2": 0.5449289474895106,
+          "block_length": 672,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -0.03723922176890516,
+            0.0759692388953775
+          ],
+          "gamma2_ci95": [
+            0.3569673823877419,
+            0.7497497865616387
+          ],
+          "T": 1
+        },
+        {
+          "n": 17531,
+          "gamma1": 0.004229709270705033,
+          "gamma2": 0.8555103562767448,
+          "block_length": 336,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -0.07399283480102732,
+            0.08740810962840767
+          ],
+          "gamma2_ci95": [
+            0.5675436068533795,
+            1.2003647988710755
+          ],
+          "T": 2
+        },
+        {
+          "n": 8765,
+          "gamma1": -0.08832112314207413,
+          "gamma2": 1.124460249383654,
+          "block_length": 168,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -0.20671562378339176,
+            0.038864875422287594
+          ],
+          "gamma2_ci95": [
+            0.8070313711148777,
+            1.4434062363969014
+          ],
+          "T": 4
+        },
+        {
+          "n": 4382,
+          "gamma1": -0.18998120279492825,
+          "gamma2": 1.5281724097144267,
+          "block_length": 84,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -0.3498778474961447,
+            -0.011804807443015477
+          ],
+          "gamma2_ci95": [
+            0.9954807902761854,
+            2.0406802120473517
+          ],
+          "T": 8
+        },
+        {
+          "n": 2191,
+          "gamma1": -0.31877364073856307,
+          "gamma2": 1.5785378243852994,
+          "block_length": 42,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -0.5647013627380209,
+            -0.02359996578046799
+          ],
+          "gamma2_ci95": [
+            0.8404070361341444,
+            2.2683802559964463
+          ],
+          "T": 16
+        },
+        {
+          "n": 1095,
+          "gamma1": -0.45674991817847677,
+          "gamma2": 1.9148783469432047,
+          "block_length": 21,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -0.7732850071143729,
+            -0.061779798613459315
+          ],
+          "gamma2_ci95": [
+            0.662032121597209,
+            2.8761762857463475
+          ],
+          "T": 32
+        },
+        {
+          "n": 547,
+          "gamma1": -0.5133564052890902,
+          "gamma2": 1.5197072015508866,
+          "block_length": 11,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -0.8392016679293979,
+            -0.07616854571030823
+          ],
+          "gamma2_ci95": [
+            0.577056078733383,
+            2.475393602798581
+          ],
+          "T": 64
+        },
+        {
+          "n": 273,
+          "gamma1": -0.6289314905232846,
+          "gamma2": 1.600399268062088,
+          "block_length": 6,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -1.0643670329737258,
+            -0.07323536367373634
+          ],
+          "gamma2_ci95": [
+            0.17387661882419783,
+            2.9092558595719047
+          ],
+          "T": 128
+        }
+      ],
+      "stratified_nulls": [
+        {
+          "stratification": "quarterly",
+          "horizon_hours": 168,
+          "n_complete_weeks": 206,
+          "n_candles": 34608,
+          "permutations": 9999,
+          "null_quantile_level": 0.9875,
+          "qbar_proxy": 0.5907362417089438,
+          "fano_observed": 1895.3047402874984,
+          "fano_null_median": 862.9146618976523,
+          "fano_null_quantile": 1123.7739891619062,
+          "variance_ratio_to_null_median": 2.196398814361894,
+          "variance_ratio_to_null_quantile": 1.686553309265494,
+          "above_twice_null_median": true,
+          "above_null_quantile": true,
+          "memory_majority_gate": false,
+          "empirical_p_upper": 0.0001,
+          "n_strata": 2856,
+          "min_stratum_size": 4,
+          "max_stratum_size": 14,
+          "singleton_fraction": 0.0,
+          "null_fano_q025": 676.8211422271888,
+          "null_fano_q975": 1093.3958581852476
+        },
+        {
+          "stratification": "monthly",
+          "horizon_hours": 168,
+          "n_complete_weeks": 206,
+          "n_candles": 34608,
+          "permutations": 9999,
+          "null_quantile_level": 0.9875,
+          "qbar_proxy": 0.5907362417089438,
+          "fano_observed": 1476.8448465993447,
+          "fano_null_median": 710.0907675820347,
+          "fano_null_quantile": 959.4547988527513,
+          "variance_ratio_to_null_median": 2.079797279477696,
+          "variance_ratio_to_null_quantile": 1.539254218505397,
+          "above_twice_null_median": true,
+          "above_null_quantile": true,
+          "memory_majority_gate": false,
+          "empirical_p_upper": 0.0001,
+          "n_strata": 8112,
+          "min_stratum_size": 1,
+          "max_stratum_size": 5,
+          "singleton_fraction": 0.0013869625520110957,
+          "null_fano_q025": 538.938727933101,
+          "null_fano_q975": 928.3349861480218
+        },
+        {
+          "stratification": "biweekly",
+          "horizon_hours": 168,
+          "n_complete_weeks": 206,
+          "n_candles": 34608,
+          "permutations": 9999,
+          "null_quantile_level": 0.9875,
+          "qbar_proxy": 0.5907362417089438,
+          "fano_observed": 809.4257404446831,
+          "fano_null_median": 460.7855348915272,
+          "fano_null_quantile": 697.7840089171887,
+          "variance_ratio_to_null_median": 1.7566214196268741,
+          "variance_ratio_to_null_quantile": 1.1599946833128758,
+          "above_twice_null_median": false,
+          "above_null_quantile": true,
+          "memory_majority_gate": false,
+          "empirical_p_upper": 0.0013,
+          "n_strata": 17472,
+          "min_stratum_size": 1,
+          "max_stratum_size": 2,
+          "singleton_fraction": 0.009708737864077669,
+          "null_fano_q025": 317.5729926907488,
+          "null_fano_q975": 658.7235197113241
+        }
+      ]
+    },
+    {
+      "asset": "SOL",
+      "symbol": "SOLUSDT",
+      "n_hourly_candles": 35063,
+      "start_utc": "2022-08-08T19:00:00+00:00",
+      "end_utc": "2026-08-08T18:00:00+00:00",
+      "source_cache": "output\\cache\\flow_SOLUSDT_1h_4.0y.csv",
+      "source_sha256": "1bc25832b803ab7db07ee5ff621c2abfbdd095e9e5e9f37366a60af8b2578aa1",
+      "standardized_cumulants": [
+        {
+          "n": 35063,
+          "gamma1": -0.0236326531654476,
+          "gamma2": 0.613806537759043,
+          "block_length": 672,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -0.06804602517992427,
+            0.0239698457979622
+          ],
+          "gamma2_ci95": [
+            0.4356207850236551,
+            0.7965165190120126
+          ],
+          "T": 1
+        },
+        {
+          "n": 17531,
+          "gamma1": -0.053652282053448075,
+          "gamma2": 0.7215530205257125,
+          "block_length": 336,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -0.12057568521975397,
+            0.015481768164802515
+          ],
+          "gamma2_ci95": [
+            0.4876812171223816,
+            0.9268448540171629
+          ],
+          "T": 2
+        },
+        {
+          "n": 8765,
+          "gamma1": -0.08548889817280124,
+          "gamma2": 0.9641029472852942,
+          "block_length": 168,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -0.17684896047140108,
+            -0.001834250320053124
+          ],
+          "gamma2_ci95": [
+            0.7165222749139717,
+            1.214366097820873
+          ],
+          "T": 4
+        },
+        {
+          "n": 4382,
+          "gamma1": -0.060506359674782816,
+          "gamma2": 1.0754177467129344,
+          "block_length": 84,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -0.2274214210940646,
+            0.0938234060737604
+          ],
+          "gamma2_ci95": [
+            0.7493139530662739,
+            1.3736742974811256
+          ],
+          "T": 8
+        },
+        {
+          "n": 2191,
+          "gamma1": -0.1612387732523587,
+          "gamma2": 0.8915425226945137,
+          "block_length": 42,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -0.35215016934230925,
+            0.04894259659925268
+          ],
+          "gamma2_ci95": [
+            0.46920282720804174,
+            1.2750013166260759
+          ],
+          "T": 16
+        },
+        {
+          "n": 1095,
+          "gamma1": -0.16771812599660843,
+          "gamma2": 0.8906658509290465,
+          "block_length": 21,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -0.451602521294438,
+            0.13723912250256542
+          ],
+          "gamma2_ci95": [
+            0.3642196806020448,
+            1.3065651226789703
+          ],
+          "T": 32
+        },
+        {
+          "n": 547,
+          "gamma1": -0.4670076217780532,
+          "gamma2": 1.3057870568820609,
+          "block_length": 11,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -0.8515415772538373,
+            -0.00943600970881249
+          ],
+          "gamma2_ci95": [
+            0.17059817353583193,
+            2.151671643764678
+          ],
+          "T": 64
+        },
+        {
+          "n": 273,
+          "gamma1": -0.46538181276119994,
+          "gamma2": 1.1745487444610914,
+          "block_length": 6,
+          "bootstrap_replicates": 999,
+          "gamma1_ci95": [
+            -0.8785837298029361,
+            0.11675832151112489
+          ],
+          "gamma2_ci95": [
+            0.08461884105284291,
+            2.006816979568395
+          ],
+          "T": 128
+        }
+      ],
+      "stratified_nulls": [
+        {
+          "stratification": "quarterly",
+          "horizon_hours": 168,
+          "n_complete_weeks": 206,
+          "n_candles": 34608,
+          "permutations": 9999,
+          "null_quantile_level": 0.9875,
+          "qbar_proxy": 3.8499067300957677,
+          "fano_observed": 2397.6757278365467,
+          "fano_null_median": 942.8587486394398,
+          "fano_null_quantile": 1192.312371220237,
+          "variance_ratio_to_null_median": 2.5429850773474088,
+          "variance_ratio_to_null_quantile": 2.010945944796929,
+          "above_twice_null_median": true,
+          "above_null_quantile": true,
+          "memory_majority_gate": true,
+          "empirical_p_upper": 0.0001,
+          "n_strata": 2856,
+          "min_stratum_size": 4,
+          "max_stratum_size": 14,
+          "singleton_fraction": 0.0,
+          "null_fano_q025": 757.3183468778526,
+          "null_fano_q975": 1155.7252591763138
+        },
+        {
+          "stratification": "monthly",
+          "horizon_hours": 168,
+          "n_complete_weeks": 206,
+          "n_candles": 34608,
+          "permutations": 9999,
+          "null_quantile_level": 0.9875,
+          "qbar_proxy": 3.8499067300957677,
+          "fano_observed": 1666.2853046708485,
+          "fano_null_median": 787.3199464399146,
+          "fano_null_quantile": 1020.1581602815855,
+          "variance_ratio_to_null_median": 2.116401740112669,
+          "variance_ratio_to_null_quantile": 1.6333597764986931,
+          "above_twice_null_median": true,
+          "above_null_quantile": true,
+          "memory_majority_gate": false,
+          "empirical_p_upper": 0.0001,
+          "n_strata": 8112,
+          "min_stratum_size": 1,
+          "max_stratum_size": 5,
+          "singleton_fraction": 0.0013869625520110957,
+          "null_fano_q025": 618.798303436403,
+          "null_fano_q975": 988.6303454626126
+        },
+        {
+          "stratification": "biweekly",
+          "horizon_hours": 168,
+          "n_complete_weeks": 206,
+          "n_candles": 34608,
+          "permutations": 9999,
+          "null_quantile_level": 0.9875,
+          "qbar_proxy": 3.8499067300957677,
+          "fano_observed": 1058.6790278308467,
+          "fano_null_median": 511.0458472452933,
+          "fano_null_quantile": 725.363087131025,
+          "variance_ratio_to_null_median": 2.071593054786528,
+          "variance_ratio_to_null_quantile": 1.459515994973168,
+          "above_twice_null_median": true,
+          "above_null_quantile": true,
+          "memory_majority_gate": false,
+          "empirical_p_upper": 0.0002,
+          "n_strata": 17472,
+          "min_stratum_size": 1,
+          "max_stratum_size": 2,
+          "singleton_fraction": 0.009708737864077669,
+          "null_fano_q025": 365.8897825533259,
+          "null_fano_q975": 694.0192146301172
+        }
+      ]
+    }
+  ]
+}

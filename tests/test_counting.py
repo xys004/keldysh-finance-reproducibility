@@ -15,9 +15,16 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from keldysh_finance.counting import (cumulant_scaling, fano_factor,
-                                      fit_affinity, net_charge,
-                                      symmetry_function, synthetic_flow)
+from keldysh_finance.counting import (
+    block_bootstrap_standardized_cumulants,
+    cumulant_scaling,
+    fano_factor,
+    fit_affinity,
+    net_charge,
+    standardized_cumulants,
+    symmetry_function,
+    synthetic_flow,
+)
 
 
 # --- control positivo: valores analíticos conocidos --------------------------
@@ -33,7 +40,9 @@ def test_afinidad_gaussiana_iid_exacta():
     assert abs(fit["A"] - A_teoria) < 3.5 * fit["se_A"] + 0.02, \
         f"A={fit['A']:.4f} vs teoría {A_teoria:.4f}"
     # gaussiano ⇒ sin curvatura
-    assert abs(fit["c3"]) < 3.5 * fit["se_c3"] + 1e-3
+    assert fit["b3"] == fit["c3"]
+    assert fit["se_b3"] == fit["se_c3"]
+    assert abs(fit["b3"]) < 3.5 * fit["se_b3"] + 1e-3
 
 
 def test_escalado_difusivo_iid():
@@ -43,6 +52,26 @@ def test_escalado_difusivo_iid():
     esc = cumulant_scaling(x, [1, 2, 4, 8, 16, 32, 64])
     assert abs(esc["pendiente_k2"] - 1.0) < 0.05, \
         f"pendiente {esc['pendiente_k2']:.3f} vs 1"
+
+
+def test_cumulantes_estandarizados_gaussianos_incluyen_cero():
+    rng = np.random.default_rng(12)
+    x = rng.normal(size=20_000)
+    result = block_bootstrap_standardized_cumulants(
+        x, block_length=64, replicates=199, seed=13, batch_size=8
+    )
+    assert abs(result["gamma1"]) < 0.05
+    assert abs(result["gamma2"]) < 0.10
+    assert result["gamma1_ci95"][0] < 0 < result["gamma1_ci95"][1]
+    assert result["gamma2_ci95"][0] < 0 < result["gamma2_ci95"][1]
+
+
+def test_cumulantes_estandarizados_detectan_asimetria_y_colas():
+    rng = np.random.default_rng(14)
+    x = rng.lognormal(mean=0.0, sigma=0.8, size=50_000)
+    result = standardized_cumulants(x)
+    assert result["gamma1"] > 2.0
+    assert result["gamma2"] > 5.0
 
 
 def _var_teorica(T: int, gamma: float) -> float:
