@@ -1,0 +1,186 @@
+\documentclass[aps,prl,onecolumn,superscriptaddress,floatfix,nofootinbib]{revtex4-2}
+
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{placeins}
+\usepackage[colorlinks=true,allcolors=blue]{hyperref}
+
+\newcommand{\avg}[1]{\left\langle #1 \right\rangle}
+\newcommand{\Var}{\mathrm{Var}}
+
+\begin{document}
+
+\title{Supplemental Material for ``Coupled sign and magnitude memory amplifies market-order-flow noise''}
+
+\author{Nelson Bol\'{\i}var}
+\affiliation{Escuela de F\'{\i}sica, Facultad de Ciencias, Universidad Central de Venezuela, Caracas 1041-A, Venezuela}
+\affiliation{Astrum Drive Technologies, 13024 Dallas Pkwy Unit 120 B, Frisco, TX 75034, USA}
+\author{Gabriel Abell\'an}
+\affiliation{Escuela de F\'{\i}sica, Facultad de Ciencias, Universidad Central de Venezuela, Caracas 1041-A, Venezuela}
+\affiliation{Astrum Drive Technologies, 13024 Dallas Pkwy Unit 120 B, Frisco, TX 75034, USA}
+\author{David Verrilli}
+\affiliation{Escuela de F\'{\i}sica, Facultad de Ciencias, Universidad Central de Venezuela, Caracas 1041-A, Venezuela}
+
+\maketitle
+
+\section{Exact finite-sample reference}
+
+Let $x_t$ be signed flow after subtracting its empirical mean within a declared
+$(\text{period},\text{UTC hour-of-week})$ stratum.  The retained observations
+form $W$ complete weeks of $H=168$ hours, and
+\begin{equation}
+ Q_w=\sum_{t\in w}x_t,\qquad
+ V_{\rm obs}=\frac{1}{W-1}\sum_w(Q_w-\bar Q)^2.
+\end{equation}
+Every observation belongs to one week and the sum of $x_t$ vanishes in every
+stratum.  Hence $\bar Q=0$ up to floating-point roundoff.
+
+Expand the weekly square:
+\begin{equation}
+ \sum_w Q_w^2=
+ \underbrace{\sum_t x_t^2}_{D}
+ +\underbrace{\sum_w\sum_{\substack{t,t'\in w\\t\ne t'}}x_tx_{t'}}_{C}.
+ \label{eq:square-expansion}
+\end{equation}
+A complete week contains one candle at each hour of week.  It therefore
+contains at most one observation from any declared stratum, even when a week
+crosses a calendar-period boundary.  Under independent within-stratum
+permutations, $x_t$ and $x_{t'}$ in an off-diagonal weekly pair come from two
+different zero-mean strata, so
+$\mathbb E_\pi[x_{\pi(t)}x_{\pi(t')}]=0$.  Permutation also preserves $D$
+exactly.  Thus
+\begin{equation}
+ \mathbb E_\pi[V_{\rm joint}]
+ =\frac{D}{W-1}\equiv V_0 .
+ \label{eq:exact-reference}
+\end{equation}
+This identity holds for finite samples and permutation without replacement.
+The \href{https://doi.org/10.5281/zenodo.21927599}{deposited calculation}
+verifies the analytic value against explicit joint
+permutations; the small difference between $V_0$ and a reported null
+\emph{median} is Monte Carlo distributional asymmetry, not a physical effect.
+
+\section{Sign-order and coupling terms}
+
+Write $x_t=s_tm_t$, with $s_t=\operatorname{sign}(x_t)$ and
+$m_t=|x_t|$.  Define stratum means
+\begin{equation}
+ \bar s_g=\frac{1}{n_g}\sum_{t\in g}s_t,\qquad
+ \bar m_g=\frac{1}{n_g}\sum_{t\in g}m_t,\qquad
+ \widetilde s_t=s_t-\bar s_{g(t)}.
+\end{equation}
+Centering the sign proxy is essential.  A nonzero $\bar s_g$ can be offset by
+a contemporaneous relation between signs and magnitudes even though the signed
+flow itself has zero stratum mean; assigning that offset to ``sign memory''
+would import a one-point sign--magnitude association into the sign-only term.
+
+The homogenised sign-order contribution is
+\begin{equation}
+ C_s=\sum_w\sum_{\substack{t,t'\in w\\t\ne t'}}
+ \widetilde s_t\widetilde s_{t'}
+ \bar m_{g(t)}\bar m_{g(t')}.
+\end{equation}
+The coupling remainder is $C_{sm}=C-C_s$.  With
+$V_s=C_s/(W-1)$ and $V_{sm}=C_{sm}/(W-1)$, Eq.~\eqref{eq:square-expansion}
+gives
+\begin{equation}
+ V_{\rm obs}=V_0+V_s+V_{sm}
+ \label{eq:exact-decomposition}
+\end{equation}
+to machine precision.  Table~\ref{tab:exact-attribution} reports
+$A=V_{\rm obs}/V_0$, $f_s=V_s/(V_{\rm obs}-V_0)$, and
+$f_{sm}=V_{sm}/(V_{\rm obs}-V_0)$.  No positivity constraint is imposed.  A
+negative or greater-than-one share would remain visible and would invalidate a
+simple mixture interpretation.
+
+Equation~\eqref{eq:exact-decomposition} is an operational allocation of an
+interaction, not a unique causal decomposition.  Its advantages are that the
+reference is analytic, every term is computed from the same weekly sample, and
+the allocation rule is stated before interpreting the result.  In particular,
+$V_0+V_s$ keeps the observed diagonal $D$ and is not
+$\Var(\widetilde s_t\bar m_{g(t)})$.  Replacing $\bar m_g$ by another declared
+stratum scale would give a different exact remainder; the reported share is
+therefore conditional on the arithmetic-mean homogenisation, not an orthogonal
+or uniquely identified interaction fraction.
+
+\section{Why the earlier surrogate comparison is not additive}
+
+The earlier analysis used three nulls: permuting complete $x_t$ values,
+permuting signs while magnitudes remain at their observed times, and permuting
+magnitudes while signs remain fixed.  Table~\ref{tab:permutation-controls}
+retains those values as controls.  The sign and magnitude nulls break
+contemporaneous sign--magnitude pairing and cannot be added as variance
+components.
+
+Nor is equality of the sign and joint nulls an exact identity for the
+implemented algorithm.  If a stratum contains $n$ signs permuted without
+replacement, then for two distinct positions
+\begin{equation}
+ \mathbb E_\pi[s_{\pi(i)}s_{\pi(j)}]
+ =\frac{(\sum_k s_k)^2-\sum_k s_k^2}{n(n-1)},
+\end{equation}
+which is generally nonzero.  Fixed magnitudes weight these finite-population
+terms, and the surrogate is subsequently re-centred.  Explicit enumeration of
+a four-week finite example gives
+$\mathbb E[V_J]=16.6667$ and $\mathbb E[V_S]=15.6667$ while satisfying
+Eq.~\eqref{eq:exact-reference} exactly.  The empirical proximity of the two
+nulls is therefore a structural feature of sign randomisation, not a measured
+decomposition and not a literal equality.
+
+\section{Paired moving-block uncertainty}
+
+For each week we store the diagonal, total off-diagonal, homogenised-sign
+off-diagonal, and coupling contributions.  A circular moving-block sample uses
+the same resampled week indices for every contribution.  The shares are then
+recomputed from the paired sums; replicates with nonpositive total excess are
+excluded from share quantiles and their retained fraction is recorded.  More
+than half of the 3999 replicates must remain valid or the calculation fails.
+
+We report block lengths of 4, 8, 13, and 26 weeks.  All four primary raw-flow
+coupling intervals remain above one half at eight weeks
+[Table~\ref{tab:exact-attribution}].  Table~\ref{tab:block-sensitivity} shows
+that the conclusion is not tied to that single block choice.  Stratum means
+are held fixed throughout; the intervals are conditional on the declared
+calendar partition and do not represent uncertainty over a choice of
+partition.
+
+\section{Conditioning scale and identifiability}
+
+Quarterly conditioning removes recurring hour-of-week means while retaining
+organisation across weeks within a quarter.  Monthly conditioning absorbs more
+of that low-frequency organisation.  In the primary raw series it lowers
+$f_{sm}$ from $0.65$--$0.79$ to $0.45$--$0.49$
+[Table~\ref{tab:conditioning-sensitivity}].  The result is therefore a
+finite-scale statement, not a partition-invariant material constant.
+
+The 14-day sensitivity has a sharper limitation.  Each
+$(\text{14-day block},\text{hour-of-week})$ stratum contains at most two
+observations.  After subtracting their mean, the two residuals are equal in
+magnitude and opposite in sign.  Magnitude homogenisation then changes
+nothing, forcing $C_{sm}=0$ algebraically.  This row diagnoses loss of
+identifiability at too-fine conditioning; it cannot test whether coupling is
+physically absent.
+
+\section{Panels, dependence, and claim boundary}
+
+BTC, ETH, BNB, and SOL were the primary assets.  XRP, ADA, DOGE, and AVAX were
+added after the analysis was fixed and remain a post-hoc extension.  Their
+raw-flow point coupling shares are $0.52$--$0.73$, but two intervals cross one
+half.  We therefore claim a resolved majority only for the four primary raw
+series under quarterly conditioning.
+
+The assets are not independent replications.  Pairwise weekly-flow
+correlations in the primary panel are $0.14$--$0.39$ for raw flow and
+$-0.13$--$0.26$ for normalised imbalance.  The repeated direction across
+assets is a robustness pattern, while uncertainty is reported asset by asset;
+we do not multiply significance levels across the panel.
+
+The original predeclared screen required raw observed variance to exceed twice
+the 98.75th joint-null percentile in all four primary assets.  BNB failed.  The
+exact attribution answers a different conditional question and does not amend
+that outcome.
+
+\input{generated_letter_tables}
+\FloatBarrier
+
+\end{document}

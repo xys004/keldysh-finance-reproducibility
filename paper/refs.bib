@@ -4,7 +4,7 @@
 %
 % PROVENANCE RULE: every entry below was surfaced or confirmed during the
 % literature sweep logged in notes/barrido_literatura.md. Entries still needing
-% verification of volume/page/DOI before submission are marked % TODO-VERIFY.
+% Repository and software DOI fields were updated in August 2026.
 % ---------------------------------------------------------------------------
 
 % ======================= Formalism: response field theory ==================
@@ -420,22 +420,21 @@
 
 % ======================= Related manuscripts ==============================
 
-@unpublished{paper1,
-  author = {Bol\'{\i}var, Nelson and Abell\'an, Gabriel and Verrilli, David},
-  title  = {Signed order flow as a transport current: response, noise and
-            counting statistics of a driven market},
-  note   = {Companion paper},
+@misc{supplement,
+  title  = {Supplemental Material for ``Coupled sign and magnitude memory
+            amplifies market-order-flow noise''},
+  note   = {Exact finite-sample attribution, paired bootstrap uncertainty,
+            non-additive permutation controls, and conditioning sensitivity},
   year   = {2026}
 }
 
-@unpublished{paper2,
+@unpublished{combined_pre,
   author = {Bol\'{\i}var, Nelson and Abell\'an, Gabriel and Verrilli, David},
-  title  = {A response field theory of order flow transport: two-component
-            memory, periodic driving, and where the Gaussian account ends},
-  note   = {Companion paper},
+  title  = {Finite-scale memory and counting fluctuations in signed market
+            order flow},
+  note   = {Companion manuscript},
   year   = {2026}
 }
-% Add the final repository/preprint identifiers before submission.
 
 % ======================= Software =========================================
 % The paper cites the public analysis package, not working files.
@@ -443,10 +442,11 @@
 @misc{code_keldysh_finance,
   author = {Bol\'{\i}var, Nelson and Abell\'an, Gabriel and Verrilli, David},
   title  = {keldysh-finance: transport analysis of signed order flow},
-  note   = {Analysis code and deposited logs},
-  year   = {2026}
+  note   = {Analysis code, data provenance, and deposited numerical outputs},
+  year   = {2026},
+  doi    = {10.5281/zenodo.21927599},
+  url    = {https://github.com/xys004/keldysh-finance-reproducibility}
 }
-% TODO-VERIFY: public repository URL + Zenodo DOI once released.
 
 @misc{code_qteom,
   title  = {QuantumTransportEOM: equation-of-motion solver for nonequilibrium

@@ -1,14 +1,15 @@
-"""Build the integrated long article from the measurement and model papers.
+"""Legacy rebuild of the integrated article from the two historical sources.
 
-The two source manuscripts remain independently compilable.  This small
-builder keeps their tested sections in one review-ready article, removes the
-duplicated introductions/discussions, and namespaces model labels so that
-cross-references remain unambiguous.
+``paper/combined_article.tex`` is now the canonical PRE manuscript and contains
+editorial and robustness changes not represented in the historical split
+sources.  To prevent accidental loss, this script is a no-op unless explicitly
+called with ``--force-legacy``.
 """
 
 from __future__ import annotations
 
 import re
+import sys
 from pathlib import Path
 
 
@@ -35,6 +36,12 @@ def namespace_model_labels(text: str) -> str:
 
 
 def main() -> None:
+    if "--force-legacy" not in sys.argv[1:]:
+        print(
+            "No changes: paper/combined_article.tex is canonical. "
+            "Use --force-legacy only to reconstruct the obsolete split-paper draft."
+        )
+        return
     measurement = (PAPER / "paper1_measurement.tex").read_text(encoding="utf-8")
     model = (PAPER / "paper2_model.tex").read_text(encoding="utf-8")
 

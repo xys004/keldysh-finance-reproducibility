@@ -45,7 +45,9 @@ QTEOM_DEFAULT = os.path.normpath(os.path.join(
 QTEOM = sys.argv[1] if len(sys.argv) > 1 else QTEOM_DEFAULT
 
 plt.rcParams.update({
-    "figure.dpi": 130, "savefig.dpi": 150, "font.size": 10,
+    "figure.dpi": 130, "savefig.dpi": 240, "font.size": 12,
+    "axes.titlesize": 12, "axes.labelsize": 11.5,
+    "xtick.labelsize": 10, "ytick.labelsize": 10,
     "axes.grid": True, "grid.alpha": 0.25, "axes.axisbelow": True,
     "axes.spines.top": False, "axes.spines.right": False,
     "legend.frameon": False, "figure.constrained_layout.use": True,
@@ -66,6 +68,7 @@ def load_qteom(name):
 def save(fig, stem):
     p = os.path.join(FIGS, stem + ".png")
     fig.savefig(p, bbox_inches="tight")
+    fig.savefig(os.path.join(FIGS, stem + ".pdf"), bbox_inches="tight")
     plt.close(fig)
     print(f"  -> {os.path.relpath(p, REPO)}")
 
@@ -79,47 +82,39 @@ def series_1h(items):
 
 # ---------------------------------------------------------------- Fig 1
 def fig1():
-    """C_eps bicomponente, R(tau), T_eff(tau) -- exp09."""
+    """Response and two-regime flow memory -- exp09."""
     d = load("exp09_msrjd_orden2.json")
     items = series_1h(d["forma_teff"])
     dr = d["dos_regimenes"]
-    fig, ax = plt.subplots(1, 3, figsize=(12, 3.6))
+    fig, ax = plt.subplots(1, 2, figsize=(9.6, 3.8))
 
     # (a) R(tau) ~ plana
     for it in items:
         a = it["clave"].split("|")[0]
         ax[0].plot(it["R_curva"]["tau"], it["R_curva"]["R"], color=COL[a], lw=1.4, label=a)
     ax[0].axhline(0, color="0.6", lw=0.8, ls=":")
-    ax[0].set_xlabel(r"$\tau$ (velas)"); ax[0].set_ylabel(r"$R(\tau)$ impacto")
-    ax[0].set_title("(a) respuesta plana"); ax[0].legend(fontsize=8, ncol=2)
+    ax[0].set_xlabel(r"$\tau$ (candles)"); ax[0].set_ylabel(r"impact $R(\tau)$")
+    ax[0].set_title("(a) nearly flat response"); ax[0].legend(fontsize=10, ncol=2)
 
-    # (b) T_eff(tau)
-    for it in items:
-        a = it["clave"].split("|")[0]
-        ax[1].plot(it["teff_curva"]["tau"], it["teff_curva"]["teff"], color=COL[a], lw=1.4)
-    ax[1].set_xlabel(r"$\tau$ (velas)"); ax[1].set_ylabel(r"$T_{\rm eff}(\tau)=-C'_\varepsilon/R$")
-    ax[1].set_title("(b) temperatura efectiva")
-
-    # (c) pendientes bicomponentes de C_eps: rapida [2,10] vs lenta [10,50]
+    # (b) pendientes bicomponentes de C_eps: rapida [2,10] vs lenta [10,50]
     #     crudo vs desestacionalizado (el drive no las mueve).
     assets = ["BTC", "ETH", "BNB", "SOL"]
     x = np.arange(len(assets))
-    for j, (win, mk, lab) in enumerate([("[2,10]", "o", r"$\tau\in[2,10]$ (rapida)"),
-                                        ("[10,50]", "s", r"$\tau\in[10,50]$ (lenta)")]):
+    for j, (win, mk, lab) in enumerate([("[2,10]", "o", r"$\tau\in[2,10]$ (fast)"),
+                                        ("[10,50]", "s", r"$\tau\in[10,50]$ (slow)")]):
         yc = [dr[a]["crudo"][win]["pendiente"] for a in assets]
         ec = [dr[a]["crudo"][win]["se"] for a in assets]
         yd = [dr[a]["desestacionalizado"][win]["pendiente"] for a in assets]
-        ax[2].errorbar(x - 0.09, yc, yerr=ec, fmt=mk, color="C3" if j else "C0",
+        ax[1].errorbar(x - 0.09, yc, yerr=ec, fmt=mk, color="C3" if j else "C0",
                        capsize=3, label=lab)
-        ax[2].errorbar(x + 0.09, yd, yerr=ec, fmt=mk, mfc="white",
+        ax[1].errorbar(x + 0.09, yd, yerr=ec, fmt=mk, mfc="white",
                        color="C3" if j else "C0", capsize=3)
-    ax[2].axhline(-0.9, color="C0", ls=":", lw=0.8)
-    ax[2].axhline(-0.2, color="C3", ls=":", lw=0.8)
-    ax[2].set_xticks(x); ax[2].set_xticklabels(assets)
-    ax[2].set_ylabel(r"pendiente local de $C_\varepsilon$")
-    ax[2].set_title("(c) $C_\\varepsilon$ bicomponente\n(relleno=crudo, hueco=desestacionalizado)")
-    ax[2].legend(fontsize=8, loc="lower right")
-    fig.suptitle("Fig. 1 — Respuesta, temperatura efectiva y correlacion bicomponente [exp09]", fontsize=11)
+    ax[1].axhline(-0.9, color="C0", ls=":", lw=0.8)
+    ax[1].axhline(-0.2, color="C3", ls=":", lw=0.8)
+    ax[1].set_xticks(x); ax[1].set_xticklabels(assets)
+    ax[1].set_ylabel(r"local slope of $C_\varepsilon$")
+    ax[1].set_title("(b) scale-dependent flow memory\n(filled=raw, open=deseasonalised)")
+    ax[1].legend(fontsize=10, loc="lower right")
     save(fig, "fig1_ceps_R_Teff")
 
 
@@ -140,10 +135,9 @@ def fig2():
             qq = np.linspace(0, q.max(), 20)
             ax[k].plot(qq, A * qq, "-", lw=1, color="0.5", alpha=0.7)
         ax[k].axhline(0, color="0.7", lw=0.8, ls=":")
-        ax[k].set_xlabel(r"$Q$ (flujo firmado acumulado, norm.)")
+        ax[k].set_xlabel(r"$Q$ (normalised accumulated signed flow)")
         ax[k].set_ylabel(r"$s(Q)=\ln[P(Q)/P(-Q)]$")
-        ax[k].set_title(f"({'ab'[k]}) {clave}"); ax[k].legend(fontsize=8)
-    fig.suptitle("Fig. 2 — Simetria de fluctuacion del conteo [exp06]", fontsize=11)
+        ax[k].set_title(f"({'ab'[k]}) {clave}"); ax[k].legend(fontsize=10)
     save(fig, "fig2_sQ_por_T")
 
 
@@ -161,13 +155,12 @@ def fig3():
         A = np.array([pt[t]["A"] for t in Ts])
         seA = np.array([pt[t]["se_A"] for t in Ts])
         Ag = np.array([pt[t]["A_gauss"] for t in Ts])
-        ax[k].errorbar(T, A, yerr=seA, fmt="o", color=COL[a], capsize=3, label=r"$A$ medida")
+        ax[k].errorbar(T, A, yerr=seA, fmt="o", color=COL[a], capsize=3, label=r"measured $A$")
         ax[k].plot(T, Ag, "s--", color="0.35", mfc="white", label=r"$A_{\rm gauss}=2\langle Q\rangle/{\rm Var}$")
         ax[k].set_xscale("log", base=2)
-        ax[k].set_xlabel("T (velas)"); ax[k].set_title(f"({'ab'[k]}) {clave}")
-        ax[k].legend(fontsize=8)
-    ax[0].set_ylabel("afinidad A")
-    fig.suptitle("Fig. 3 — La afinidad medida coincide con la gaussiana de 2o orden [exp06]", fontsize=11)
+        ax[k].set_xlabel("T (candles)"); ax[k].set_title(f"({'ab'[k]}) {clave}")
+        ax[k].legend(fontsize=10)
+    ax[0].set_ylabel("affinity A")
     save(fig, "fig3_A_vs_Agauss")
 
 
@@ -182,18 +175,18 @@ def fig4():
         T = np.array([row["T"] for row in tab])
         F = np.array([row["fano"] for row in tab])
         pend = it["fano"]["pendiente_log"]
-        ax.plot(T, F, "o-", color=COL[a], lw=1.3, label=f"{a}  (pend log {pend:.2f})")
+        ax.plot(T, F, "o-", color=COL[a], lw=1.3, label=f"{a}  (log slope {pend:.2f})")
     ax.axhline(1, color="0.5", ls="--", lw=1, label="Fano=1 (Poisson)")
     ax.set_xscale("log", base=2); ax.set_yscale("log")
-    ax.set_xlabel("T (velas)"); ax.set_ylabel("Fano  Var(Q)/|<Q>|")
-    ax.set_title("Fig. 4 — Fano ~ $10^3$ creciendo con T (memoria/splitting) [exp06]")
-    ax.legend(fontsize=8)
+    ax.set_xlabel("T (candles)"); ax.set_ylabel("proxy-normalised Fano factor")
+    ax.set_title("Proxy-normalised Fano level and scale dependence")
+    ax.legend(fontsize=10)
     save(fig, "fig4_fano")
 
 
 # ---------------------------------------------------------------- Fig 5
 def fig5():
-    """m(t_w) Omori y tau_c(t_w) obs vs nulo -- la media envejece, la correlacion no (exp07)."""
+    """Unresolved mean relaxation and placebo-reproduced apparent ageing."""
     d = load("exp07_reloj_quench.json")
     r = next(it for it in d["resultados"] if it["clave"] == "POOL|1h")
     fig, ax = plt.subplots(1, 2, figsize=(10, 3.9))
@@ -202,11 +195,12 @@ def fig5():
     m = np.array(r["m"], dtype=float)
     tw = np.arange(1, len(m) + 1)
     ax[0].plot(tw, m, ".", ms=3, color="#3a6ee8", alpha=0.6)
-    p = r["omori"]["p"]; minf = r["omori"]["m_inf"]
-    ax[0].axhline(minf, color="0.5", ls="--", lw=1, label=fr"$m_\infty$; Omori $p={p:.2f}$")
+    minf = r["omori"]["m_inf"]
+    ax[0].axhline(minf, color="0.5", ls="--", lw=1,
+                  label=r"fitted long-time level (relaxation unresolved)")
     ax[0].set_xscale("log")
-    ax[0].set_xlabel(r"$t_w$ = velas desde el shock"); ax[0].set_ylabel(r"$m(t_w)$ (media post-shock)")
-    ax[0].set_title("(a) la MEDIA envejece"); ax[0].legend(fontsize=8)
+    ax[0].set_xlabel(r"$t_w$ = candles after shock"); ax[0].set_ylabel(r"$m(t_w)$ (post-shock mean)")
+    ax[0].set_title("(a) mean relaxation is unresolved"); ax[0].legend(fontsize=9)
 
     # (b) tau_c(t_w) obs + IC, y el nulo (Spearman) que lo desmonta
     tau = np.array(r["tau_c"], dtype=float)
@@ -218,16 +212,17 @@ def fig5():
                    label=r"$\tau_c(t_w)$ obs (Spearman $+1.0$)")
     ax[1].set_xscale("log")
     ax[1].set_xlabel(r"$t_w$ (bin)"); ax[1].set_ylabel(r"$\tau_c(t_w)$")
-    ax[1].set_title("(b) la CORRELACION no: el nulo da lo mismo")
+    ax[1].set_xticks([20, 50, 100, 200], ["20", "50", "100", "200"])
+    ax[1].minorticks_off()
+    ax[1].set_title("(b) the correlation does not: the null agrees")
     # inset: distribucion nula de Spearman (shocks al azar) -> mediana ~ +1
     nul = np.array(r["nulo_spearman"], dtype=float)
     iax = ax[1].inset_axes([0.55, 0.12, 0.42, 0.42])
     iax.hist(nul, bins=12, color="0.6", edgecolor="white")
     iax.axvline(np.median(nul), color="C3", lw=1.5)
-    iax.set_title(f"nulo Spearman\n(mediana {np.median(nul):.2f})", fontsize=7)
-    iax.tick_params(labelsize=6); iax.grid(False)
-    ax[1].legend(fontsize=8, loc="upper left")
-    fig.suptitle("Fig. 5 — Reloj del quench: envejece la media, no la correlacion [exp07]", fontsize=11)
+    iax.set_title(f"Spearman null\n(median {np.median(nul):.2f})", fontsize=9)
+    iax.tick_params(labelsize=8); iax.grid(False)
+    ax[1].legend(fontsize=10, loc="upper left")
     save(fig, "fig5_reloj_quench")
 
 
@@ -245,14 +240,13 @@ def fig6():
     fig, ax = plt.subplots(3, 1, figsize=(7, 7), sharex=True)
     ax[0].errorbar(x, sesgo, yerr=se_s, fmt="o-", color="#e8833a", capsize=3)
     ax[0].axhline(0, color="0.7", lw=0.8, ls=":")
-    ax[0].set_ylabel("sesgo (flujo neto)"); ax[0].set_title("(a) desbalance vendedor por fase")
+    ax[0].set_ylabel("bias (net flow)"); ax[0].set_title("(a) sell-side imbalance by phase")
     ax[1].errorbar(x, A1, yerr=se_A, fmt="s-", color="#3a6ee8", capsize=3)
-    ax[1].set_ylabel(r"afinidad $A_1$"); ax[1].set_title("(b) afinidad por fase")
+    ax[1].set_ylabel(r"affinity $A_1$"); ax[1].set_title("(b) phase-resolved affinity")
     ax[2].plot(x, R1, "^-", color="#12a594")
-    ax[2].set_ylabel(r"impacto $R_1$"); ax[2].set_title("(c) impacto por fase")
+    ax[2].set_ylabel(r"impact $R_1$"); ax[2].set_title("(c) phase-resolved impact")
     ax[2].set_xticks(x); ax[2].set_xticklabels(horas, rotation=45, ha="right")
-    ax[2].set_xlabel("fase diaria (UTC)")
-    fig.suptitle("Fig. 6 — El conductor forzado: transporte modulado por el ciclo diario [exp08, BTC|1h]", fontsize=11)
+    ax[2].set_xlabel("daily phase (UTC)")
     save(fig, "fig6_floquet_perfiles")
 
 
@@ -264,8 +258,8 @@ def fig7():
     fig, ax = plt.subplots(1, 2, figsize=(11, 4.0))
 
     # (a) corriente completa: eje de tiempo reconstruido, quench en t=0
-    for name, col, lab in [("two_band", "#3a6ee8", "banda bicomponente"),
-                           ("wide", "#e8833a", "solo Lorentziana ancha")]:
+    for name, col, lab in [("two_band", "#3a6ee8", "two-component band"),
+                           ("wide", "#e8833a", "wide Lorentzian only")]:
         sc = d["scenarios"].get(name)
         if not sc:
             continue
@@ -275,25 +269,24 @@ def fig7():
     tb = d["scenarios"]["two_band"]["relaxation"]
     ax[0].axhline(tb["i_inf"], color="0.5", ls="--", lw=1, label=r"$I_\infty$")
     ax[0].axvline(0, color="0.6", ls=":", lw=1)
-    ax[0].set_xlabel("t (quench en 0)"); ax[0].set_ylabel("I(t) corriente")
-    ax[0].set_title("(a) corriente del quench"); ax[0].legend(fontsize=8)
+    ax[0].set_xlabel("t (quench at 0)"); ax[0].set_ylabel("current I(t)")
+    ax[0].set_title("(a) quench current"); ax[0].legend(fontsize=10)
 
     # (b) relajacion |I-I_inf| loglog: los dos regimenes (rapido/lento)
     t = np.array(tb["t"], dtype=float); delta = np.abs(np.array(tb["delta"], dtype=float))
     ax[1].loglog(t, delta, ".", ms=3, color="#3a6ee8", alpha=0.5)
-    for key, col, lab in [("loglog_slope_fast", "C0", "rapido"),
-                          ("loglog_slope_slow", "C3", "lento")]:
+    for key, col, lab in [("loglog_slope_fast", "C0", "fast"),
+                          ("loglog_slope_slow", "C3", "slow")]:
         sl = tb[key]; s = sl["value"]; w = sl["window"]
         mask = (t >= w[0]) & (t <= w[1])
         if mask.any():
             t0 = t[mask][len(t[mask]) // 2]; d0 = delta[mask][len(t[mask]) // 2]
             tt = np.array(w)
             ax[1].loglog(tt, d0 * (tt / t0) ** s, "-", color=col, lw=2,
-                         label=fr"{lab}: pend {s:.2f}$\pm${sl['se']:.2f}")
+                         label=fr"{lab}: slope {s:.2f}$\pm${sl['se']:.2f}")
     ax[1].set_xlabel("t post-quench"); ax[1].set_ylabel(r"$|I(t)-I_\infty|$")
-    ax[1].set_title(f"(b) relajacion en dos regimenes (Omori {tb['loglog_slope_omori']['value']:.2f})")
-    ax[1].legend(fontsize=8)
-    fig.suptitle("Fig. 7 — Quench de sesgo del dispositivo minimo: la banda lenta parte la relajacion [QTEOM C1]", fontsize=11)
+    ax[1].set_title(f"(b) two-regime relaxation (Omori {tb['loglog_slope_omori']['value']:.2f})")
+    ax[1].legend(fontsize=10)
     save(fig, "fig7_quench_current")
 
 
@@ -306,17 +299,17 @@ def fig8():
     sc = d["scenarios"]["two_band"]["windowed"]
     T = np.array(sc["T_obs"], dtype=float)
     v = np.array(sc["var_q"], dtype=float)
-    ax.loglog(T, v, "o-", color="#3a6ee8", lw=1.3, label="Var$(Q_T)$ dispositivo (two_band)")
+    ax.loglog(T, v, "o-", color="#3a6ee8", lw=1.3, label="device Var$(Q_T)$ (two-band)")
     # banda de pendiente de mercado k2: Var ~ T^s, s in [1.3,1.43]
     s_lo, s_hi = mref["k2_slope_range"]
     T0, v0 = T[len(T) // 3], v[len(T) // 3]
     for s, ls in [(s_lo, ":"), (s_hi, "--")]:
         ax.loglog(T, v0 * (T / T0) ** s, ls, color="0.45", lw=1,
-                  label=fr"mercado $T^{{{s}}}$")
+                  label=fr"market $T^{{{s}}}$")
     ax.set_xlabel(r"$T_{\rm obs}$"); ax.set_ylabel(r"Var$(Q_T)$")
-    ax.set_title("Fig. 8 — Ruido de conteo: dispositivo vs mercado\n"
-                 f"(Fano mercado T=1 en {mref['fano_range_T1']}) [QTEOM C2]")
-    ax.legend(fontsize=8)
+    ax.set_title("Calibrated device and market counting variance\n"
+                 "(absolute Fano normalisations are not compared)")
+    ax.legend(fontsize=10)
     save(fig, "fig8_varQ_dispositivo_vs_mercado")
 
 
@@ -347,12 +340,12 @@ def fig9():
     # bandas predichas 2-a, con a de la correlacion (BTC como referencia)
     af = -dr["BTC"]["crudo"]["[2,10]"]["pendiente"]
     as_ = -dr["BTC"]["crudo"]["[10,50]"]["pendiente"]
-    ax[0].axhline(2 - af, color="C0", ls="--", lw=1.2, label=fr"$2-a_f={2-af:.2f}$ (rapido)")
-    ax[0].axhline(2 - as_, color="C3", ls="--", lw=1.2, label=fr"$2-a_s={2-as_:.2f}$ (lento)")
+    ax[0].axhline(2 - af, color="C0", ls="--", lw=1.2, label=fr"$2-a_f={2-af:.2f}$ (fast)")
+    ax[0].axhline(2 - as_, color="C3", ls="--", lw=1.2, label=fr"$2-a_s={2-as_:.2f}$ (slow)")
     ax[0].axhline(1.0, color="0.7", ls=":", lw=1)
-    ax[0].set_xlabel("T (velas)"); ax[0].set_ylabel(r"pendiente local de $\log\,$Var$(Q_T)$")
-    ax[0].set_title("(a) el exponente DERIVA: no es potencia pura")
-    ax[0].legend(fontsize=7, ncol=2)
+    ax[0].set_xlabel("T (candles)"); ax[0].set_ylabel(r"local slope of $\log\,$Var$(Q_T)$")
+    ax[0].set_title("(a) the exponent drifts: not a single power law")
+    ax[0].legend(fontsize=9, ncol=2)
 
     # (b) test exacto de la dilucion de la afinidad: A16/A1 = 16*V1/V16
     claves, pred, obs = [], [], []
@@ -369,14 +362,13 @@ def fig9():
         m = "o" if estable[i] else "^"
         col = COL[c.split("|")[0]]
         ax[1].plot(p, o, m, ms=9, color=col, mfc=col if estable[i] else "white")
-        ax[1].annotate(c, (p, o), fontsize=6, xytext=(4, 4), textcoords="offset points")
+        ax[1].annotate(c, (p, o), fontsize=8, xytext=(4, 4), textcoords="offset points")
     lim = [0.3, 1.0]
-    ax[1].plot(lim, lim, "--", color="0.5", lw=1, label="prediccion = observado")
+    ax[1].plot(lim, lim, "--", color="0.5", lw=1, label="prediction = observation")
     ax[1].set_xlim(*lim); ax[1].set_ylim(*lim)
-    ax[1].set_xlabel(r"prediccion $16\,V_1/V_{16}$"); ax[1].set_ylabel(r"observado $A_{16}/A_1$")
-    ax[1].set_title("(b) dilucion de la afinidad\n(relleno: afinidad estable; hueco: nivel-ruido)")
-    ax[1].legend(fontsize=8)
-    fig.suptitle("Fig. 9 — El conteo hereda los dos exponentes de la correlacion [exp06+exp09]", fontsize=11)
+    ax[1].set_xlabel(r"prediction $16\,V_1/V_{16}$"); ax[1].set_ylabel(r"observed $A_{16}/A_1$")
+    ax[1].set_title("(b) affinity dilution\n(filled: stable affinity; open: noise level)")
+    ax[1].legend(fontsize=10)
     save(fig, "fig9_crossover_exponente")
 
 

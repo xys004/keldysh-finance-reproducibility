@@ -15,9 +15,16 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from keldysh_finance.counting import (cumulant_scaling, fano_factor,
-                                      fit_affinity, net_charge,
-                                      symmetry_function, synthetic_flow)
+from keldysh_finance.counting import (
+    block_bootstrap_standardized_cumulants,
+    cumulant_scaling,
+    fano_factor,
+    fit_affinity,
+    net_charge,
+    standardized_cumulants,
+    symmetry_function,
+    synthetic_flow,
+)
 
 
 # --- control positivo: valores analíticos conocidos --------------------------
@@ -33,7 +40,9 @@ def test_afinidad_gaussiana_iid_exacta():
     assert abs(fit["A"] - A_teoria) < 3.5 * fit["se_A"] + 0.02, \
         f"A={fit['A']:.4f} vs teoría {A_teoria:.4f}"
     # gaussiano ⇒ sin curvatura
-    assert abs(fit["c3"]) < 3.5 * fit["se_c3"] + 1e-3
+    assert fit["b3"] == fit["c3"]
+    assert fit["se_b3"] == fit["se_c3"]
+    assert abs(fit["b3"]) < 3.5 * fit["se_b3"] + 1e-3
 
 
 def test_escalado_difusivo_iid():
@@ -45,20 +54,33 @@ def test_escalado_difusivo_iid():
         f"pendiente {esc['pendiente_k2']:.3f} vs 1"
 
 
+def test_cumulantes_estandarizados_gaussianos_incluyen_cero():
+    rng = np.random.default_rng(12)
+    x = rng.normal(size=20_000)
+    result = block_bootstrap_standardized_cumulants(
+        x, block_length=64, replicates=199, seed=13, batch_size=8
+    )
+    assert abs(result["gamma1"]) < 0.05
+    assert abs(result["gamma2"]) < 0.10
+    assert result["gamma1_ci95"][0] < 0 < result["gamma1_ci95"][1]
+    assert result["gamma2_ci95"][0] < 0 < result["gamma2_ci95"][1]
+
+
+def test_cumulantes_estandarizados_detectan_asimetria_y_colas():
+    rng = np.random.default_rng(14)
+    x = rng.lognormal(mean=0.0, sigma=0.8, size=50_000)
+    result = standardized_cumulants(x)
+    assert result["gamma1"] > 2.0
+    assert result["gamma2"] > 5.0
+
+
 def _var_teorica(T: int, gamma: float) -> float:
-    """Var(Q_T) EXACTA para ACF (1+k)^gamma y varianza 1:
-    Var = T + 2·Σ_{k=1}^{T-1} (T-k)·c(k). Sin asintótica: la forma
-    (8/3)T^1.5 − 3T sólo vale a T grande y el crossover sesga cualquier
-    pendiente ajustada sobre un rango finito."""
-    k = np.arange(1, int(T))
-    return float(T + 2.0 * np.sum((T - k) * (1.0 + k) ** gamma))
+    """Var(Q_T) exacta del fGn unitario: T^(2H), H=1+gamma/2."""
+    return float(T ** (2.0 + gamma))
 
 
 def test_escalado_superdifusivo_con_memoria():
-    """ACF ~ tau^gamma con gamma=-0.5: kappa_2(T) tiene que seguir la
-    predicción discreta EXACTA de la ACF, y la pendiente en el tramo alto
-    tiene que ser claramente superdifusiva (>1.3, frente a 1 difusivo).
-    Es el control que ata la FCS al exponente de Lillo-Farmer."""
+    """El fGn con gamma=-0.5 tiene Var(Q_T)=T^1.5 exactamente."""
     x = synthetic_flow(600_000, gamma=-0.5, seed=3)
     esc = cumulant_scaling(x, [16, 32, 64, 128, 256])
     for fila in esc["tabla"]:
@@ -162,6 +184,11 @@ def test_sintetico_tiene_media_y_acf_correctas():
     denom = float(np.dot(xc, xc))
     lags = np.array([1, 2, 4, 8, 16, 32])
     acf = np.array([np.dot(xc[:-k], xc[k:]) / denom for k in lags])
-    objetivo = (1.0 + lags) ** -0.5
+    H = 0.75
+    objetivo = 0.5 * (
+        (lags + 1.0) ** (2.0 * H)
+        - 2.0 * lags ** (2.0 * H)
+        + (lags - 1.0) ** (2.0 * H)
+    )
     assert np.max(np.abs(acf - objetivo)) < 0.06, \
-        "el embedding no reproduce la ACF en ley de potencias"
+        "Davies--Harte no reproduce la covarianza exacta del fGn"

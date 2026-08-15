@@ -1,0 +1,174 @@
+\begin{table}[!htbp]
+\caption{Standardised cumulants at the endpoints of the dyadic scale grid. Intervals in Fig.~\ref{fig:supp-cumulants} use the full grid.}
+\label{tab:supp-cumulants}
+\begin{ruledtabular}
+\begin{tabular}{lrrrr}
+ & $\gamma_1(1)$ & $\gamma_1(128)$ & $\gamma_2(1)$ & $\gamma_2(128)$ \\
+\colrule
+BTC & -0.10 & -0.55 & 1.24 & 0.12 \\
+ETH & -0.09 & -1.40 & 0.76 & 8.53 \\
+BNB & 0.02 & -0.63 & 0.54 & 1.60 \\
+SOL & -0.02 & -0.47 & 0.61 & 1.17 \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+\begin{table*}[!htbp]
+\caption{Decomposition of weekly variance amplification under quarterly $\times$ hour-of-week conditioning. $R_J$, $R_S$, and $R_M$ divide observed variance by the median joint-order, sign-order, and magnitude-order null. The interval is an eight-week moving-block bootstrap interval for $R_J$, conditional on its null median.}
+\label{tab:supp-decomposition}
+\begin{ruledtabular}
+\begin{tabular}{llrrrr}
+asset & flow & $R_J$ & $R_S$ & $R_M$ & $95\%$ interval for $R_J$ \\
+\colrule
+BTC & raw & 2.75 & 2.82 & 2.14 & [1.65,4.26] \\
+BTC & normalized & 3.20 & 3.35 & 1.64 & [2.32,4.14] \\
+ETH & raw & 3.36 & 3.43 & 2.10 & [2.43,4.38] \\
+ETH & normalized & 4.22 & 4.43 & 1.89 & [2.90,6.11] \\
+BNB & raw & 2.19 & 2.29 & 1.66 & [1.71,2.72] \\
+BNB & normalized & 4.20 & 4.39 & 1.86 & [3.05,5.53] \\
+SOL & raw & 2.55 & 2.61 & 1.75 & [1.95,3.19] \\
+SOL & normalized & 2.99 & 3.14 & 1.52 & [2.22,3.81] \\
+\colrule
+XRP & raw & 5.67 & 5.81 & 1.81 & [3.10,9.10] \\
+XRP & normalized & 5.64 & 5.93 & 1.87 & [4.13,7.33] \\
+ADA & raw & 2.08 & 2.10 & 1.75 & [1.50,2.72] \\
+ADA & normalized & 2.83 & 2.98 & 1.59 & [1.99,3.83] \\
+DOGE & raw & 3.26 & 3.29 & 2.11 & [1.84,5.37] \\
+DOGE & normalized & 3.99 & 4.19 & 1.71 & [3.06,4.98] \\
+AVAX & raw & 2.36 & 2.53 & 1.57 & [1.56,3.30] \\
+AVAX & normalized & 3.18 & 3.35 & 1.55 & [2.40,4.02] \\
+\end{tabular}
+\end{ruledtabular}
+\end{table*}
+
+\begin{table*}[!htbp]
+\caption{Exact finite-sample attribution under the primary quarterly $\times$ hour-of-week conditioning. $A=V_{\rm obs}/V_0$, where $V_0$ is the analytic expectation of the joint-order null. Fractions divide the variance excess $V_{\rm obs}-V_0$ into sign order at stratum-homogenised magnitudes and the exact sign--size remainder. Intervals use a paired eight-week circular moving-block bootstrap.}
+\label{tab:supp-exact-attribution}
+\begin{ruledtabular}
+\begin{tabular}{llrrrrr}
+asset & flow & $A$ & sign share & coupling share & coupling 95\% interval & $P(f_{sm}>1/2)$ \\
+\colrule
+BTC & raw & 2.75 & 0.21 & 0.79 & [0.63,0.88] & 1.000 \\
+BTC & normalized & 3.16 & 0.46 & 0.54 & [0.45,0.62] & 0.816 \\
+ETH & raw & 3.32 & 0.30 & 0.70 & [0.62,0.78] & 1.000 \\
+ETH & normalized & 4.24 & 0.41 & 0.59 & [0.49,0.66] & 0.962 \\
+BNB & raw & 2.18 & 0.35 & 0.65 & [0.52,0.76] & 0.987 \\
+BNB & normalized & 4.18 & 0.41 & 0.59 & [0.53,0.65] & 0.998 \\
+SOL & raw & 2.53 & 0.35 & 0.65 & [0.55,0.74] & 0.998 \\
+SOL & normalized & 2.96 & 0.51 & 0.49 & [0.35,0.60] & 0.430 \\
+\colrule
+XRP & raw & 5.64 & 0.48 & 0.52 & [0.43,0.60] & 0.683 \\
+XRP & normalized & 5.63 & 0.44 & 0.56 & [0.49,0.63] & 0.956 \\
+ADA & raw & 2.06 & 0.27 & 0.73 & [0.60,0.83] & 0.997 \\
+ADA & normalized & 2.82 & 0.46 & 0.54 & [0.47,0.64] & 0.867 \\
+DOGE & raw & 3.25 & 0.29 & 0.71 & [0.58,0.78] & 1.000 \\
+DOGE & normalized & 3.97 & 0.46 & 0.54 & [0.47,0.61] & 0.856 \\
+AVAX & raw & 2.34 & 0.44 & 0.56 & [0.40,0.64] & 0.831 \\
+AVAX & normalized & 3.16 & 0.51 & 0.49 & [0.41,0.58] & 0.436 \\
+\end{tabular}
+\end{ruledtabular}
+\end{table*}
+
+\begin{table*}[!htbp]
+\caption{Conditioning-scale sensitivity of the exact coupling share in the primary panel. Biweekly strata contain at most two observations; after within-stratum demeaning their residual magnitudes are equal, so the coupling component is structurally unidentifiable and reported as degenerate rather than as evidence of absence.}
+\label{tab:supp-attribution-sensitivity}
+\begin{ruledtabular}
+\begin{tabular}{lllrrr}
+asset & flow & conditioning & coupling share & 95\% interval & status \\
+\colrule
+BTC & raw & quarterly & 0.79 & [0.63,0.88] & identified \\
+BTC & raw & monthly & 0.47 & [0.40,0.55] & identified \\
+BTC & raw & biweekly & 0.00 & [-0.00,0.00] & degenerate \\
+BTC & normalized & quarterly & 0.54 & [0.45,0.62] & identified \\
+BTC & normalized & monthly & 0.49 & [0.39,0.56] & identified \\
+BTC & normalized & biweekly & -0.00 & [-0.00,0.00] & degenerate \\
+ETH & raw & quarterly & 0.70 & [0.62,0.78] & identified \\
+ETH & raw & monthly & 0.45 & [0.37,0.53] & identified \\
+ETH & raw & biweekly & -0.00 & [-0.00,0.00] & degenerate \\
+ETH & normalized & quarterly & 0.59 & [0.49,0.66] & identified \\
+ETH & normalized & monthly & 0.45 & [0.36,0.51] & identified \\
+ETH & normalized & biweekly & 0.00 & [-0.00,0.00] & degenerate \\
+BNB & raw & quarterly & 0.65 & [0.52,0.76] & identified \\
+BNB & raw & monthly & 0.49 & [0.40,0.66] & identified \\
+BNB & raw & biweekly & 0.00 & [-0.00,0.00] & degenerate \\
+BNB & normalized & quarterly & 0.59 & [0.53,0.65] & identified \\
+BNB & normalized & monthly & 0.45 & [0.37,0.51] & identified \\
+BNB & normalized & biweekly & 0.00 & [-0.00,0.00] & degenerate \\
+SOL & raw & quarterly & 0.65 & [0.55,0.74] & identified \\
+SOL & raw & monthly & 0.49 & [0.39,0.59] & identified \\
+SOL & raw & biweekly & 0.00 & [0.00,0.00] & degenerate \\
+SOL & normalized & quarterly & 0.49 & [0.35,0.60] & identified \\
+SOL & normalized & monthly & 0.41 & [0.31,0.51] & identified \\
+SOL & normalized & biweekly & 0.00 & [-0.00,0.00] & degenerate \\
+\end{tabular}
+\end{ruledtabular}
+\end{table*}
+
+\begin{table*}[!htbp]
+\footnotesize
+\setlength{\tabcolsep}{8pt}
+\caption{Sensitivity of the joint weekly variance null. $R_{50}=V_{\rm obs}/\mathrm{median}(V_{\rm null})$ and $R_{98.75}=V_{\rm obs}/Q_{0.9875}(V_{\rm null})$. Primary quarterly rows use 9999 permutations; monthly and biweekly rows use 1999.}
+\label{tab:supp-null}
+\begin{ruledtabular}
+\begin{tabular}{lllrrrr}
+asset & flow & conditioning & $R_{50}$ & $R_{98.75}$ & $p_{\rm emp}$ & fixed fraction \\
+\colrule
+BTC & raw & quarterly & 2.75 & 2.08 & $0.0001$ & 0.00\% \\
+BTC & raw & monthly & 2.52 & 1.83 & $0.0005$ & 0.14\% \\
+BTC & raw & biweekly & 1.57 & 1.07 & $0.0070$ & 0.97\% \\
+BTC & normalized & quarterly & 3.20 & 2.48 & $0.0001$ & 0.00\% \\
+BTC & normalized & monthly & 2.67 & 2.05 & $0.0005$ & 0.14\% \\
+BTC & normalized & biweekly & 2.27 & 1.59 & $0.0005$ & 0.97\% \\
+ETH & raw & quarterly & 3.36 & 2.63 & $0.0001$ & 0.00\% \\
+ETH & raw & monthly & 3.23 & 2.41 & $0.0005$ & 0.14\% \\
+ETH & raw & biweekly & 2.79 & 1.87 & $0.0005$ & 0.97\% \\
+ETH & normalized & quarterly & 4.22 & 3.35 & $0.0001$ & 0.00\% \\
+ETH & normalized & monthly & 3.54 & 2.78 & $0.0005$ & 0.14\% \\
+ETH & normalized & biweekly & 2.84 & 2.09 & $0.0005$ & 0.97\% \\
+BNB & raw & quarterly & 2.19 & 1.69 & $0.0001$ & 0.00\% \\
+BNB & raw & monthly & 2.07 & 1.54 & $0.0005$ & 0.14\% \\
+BNB & raw & biweekly & 1.75 & 1.17 & $0.0015$ & 0.97\% \\
+BNB & normalized & quarterly & 4.20 & 3.29 & $0.0001$ & 0.00\% \\
+BNB & normalized & monthly & 3.59 & 2.81 & $0.0005$ & 0.14\% \\
+BNB & normalized & biweekly & 3.35 & 2.44 & $0.0005$ & 0.97\% \\
+SOL & raw & quarterly & 2.55 & 2.02 & $0.0001$ & 0.00\% \\
+SOL & raw & monthly & 2.12 & 1.63 & $0.0005$ & 0.14\% \\
+SOL & raw & biweekly & 2.10 & 1.45 & $0.0005$ & 0.97\% \\
+SOL & normalized & quarterly & 2.99 & 2.36 & $0.0001$ & 0.00\% \\
+SOL & normalized & monthly & 2.20 & 1.73 & $0.0005$ & 0.14\% \\
+SOL & normalized & biweekly & 2.31 & 1.68 & $0.0005$ & 0.97\% \\
+\end{tabular}
+\end{ruledtabular}
+\end{table*}
+
+\begin{table}[!htbp]
+\caption{Global exponent $\nu$ over $T=8,\ldots,256$. db1 removes a constant, db2 a linear trend, and db3 a quadratic trend.}
+\label{tab:supp-wavelets}
+\begin{ruledtabular}
+\begin{tabular}{lrrrr}
+asset & block variance & db1 & db2 & db3 \\
+\colrule
+BTC & 1.42 & 1.20 & 1.14 & 1.13 \\
+ETH & 1.37 & 1.24 & 1.26 & 1.29 \\
+BNB & 1.43 & 1.35 & 1.36 & 1.30 \\
+SOL & 1.31 & 1.15 & 1.13 & 1.10 \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+\FloatBarrier
+\refstepcounter{table}
+\label{tab:supp-scaling}
+\noindent\textsc{Table \thetable.} Asset-specific scaling reassessment. The consistency band maps $C(\tau)\sim\tau^{-a}$ to $\nu=2-a$ only for $a<1$; $a>1$ maps to diffusion. Amplitudes are not fitted, so the band is not a quantitative prediction.
+\begin{center}
+\begin{ruledtabular}
+\begin{tabular}{lrrrrr}
+asset & $a_f$ & $a_s$ & consistency band & $\nu_{1h}$ & $\nu_{4h}$ \\
+\colrule
+BTC & 1.00 & 0.17 & [1.00,1.83] & 1.33 & 1.32 \\
+ETH & 0.87 & 0.22 & [1.13,1.78] & 1.32 & 1.31 \\
+BNB & 0.46 & 0.29 & [1.54,1.71] & 1.37 & 1.37 \\
+SOL & 1.71 & 0.16 & [1.00,1.84] & 1.25 & 1.22 \\
+\end{tabular}
+\end{ruledtabular}
+\end{center}

@@ -39,7 +39,7 @@ CONTROL POSITIVO: tests/test_quench_floquet.py — un ensemble sintético con
 estacionario donde no puede ver nada.
 
 Ejecutar:  py experiments/exp07_reloj_quench.py [B_boot] [K_nulo] [n_proc]
-Diseñado para ejecución reproducible por lotes (bootstrap sobre shocks).
+Pensado para Astrum (bootstrap sobre shocks × 10 tareas).
 """
 from __future__ import annotations
 
