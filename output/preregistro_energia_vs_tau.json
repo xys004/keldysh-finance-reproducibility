@@ -1,0 +1,155 @@
+{
+  "resultados": {
+    "ZEC": {
+      "tau_cruce": 50,
+      "energia": 12.274041657062858,
+      "excluido_regla_168": false
+    },
+    "ONG": {
+      "tau_cruce": 8,
+      "energia": 14.327792573388919,
+      "excluido_regla_168": false
+    },
+    "XLM": {
+      "tau_cruce": 32,
+      "energia": 9.813179066280528,
+      "excluido_regla_168": false
+    },
+    "CRV": {
+      "tau_cruce": 4,
+      "energia": 18.047973169550453,
+      "excluido_regla_168": false
+    },
+    "FIL": {
+      "tau_cruce": 21,
+      "energia": 30.732353082918323,
+      "excluido_regla_168": false
+    },
+    "FET": {
+      "tau_cruce": 31,
+      "energia": 10.349697625907798,
+      "excluido_regla_168": false
+    },
+    "HBAR": {
+      "tau_cruce": 164,
+      "energia": 12.197882880525526,
+      "excluido_regla_168": true
+    },
+    "ONT": {
+      "tau_cruce": 6,
+      "energia": 19.73589164206205,
+      "excluido_regla_168": false
+    },
+    "PEOPLE": {
+      "tau_cruce": 8,
+      "energia": 15.066903575739204,
+      "excluido_regla_168": false
+    },
+    "INJ": {
+      "tau_cruce": 11,
+      "energia": 6.760491004995005,
+      "excluido_regla_168": false
+    },
+    "DASH": {
+      "tau_cruce": 14,
+      "energia": 17.399620415986547,
+      "excluido_regla_168": false
+    },
+    "ICP": {
+      "tau_cruce": 27,
+      "energia": 15.28580602426102,
+      "excluido_regla_168": false
+    },
+    "SANTOS": {
+      "tau_cruce": 25,
+      "energia": 26.633406855785164,
+      "excluido_regla_168": false
+    },
+    "GALA": {
+      "tau_cruce": 17,
+      "energia": 34.007632775621325,
+      "excluido_regla_168": false
+    },
+    "BICO": {
+      "tau_cruce": 19,
+      "energia": 8.721486599439945,
+      "excluido_regla_168": false
+    },
+    "OP": {
+      "tau_cruce": 15,
+      "energia": 22.381357874694018,
+      "excluido_regla_168": false
+    },
+    "LDO": {
+      "tau_cruce": 19,
+      "energia": 11.44209254270063,
+      "excluido_regla_168": false
+    },
+    "ALGO": {
+      "tau_cruce": 50,
+      "energia": 16.574970521682676,
+      "excluido_regla_168": false
+    },
+    "DEXE": {
+      "tau_cruce": 23,
+      "energia": 27.70496683663149,
+      "excluido_regla_168": false
+    },
+    "CAKE": {
+      "tau_cruce": 5,
+      "energia": 23.58465229529245,
+      "excluido_regla_168": false
+    },
+    "SCRT": {
+      "tau_cruce": 5,
+      "energia": 3.9546496142210183,
+      "excluido_regla_168": false
+    },
+    "STX": {
+      "tau_cruce": 7,
+      "energia": 45.651775081700286,
+      "excluido_regla_168": false
+    },
+    "ZEN": {
+      "tau_cruce": 2,
+      "energia": 9.864431836239222,
+      "excluido_regla_168": false
+    },
+    "RIF": {
+      "tau_cruce": 2,
+      "energia": 16.484423087023064,
+      "excluido_regla_168": false
+    },
+    "AR": {
+      "tau_cruce": 15,
+      "energia": 13.514444195564414,
+      "excluido_regla_168": false
+    },
+    "ALICE": {
+      "tau_cruce": 43,
+      "energia": 10.460397661113133,
+      "excluido_regla_168": false
+    },
+    "NEXO": {
+      "tau_cruce": 38,
+      "energia": 39.14844998641429,
+      "excluido_regla_168": false
+    },
+    "JST": {
+      "tau_cruce": 16,
+      "energia": 21.436246076536044,
+      "excluido_regla_168": false
+    },
+    "KAVA": {
+      "tau_cruce": 5,
+      "energia": 21.041826845248753,
+      "excluido_regla_168": false
+    }
+  },
+  "n_validos": 28,
+  "r_pearson": 0.056591266852777926,
+  "p_valor_una_cola": 0.3961,
+  "p_valor_dos_colas": 0.7793,
+  "pendiente_nuevo": 0.0051978564448989075,
+  "primario_ok": false
+}

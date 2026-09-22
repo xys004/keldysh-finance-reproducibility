@@ -1,6 +1,6 @@
 cff-version: 1.2.0
-title: "Coupled sign and magnitude memory in market order flow"
-message: "If you use this software or archived outputs, please cite the repository and the associated manuscript."
+title: "Temporal organization in signed order flow: reproducibility package"
+message: "If you use this software or archived outputs, please cite the associated manuscript and the version-specific Zenodo release."
 type: software
 authors:
   - family-names: Bolívar
@@ -9,8 +9,7 @@ authors:
     given-names: Gabriel
   - family-names: Verrilli
     given-names: David
-version: 1.2.0
-date-released: 2026-08-15
+version: 2.0.0
+date-released: 2026-09-22
 repository-code: https://github.com/xys004/keldysh-finance-reproducibility
-doi: 10.5281/zenodo.21927599
 license: MIT

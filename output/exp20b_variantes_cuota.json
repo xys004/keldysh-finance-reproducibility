@@ -1,0 +1,374 @@
+{
+  "T": 168,
+  "objetivo_gabriel": {
+    "raw": [
+      0.7,
+      0.84
+    ],
+    "normalized": [
+      0.51,
+      0.62
+    ]
+  },
+  "activos": [
+    "BTC",
+    "ETH",
+    "BNB",
+    "SOL"
+  ],
+  "variantes": [
+    {
+      "serie": "desmediado",
+      "mbar": "global",
+      "denom": "exceso",
+      "agregacion": "media_de_terminos",
+      "acopl_raw": [
+        0.6543894386742164,
+        0.7113551180333422,
+        0.4898561618989047,
+        0.6932388090037007
+      ],
+      "acopl_norm": [
+        0.6198471000119087,
+        0.6687351514640536,
+        0.6639088351301988,
+        0.5427073849631308
+      ],
+      "compatible": true
+    },
+    {
+      "serie": "desmediado",
+      "mbar": "global",
+      "denom": "exceso",
+      "agregacion": "media_de_cocientes",
+      "acopl_raw": [
+        0.2236068659193528,
+        -1.7799091978598713,
+        0.38822998694266264,
+        0.5634159081528141
+      ],
+      "acopl_norm": [
+        -0.8361627552358084,
+        0.08816286210299613,
+        0.7580963010213384,
+        0.5913034115246911
+      ],
+      "compatible": false
+    },
+    {
+      "serie": "desmediado",
+      "mbar": "global",
+      "denom": "Q2",
+      "agregacion": "media_de_terminos",
+      "acopl_raw": [
+        0.41444942493794307,
+        0.4987012433619137,
+        0.26555233867919026,
+        0.4193905497593702
+      ],
+      "acopl_norm": [
+        0.4248392251462957,
+        0.5097871546653651,
+        0.5048661802363985,
+        0.36033067620780207
+      ],
+      "compatible": false
+    },
+    {
+      "serie": "desmediado",
+      "mbar": "global",
+      "denom": "Q2",
+      "agregacion": "media_de_cocientes",
+      "acopl_raw": [
+        -374.4462202190966,
+        -12.136198422897488,
+        -175.48517804850135,
+        -3633.591393317653
+      ],
+      "acopl_norm": [
+        5.963591155840551,
+        -37.36600153474112,
+        0.00047090686731717673,
+        -37.38426990351162
+      ],
+      "compatible": false
+    },
+    {
+      "serie": "desmediado",
+      "mbar": "ventana",
+      "denom": "exceso",
+      "agregacion": "media_de_terminos",
+      "acopl_raw": [
+        0.6874737255764697,
+        0.6471467261309136,
+        0.5850745213749211,
+        0.6860845622939756
+      ],
+      "acopl_norm": [
+        0.599698795164374,
+        0.5957434036782345,
+        0.5960975437945011,
+        0.4633287224297418
+      ],
+      "compatible": false
+    },
+    {
+      "serie": "desmediado",
+      "mbar": "ventana",
+      "denom": "exceso",
+      "agregacion": "media_de_cocientes",
+      "acopl_raw": [
+        0.3843040569919311,
+        -0.6298612305951131,
+        0.6181394059628881,
+        0.6722338907797474
+      ],
+      "acopl_norm": [
+        0.6149018255517019,
+        0.33017682354322203,
+        0.7212500841317345,
+        0.5820256942761961
+      ],
+      "compatible": false
+    },
+    {
+      "serie": "desmediado",
+      "mbar": "ventana",
+      "denom": "Q2",
+      "agregacion": "media_de_terminos",
+      "acopl_raw": [
+        0.43540294721498446,
+        0.4536874323071245,
+        0.3171704666333923,
+        0.41506242585497166
+      ],
+      "acopl_norm": [
+        0.41102970628386387,
+        0.45414441577789877,
+        0.45329942013019003,
+        0.30762719742785116
+      ],
+      "compatible": false
+    },
+    {
+      "serie": "desmediado",
+      "mbar": "ventana",
+      "denom": "Q2",
+      "agregacion": "media_de_cocientes",
+      "acopl_raw": [
+        -320.74321348342863,
+        -12.150000580863558,
+        -147.71350049794805,
+        -3068.2831432513826
+      ],
+      "acopl_norm": [
+        -7.5818090685762325,
+        -35.31956992827959,
+        -23.93147373228349,
+        -41.06062012653764
+      ],
+      "compatible": false
+    },
+    {
+      "serie": "crudo",
+      "mbar": "global",
+      "denom": "exceso",
+      "agregacion": "media_de_terminos",
+      "acopl_raw": [
+        0.4712203329734021,
+        0.7397775122194818,
+        0.4566286750148781,
+        0.6300373799658022
+      ],
+      "acopl_norm": [
+        0.6367970320440527,
+        0.6760343062759442,
+        0.6436716500896674,
+        0.5948848246891116
+      ],
+      "compatible": true
+    },
+    {
+      "serie": "crudo",
+      "mbar": "global",
+      "denom": "exceso",
+      "agregacion": "media_de_cocientes",
+      "acopl_raw": [
+        1.4412370830724863,
+        -0.0577782247402186,
+        -0.05378364297089212,
+        0.5733668992618096
+      ],
+      "acopl_norm": [
+        -1.5471316255974792,
+        0.7428350675372152,
+        0.0981313514914213,
+        2.0304065408955543
+      ],
+      "compatible": true
+    },
+    {
+      "serie": "crudo",
+      "mbar": "global",
+      "denom": "Q2",
+      "agregacion": "media_de_terminos",
+      "acopl_raw": [
+        0.37409348633072664,
+        0.5673370612389597,
+        0.27668824438391165,
+        0.42653421229345134
+      ],
+      "acopl_norm": [
+        0.5751873726174404,
+        0.5628250583260285,
+        0.5362957905433127,
+        0.4500011165642867
+      ],
+      "compatible": false
+    },
+    {
+      "serie": "crudo",
+      "mbar": "global",
+      "denom": "Q2",
+      "agregacion": "media_de_cocientes",
+      "acopl_raw": [
+        -28.930919136195264,
+        -509.8111117346384,
+        -348.65328875423677,
+        -6724.1277658737645
+      ],
+      "acopl_norm": [
+        -16.088944949818977,
+        -22.341604262111762,
+        -119.58221909173609,
+        -5.215642963402282
+      ],
+      "compatible": false
+    },
+    {
+      "serie": "crudo",
+      "mbar": "ventana",
+      "denom": "exceso",
+      "agregacion": "media_de_terminos",
+      "acopl_raw": [
+        0.5386366397495916,
+        0.6406819677079298,
+        0.4763877588232541,
+        0.6214529902063869
+      ],
+      "acopl_norm": [
+        0.5374437360698736,
+        0.5661284470727534,
+        0.536249453250618,
+        0.5360521062836653
+      ],
+      "compatible": false
+    },
+    {
+      "serie": "crudo",
+      "mbar": "ventana",
+      "denom": "exceso",
+      "agregacion": "media_de_cocientes",
+      "acopl_raw": [
+        0.9760942927745061,
+        0.5434033751074383,
+        0.7714647098285942,
+        0.1771508119360024
+      ],
+      "acopl_norm": [
+        0.11940825816655831,
+        0.8112988539009423,
+        0.37962759271800084,
+        2.4046808741896846
+      ],
+      "compatible": true
+    },
+    {
+      "serie": "crudo",
+      "mbar": "ventana",
+      "denom": "Q2",
+      "agregacion": "media_de_terminos",
+      "acopl_raw": [
+        0.4276140996673971,
+        0.49134046215826394,
+        0.28866100586104837,
+        0.42072259533153245
+      ],
+      "acopl_norm": [
+        0.4854464372854465,
+        0.4713241225862985,
+        0.44679352340497913,
+        0.4054970581748347
+      ],
+      "compatible": false
+    },
+    {
+      "serie": "crudo",
+      "mbar": "ventana",
+      "denom": "Q2",
+      "agregacion": "media_de_cocientes",
+      "acopl_raw": [
+        -27.290264660402443,
+        -370.0698353093776,
+        -308.0798218349483,
+        -6984.683845239659
+      ],
+      "acopl_norm": [
+        -19.848699540034307,
+        -31.251839019004876,
+        -133.46507967308688,
+        -6.71045520116798
+      ],
+      "compatible": false
+    }
+  ],
+  "contaminacion_CsCm": [
+    {
+      "activo": "BTC",
+      "acopl_obs": 10653107.312254436,
+      "acopl_indep": -59004.68463602231,
+      "fraccion": -0.005538729959863288
+    },
+    {
+      "activo": "ETH",
+      "acopl_obs": 2394768325.4703107,
+      "acopl_indep": 128161566.54198313,
+      "fraccion": 0.053517313211002726
+    },
+    {
+      "activo": "BNB",
+      "acopl_obs": 824480116.3263993,
+      "acopl_indep": 338728385.81435716,
+      "fraccion": 0.41083875657743535
+    },
+    {
+      "activo": "SOL",
+      "acopl_obs": 123215710007.36923,
+      "acopl_indep": 15290368648.657852,
+      "fraccion": 0.12409431108860527
+    }
+  ],
+  "justificacion_mbar": [
+    {
+      "activo": "BTC",
+      "cruzado_sobre_signo_media": 0.09034791214071719,
+      "cruzado_sobre_signo_mediana": 0.7361673592255344
+    },
+    {
+      "activo": "ETH",
+      "cruzado_sobre_signo_media": 0.013109765251096143,
+      "cruzado_sobre_signo_mediana": 0.6350840575580563
+    },
+    {
+      "activo": "BNB",
+      "cruzado_sobre_signo_media": -0.004283495072067152,
+      "cruzado_sobre_signo_mediana": 0.6596609662834187
+    },
+    {
+      "activo": "SOL",
+      "cruzado_sobre_signo_media": -0.005412008148096318,
+      "cruzado_sobre_signo_mediana": 0.5801136022366566
+    }
+  ],
+  "contaminacion_mediana": 0.088805812149804
+}
