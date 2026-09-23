@@ -5,10 +5,9 @@ manuscript sources for the empirical study:
 
 > Temporal Organization Amplifies Counting Fluctuations in Signed Order Flow
 
-It is the release candidate for version 2.0.0. The existing Zenodo record for
-version 1.2.0 remains an archival record of the earlier analysis; do not use
-that version to reproduce the current manuscript. A new versioned release must
-be published from the commit containing this package before submission.
+This is version 2.0.0, archived at doi:10.5281/zenodo.22922092. The existing
+Zenodo record for version 1.2.0 remains an archival record of the earlier
+analysis; do not use that version to reproduce the current manuscript.
 
 ## Main result and scope
 
@@ -98,5 +97,5 @@ No proprietary market feed is redistributed. The analysis uses public Binance
 candle and trade archives; request parameters and source-cache SHA-256 hashes
 are preserved in the deposited outputs. See `data/README.md` for details.
 
-The code is MIT licensed. Citation metadata for the release candidate are in
-`CITATION.cff`; a version-specific Zenodo DOI will be added only on publication.
+The code is MIT licensed. Citation metadata, including the version-specific
+Zenodo DOI, are in `CITATION.cff`.
