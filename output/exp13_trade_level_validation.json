@@ -1,0 +1,40 @@
+{
+  "source": "Binance Vision public spot daily trades",
+  "purpose": "normalization calibration, not an independent long-memory sample",
+  "results": [
+    {
+      "symbol": "BTCUSDT",
+      "date_utc": "2025-03-03",
+      "n_trades": 9797860,
+      "n_hours": 24,
+      "median_trade_size_exact": 6e-05,
+      "median_hourly_mean_size_proxy": 0.005248712947473697,
+      "proxy_to_exact_ratio": 87.47854912456161,
+      "fano_exact_to_proxy_multiplier": 7652.4965569383385,
+      "n_hours_compared": 24,
+      "Volume_max_relative_error": 2.00545965763186e-16,
+      "Volume_sum_relative_error": 0.0,
+      "tbBase_max_relative_error": 0.0,
+      "tbBase_sum_relative_error": 0.0,
+      "trades_max_relative_error": 0.0,
+      "trades_sum_relative_error": 0.0
+    },
+    {
+      "symbol": "ETHUSDT",
+      "date_utc": "2025-03-03",
+      "n_trades": 4969357,
+      "n_hours": 24,
+      "median_trade_size_exact": 0.003,
+      "median_hourly_mean_size_proxy": 0.21481090298291705,
+      "proxy_to_exact_ratio": 71.60363432763901,
+      "fano_exact_to_proxy_multiplier": 5127.080448926245,
+      "n_hours_compared": 24,
+      "Volume_max_relative_error": 0.0,
+      "Volume_sum_relative_error": 0.0,
+      "tbBase_max_relative_error": 0.0,
+      "tbBase_sum_relative_error": 0.0,
+      "trades_max_relative_error": 0.0,
+      "trades_sum_relative_error": 0.0
+    }
+  ]
+}

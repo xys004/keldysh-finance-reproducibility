@@ -1,0 +1,226 @@
+{
+  "resultados": {
+    "BTC": {
+      "n_candles": 34608,
+      "n_semanas": 206,
+      "tau_cruce": 51,
+      "grupo": "viejo"
+    },
+    "ETH": {
+      "n_candles": 34608,
+      "n_semanas": 206,
+      "tau_cruce": 51,
+      "grupo": "viejo"
+    },
+    "BNB": {
+      "n_candles": 34608,
+      "n_semanas": 206,
+      "tau_cruce": 42,
+      "grupo": "viejo"
+    },
+    "SOL": {
+      "n_candles": 34608,
+      "n_semanas": 206,
+      "tau_cruce": 37,
+      "grupo": "viejo"
+    },
+    "XRP": {
+      "n_candles": 34608,
+      "n_semanas": 206,
+      "tau_cruce": 166,
+      "grupo": "viejo"
+    },
+    "ADA": {
+      "n_candles": 34608,
+      "n_semanas": 206,
+      "tau_cruce": 32,
+      "grupo": "viejo"
+    },
+    "DOGE": {
+      "n_candles": 34608,
+      "n_semanas": 206,
+      "tau_cruce": 57,
+      "grupo": "viejo"
+    },
+    "AVAX": {
+      "n_candles": 34608,
+      "n_semanas": 206,
+      "tau_cruce": 23,
+      "grupo": "viejo"
+    },
+    "DOT": {
+      "n_candles": 34776,
+      "n_semanas": 207,
+      "tau_cruce": 63,
+      "grupo": "nuevo"
+    },
+    "ATOM": {
+      "n_candles": 34776,
+      "n_semanas": 207,
+      "tau_cruce": 43,
+      "grupo": "nuevo"
+    },
+    "NEAR": {
+      "n_candles": 34776,
+      "n_semanas": 207,
+      "tau_cruce": 21,
+      "grupo": "nuevo"
+    },
+    "ETC": {
+      "n_candles": 34776,
+      "n_semanas": 207,
+      "tau_cruce": 111,
+      "grupo": "nuevo"
+    },
+    "UNI": {
+      "n_candles": 34776,
+      "n_semanas": 207,
+      "tau_cruce": 26,
+      "grupo": "nuevo"
+    },
+    "AAVE": {
+      "n_candles": 34776,
+      "n_semanas": 207,
+      "tau_cruce": 23,
+      "grupo": "nuevo"
+    },
+    "LTC": {
+      "n_candles": 34776,
+      "n_semanas": 207,
+      "tau_cruce": 33,
+      "grupo": "nuevo"
+    },
+    "BCH": {
+      "n_candles": 34776,
+      "n_semanas": 207,
+      "tau_cruce": 35,
+      "grupo": "nuevo"
+    },
+    "TRX": {
+      "n_candles": 34776,
+      "n_semanas": 207,
+      "tau_cruce": 8,
+      "grupo": "nuevo"
+    },
+    "LINK": {
+      "n_candles": 34776,
+      "n_semanas": 207,
+      "tau_cruce": 57,
+      "grupo": "nuevo"
+    },
+    "PAXG": {
+      "n_candles": 34776,
+      "n_semanas": 207,
+      "tau_cruce": 4,
+      "grupo": "nuevo"
+    },
+    "SHIB": {
+      "n_candles": 34776,
+      "n_semanas": 207,
+      "tau_cruce": 4,
+      "grupo": "nuevo"
+    }
+  },
+  "nulos_por_activo_nuevo": {
+    "DOT": [
+      83,
+      103,
+      21,
+      99,
+      36
+    ],
+    "ATOM": [
+      70,
+      64,
+      36,
+      70,
+      41
+    ],
+    "NEAR": [
+      148,
+      78,
+      80,
+      119,
+      90
+    ],
+    "ETC": [
+      160,
+      85,
+      122,
+      34,
+      70
+    ],
+    "UNI": [
+      54,
+      98,
+      66,
+      40,
+      99
+    ],
+    "AAVE": [
+      62,
+      128,
+      148,
+      141,
+      134
+    ],
+    "LTC": [
+      60,
+      134,
+      95,
+      88,
+      150
+    ],
+    "BCH": [
+      33,
+      96,
+      null,
+      95,
+      112
+    ],
+    "TRX": [
+      70,
+      112,
+      40,
+      78,
+      66
+    ],
+    "LINK": [
+      84,
+      141,
+      58,
+      39,
+      60
+    ],
+    "PAXG": [
+      118,
+      106,
+      166,
+      89,
+      85
+    ],
+    "SHIB": [
+      44,
+      39,
+      93,
+      71,
+      null
+    ]
+  },
+  "dentro_de_su_nulo": [
+    "DOT",
+    "ATOM",
+    "ETC",
+    "UNI",
+    "BCH",
+    "LINK"
+  ],
+  "fuera_de_su_nulo": [
+    "NEAR",
+    "AAVE",
+    "LTC",
+    "TRX",
+    "PAXG",
+    "SHIB"
+  ]
+}

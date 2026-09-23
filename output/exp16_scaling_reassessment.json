@@ -1,0 +1,247 @@
+{
+  "convention": "C_epsilon(tau) ~ tau^(-a)",
+  "asymptotic_map": {
+    "0<a<1": "Var(Q_T) ~ T^(2-a)",
+    "a=1": "Var(Q_T) ~ T log T",
+    "a>1": "Var(Q_T) ~ T"
+  },
+  "logical_status": {
+    "acf_variance_relation": "exact second-order identity, not independent corroboration",
+    "single_power_model": "rejected descriptively for all eight series on the archived fit ranges; z values omit uncertainty in the ACF prediction",
+    "two_regime_band": "finite-scale consistency check only; it is not a fitted prediction because regime amplitudes and crossover are absent"
+  },
+  "single_power_series_tests": [
+    {
+      "series": "BTC|1h",
+      "single_acf_prediction": 1.619942255918782,
+      "observed_block_variance_exponent": 1.3322464225785104,
+      "observed_standard_error": 0.024025837745295632,
+      "difference": -0.2876958333402715,
+      "z_using_observed_se_only": -11.974435039069705,
+      "compatible_with_single_exponent_at_3se": false
+    },
+    {
+      "series": "BTC|4h",
+      "single_acf_prediction": 1.7534169969195759,
+      "observed_block_variance_exponent": 1.3226939232095563,
+      "observed_standard_error": 0.02185838568966532,
+      "difference": -0.4307230737100196,
+      "z_using_observed_se_only": -19.705163950586993,
+      "compatible_with_single_exponent_at_3se": false
+    },
+    {
+      "series": "ETH|1h",
+      "single_acf_prediction": 1.52584139266847,
+      "observed_block_variance_exponent": 1.3213117467985669,
+      "observed_standard_error": 0.013628758465588869,
+      "difference": -0.20452964586990308,
+      "z_using_observed_se_only": -15.00721040631237,
+      "compatible_with_single_exponent_at_3se": false
+    },
+    {
+      "series": "ETH|4h",
+      "single_acf_prediction": 1.4903869801952458,
+      "observed_block_variance_exponent": 1.3107948442966877,
+      "observed_standard_error": 0.014093042362068705,
+      "difference": -0.17959213589855816,
+      "z_using_observed_se_only": -12.7433190992123,
+      "compatible_with_single_exponent_at_3se": false
+    },
+    {
+      "series": "BNB|1h",
+      "single_acf_prediction": 1.5840477266798394,
+      "observed_block_variance_exponent": 1.3654164217839502,
+      "observed_standard_error": 0.01835333071990966,
+      "difference": -0.21863130489588922,
+      "z_using_observed_se_only": -11.912350310274656,
+      "compatible_with_single_exponent_at_3se": false
+    },
+    {
+      "series": "BNB|4h",
+      "single_acf_prediction": 1.4525622570848458,
+      "observed_block_variance_exponent": 1.3728876434071808,
+      "observed_standard_error": 0.015766098030375198,
+      "difference": -0.07967461367766493,
+      "z_using_observed_se_only": -5.053540420981947,
+      "compatible_with_single_exponent_at_3se": false
+    },
+    {
+      "series": "SOL|1h",
+      "single_acf_prediction": 1.511281037810903,
+      "observed_block_variance_exponent": 1.2528489635568372,
+      "observed_standard_error": 0.017456798590052287,
+      "difference": -0.2584320742540658,
+      "z_using_observed_se_only": -14.804093254609276,
+      "compatible_with_single_exponent_at_3se": false
+    },
+    {
+      "series": "SOL|4h",
+      "single_acf_prediction": 1.8819577162398233,
+      "observed_block_variance_exponent": 1.223557708749807,
+      "observed_standard_error": 0.018997377798009488,
+      "difference": -0.6584000074900163,
+      "z_using_observed_se_only": -34.657415064883445,
+      "compatible_with_single_exponent_at_3se": false
+    }
+  ],
+  "two_regime_asset_checks": [
+    {
+      "asset": "BTC",
+      "acf_fast": {
+        "a": 1.0028023971444142,
+        "se": 0.1519589862803867,
+        "regime": "summable",
+        "nu": 1.0
+      },
+      "acf_slow": {
+        "a": 0.16775521905462284,
+        "se": 0.1270479411839096,
+        "regime": "non-summable",
+        "nu": 1.8322447809453772
+      },
+      "finite_scale_consistency_band": [
+        1.0,
+        1.8322447809453772
+      ],
+      "block_exponents": [
+        {
+          "series": "BTC|1h",
+          "nu": 1.3322464225785104,
+          "se": 0.024025837745295632,
+          "inside_consistency_band": true
+        },
+        {
+          "series": "BTC|4h",
+          "nu": 1.3226939232095563,
+          "se": 0.02185838568966532,
+          "inside_consistency_band": true
+        }
+      ],
+      "drift_blind_global_exponents": {
+        "db1": 1.1980461453879343,
+        "db2": 1.1388422706935035,
+        "db3": 1.1259967451763397
+      },
+      "all_block_exponents_inside_band": true
+    },
+    {
+      "asset": "ETH",
+      "acf_fast": {
+        "a": 0.8736627557989382,
+        "se": 0.08082472366924398,
+        "regime": "non-summable",
+        "nu": 1.126337244201062
+      },
+      "acf_slow": {
+        "a": 0.22098365684550472,
+        "se": 0.08700981171605017,
+        "regime": "non-summable",
+        "nu": 1.7790163431544952
+      },
+      "finite_scale_consistency_band": [
+        1.126337244201062,
+        1.7790163431544952
+      ],
+      "block_exponents": [
+        {
+          "series": "ETH|1h",
+          "nu": 1.3213117467985669,
+          "se": 0.013628758465588869,
+          "inside_consistency_band": true
+        },
+        {
+          "series": "ETH|4h",
+          "nu": 1.3107948442966877,
+          "se": 0.014093042362068705,
+          "inside_consistency_band": true
+        }
+      ],
+      "drift_blind_global_exponents": {
+        "db1": 1.240201631706241,
+        "db2": 1.2604835341851162,
+        "db3": 1.2850019600028766
+      },
+      "all_block_exponents_inside_band": true
+    },
+    {
+      "asset": "BNB",
+      "acf_fast": {
+        "a": 0.4556948874194386,
+        "se": 0.04902410099722721,
+        "regime": "non-summable",
+        "nu": 1.5443051125805614
+      },
+      "acf_slow": {
+        "a": 0.2874162311162318,
+        "se": 0.05168749853678941,
+        "regime": "non-summable",
+        "nu": 1.7125837688837682
+      },
+      "finite_scale_consistency_band": [
+        1.5443051125805614,
+        1.7125837688837682
+      ],
+      "block_exponents": [
+        {
+          "series": "BNB|1h",
+          "nu": 1.3654164217839502,
+          "se": 0.01835333071990966,
+          "inside_consistency_band": false
+        },
+        {
+          "series": "BNB|4h",
+          "nu": 1.3728876434071808,
+          "se": 0.015766098030375198,
+          "inside_consistency_band": false
+        }
+      ],
+      "drift_blind_global_exponents": {
+        "db1": 1.3519745526300184,
+        "db2": 1.3582722489316157,
+        "db3": 1.3031688919280677
+      },
+      "all_block_exponents_inside_band": false
+    },
+    {
+      "asset": "SOL",
+      "acf_fast": {
+        "a": 1.7147176352480533,
+        "se": 0.22853349476168694,
+        "regime": "summable",
+        "nu": 1.0
+      },
+      "acf_slow": {
+        "a": 0.15871607532853402,
+        "se": 0.32133449318954754,
+        "regime": "non-summable",
+        "nu": 1.841283924671466
+      },
+      "finite_scale_consistency_band": [
+        1.0,
+        1.841283924671466
+      ],
+      "block_exponents": [
+        {
+          "series": "SOL|1h",
+          "nu": 1.2528489635568372,
+          "se": 0.017456798590052287,
+          "inside_consistency_band": true
+        },
+        {
+          "series": "SOL|4h",
+          "nu": 1.223557708749807,
+          "se": 0.018997377798009488,
+          "inside_consistency_band": true
+        }
+      ],
+      "drift_blind_global_exponents": {
+        "db1": 1.1462945431113156,
+        "db2": 1.127449893340423,
+        "db3": 1.1029372437111107
+      },
+      "all_block_exponents_inside_band": true
+    }
+  ],
+  "all_single_power_tests_pass": false,
+  "all_assets_inside_two_regime_band": false
+}

@@ -1,0 +1,71 @@
+{
+  "reales": {
+    "BTC": {
+      "n_candles": 34608,
+      "n_semanas": 206,
+      "tau_cruce": 51
+    },
+    "ETH": {
+      "n_candles": 34608,
+      "n_semanas": 206,
+      "tau_cruce": 51
+    },
+    "BNB": {
+      "n_candles": 34608,
+      "n_semanas": 206,
+      "tau_cruce": 42
+    },
+    "SOL": {
+      "n_candles": 34608,
+      "n_semanas": 206,
+      "tau_cruce": 37
+    },
+    "XRP": {
+      "n_candles": 34608,
+      "n_semanas": 206,
+      "tau_cruce": 166
+    },
+    "ADA": {
+      "n_candles": 34608,
+      "n_semanas": 206,
+      "tau_cruce": 32
+    },
+    "DOGE": {
+      "n_candles": 34608,
+      "n_semanas": 206,
+      "tau_cruce": 57
+    },
+    "AVAX": {
+      "n_candles": 34608,
+      "n_semanas": 206,
+      "tau_cruce": 23
+    }
+  },
+  "control_kappa": 3.0,
+  "control_cruces": [
+    166,
+    79,
+    73,
+    null,
+    151,
+    83,
+    39,
+    104,
+    58,
+    30,
+    48,
+    80,
+    156,
+    46,
+    38,
+    64,
+    86,
+    82,
+    167,
+    123,
+    78,
+    78,
+    115,
+    94
+  ]
+}

@@ -24,8 +24,8 @@ TRES OBSERVABLES (e interpretación declarada ANTES de mirar)
 1. SIMETRÍA DE FLUCTUACIÓN  s(Q) = ln[P(Q)/P(−Q)].
    El teorema de intercambio (Gallavotti-Cohen) predice s = A·Q, lineal, con
    A la afinidad (el sesgo, análogo de eV/kT). Para Q gaussiana es exacta con
-   A = 2μ/σ². Lectura: c₃ compatible con 0 y χ²/dof ~ 1 ⇒ la afinidad existe
-   como número; c₃ ≠ 0 ⇒ el "sesgo" depende de la escala de Q y no hay un
+   A = 2μ/σ². Lectura: b₃ compatible con 0 y χ²/dof ~ 1 ⇒ la afinidad existe
+   como número; b₃ ≠ 0 ⇒ el "sesgo" depende de la escala de Q y no hay un
    solo parámetro termodinámico. AVISO FÍSICO: GC exige microreversibilidad
    y estacionariedad, que un mercado no garantiza — la simetría es una
    predicción rígida que se CONTRASTA, y su ruptura es información.
@@ -254,14 +254,14 @@ def main() -> None:
             print(f"    {r['clave']:<10} hecho en {r['segundos']} s", flush=True)
 
     print(f"\n  {'serie':<10}{'gamma':>7}{'A(1)':>9}{'A(16)':>9}{'A(64)':>9}"
-          f"{'c3(16)':>9}{'pend_k2':>9}{'2+gamma':>8}{'F(1)':>7}{'F(64)':>9}")
+          f"{'b3(16)':>9}{'pend_k2':>9}{'2+gamma':>8}{'F(1)':>7}{'F(64)':>9}")
     for r in resultados:
         pt = r["afinidad"]["por_T"]
         fan = {f["T"]: f["fano"] for f in r["fano"]["tabla"]}
         A = lambda T: (f"{pt[T]['A']:>9.4f}" if T in pt else "      ---")
-        c3 = (f"{pt[16]['c3']:>9.4f}" if 16 in pt else "      ---")
+        b3 = (f"{pt[16]['b3']:>9.4f}" if 16 in pt else "      ---")
         print(f"  {r['clave']:<10}{r['gamma_acf']:>7.3f}{A(1)}{A(16)}{A(64)}"
-              f"{c3}{r['pendiente_k2_alta']['pendiente']:>9.3f}"
+              f"{b3}{r['pendiente_k2_alta']['pendiente']:>9.3f}"
               f"{r['prediccion_pendiente_k2']:>8.3f}"
               f"{fan.get(1, float('nan')):>7.1f}{fan.get(64, float('nan')):>9.0f}")
 

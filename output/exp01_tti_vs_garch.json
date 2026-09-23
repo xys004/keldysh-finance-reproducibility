@@ -1,0 +1,283 @@
+{
+  "conf": {
+    "window": 250,
+    "max_lag": 40,
+    "step": 1,
+    "horizon": 30,
+    "train_frac": 0.6,
+    "min_windows": 30
+  },
+  "real": [
+    {
+      "activo": "BTC",
+      "field": "abs",
+      "n": 8765,
+      "split": 5259,
+      "garch_params": {
+        "omega": 1.2258774729439755e-05,
+        "alpha": 0.1990750414400512,
+        "beta": 0.7073373515559842,
+        "nll": 7161.959532564044,
+        "persistence": 0.9064123929960354
+      },
+      "modelos": {
+        "EWMA": {
+          "qlike": 0.26903193634231404,
+          "rmse": 0.0033772579842774194
+        },
+        "GARCH": {
+          "qlike": 0.26018933954905216,
+          "rmse": 0.0037212726623117513
+        },
+        "EWMA_recal": {
+          "qlike": 0.21349848308072794,
+          "rmse": 0.0030039566525056453
+        },
+        "EWMA_recal+D": {
+          "qlike": 0.212037813916788,
+          "rmse": 0.0030300123129417453
+        },
+        "GARCH_recal": {
+          "qlike": 0.2464299832007857,
+          "rmse": 0.003183167621613178
+        },
+        "GARCH_recal+D": {
+          "qlike": 0.2464399117100388,
+          "rmse": 0.0032345152340461886
+        }
+      },
+      "dm": {
+        "EWMA vs EWMA_recal (solo recalibracion)": {
+          "dm_stat": 2.423081900014544,
+          "p_value": 0.015389456717155497,
+          "mean_diff": 0.055533453261586097,
+          "n": 3476
+        },
+        "GARCH vs GARCH_recal (solo recalibracion)": {
+          "dm_stat": 0.8082153722704246,
+          "p_value": 0.41896660990436224,
+          "mean_diff": 0.01375935634826646,
+          "n": 3476
+        }
+      },
+      "dm_decisivo": {
+        "EWMA_recal vs EWMA_recal+D": {
+          "dm_stat": 0.28981137820005604,
+          "p_value": 0.7719605427217684,
+          "mean_diff": 0.0014606691639399104,
+          "n": 3476
+        },
+        "GARCH_recal vs GARCH_recal+D": {
+          "dm_stat": -0.0013712087386845342,
+          "p_value": 0.9989059340606119,
+          "mean_diff": -9.928509253090203e-06,
+          "n": 3476
+        }
+      }
+    },
+    {
+      "activo": "ETH",
+      "field": "abs",
+      "n": 8765,
+      "split": 5259,
+      "garch_params": {
+        "omega": 1.4622251843952593e-05,
+        "alpha": 0.18493024750550108,
+        "beta": 0.7435113368430162,
+        "nll": 8186.78323989078,
+        "persistence": 0.9284415843485172
+      },
+      "modelos": {
+        "EWMA": {
+          "qlike": 0.3197698319309349,
+          "rmse": 0.005677989707049577
+        },
+        "GARCH": {
+          "qlike": 0.35663718259295046,
+          "rmse": 0.006117855083572421
+        },
+        "EWMA_recal": {
+          "qlike": 0.3336751912235986,
+          "rmse": 0.005170551737089384
+        },
+        "EWMA_recal+D": {
+          "qlike": 0.33083007816390886,
+          "rmse": 0.00519403944482335
+        },
+        "GARCH_recal": {
+          "qlike": 0.43607849363938817,
+          "rmse": 0.005558620725338073
+        },
+        "GARCH_recal+D": {
+          "qlike": 0.4148748973482632,
+          "rmse": 0.005512691891079458
+        }
+      },
+      "dm": {
+        "EWMA vs EWMA_recal (solo recalibracion)": {
+          "dm_stat": -0.5164538866091422,
+          "p_value": 0.6055374380183813,
+          "mean_diff": -0.01390535929266378,
+          "n": 3476
+        },
+        "GARCH vs GARCH_recal (solo recalibracion)": {
+          "dm_stat": -2.8494402099503326,
+          "p_value": 0.004379623663502769,
+          "mean_diff": -0.07944131104643776,
+          "n": 3476
+        }
+      },
+      "dm_decisivo": {
+        "EWMA_recal vs EWMA_recal+D": {
+          "dm_stat": 0.43081389345128773,
+          "p_value": 0.6666036966099999,
+          "mean_diff": 0.0028451130596897954,
+          "n": 3476
+        },
+        "GARCH_recal vs GARCH_recal+D": {
+          "dm_stat": 2.2693698313794566,
+          "p_value": 0.02324584520092879,
+          "mean_diff": 0.021203596291125032,
+          "n": 3476
+        }
+      }
+    }
+  ],
+  "control": [
+    {
+      "activo": "BTC",
+      "field": "raw",
+      "n": 8765,
+      "split": 5259,
+      "garch_params": {
+        "omega": 1.2258774729439755e-05,
+        "alpha": 0.1990750414400512,
+        "beta": 0.7073373515559842,
+        "nll": 7161.959532564044,
+        "persistence": 0.9064123929960354
+      },
+      "modelos": {
+        "EWMA": {
+          "qlike": 0.26903193634231404,
+          "rmse": 0.0033772579842774194
+        },
+        "GARCH": {
+          "qlike": 0.26018933954905216,
+          "rmse": 0.0037212726623117513
+        },
+        "EWMA_recal": {
+          "qlike": 0.21349848308072794,
+          "rmse": 0.0030039566525056453
+        },
+        "EWMA_recal+D": {
+          "qlike": 0.21249004267178898,
+          "rmse": 0.003111909091987346
+        },
+        "GARCH_recal": {
+          "qlike": 0.2464299832007857,
+          "rmse": 0.003183167621613178
+        },
+        "GARCH_recal+D": {
+          "qlike": 0.24902328935912182,
+          "rmse": 0.003378328288616596
+        }
+      },
+      "dm": {
+        "EWMA vs EWMA_recal (solo recalibracion)": {
+          "dm_stat": 2.423081900014544,
+          "p_value": 0.015389456717155497,
+          "mean_diff": 0.055533453261586097,
+          "n": 3476
+        },
+        "GARCH vs GARCH_recal (solo recalibracion)": {
+          "dm_stat": 0.8082153722704246,
+          "p_value": 0.41896660990436224,
+          "mean_diff": 0.01375935634826646,
+          "n": 3476
+        }
+      },
+      "dm_decisivo": {
+        "EWMA_recal vs EWMA_recal+D": {
+          "dm_stat": 0.1036261042068639,
+          "p_value": 0.9174660710234307,
+          "mean_diff": 0.0010084404089389576,
+          "n": 3476
+        },
+        "GARCH_recal vs GARCH_recal+D": {
+          "dm_stat": -0.1991180590683879,
+          "p_value": 0.8421703949837419,
+          "mean_diff": -0.002593306158336142,
+          "n": 3476
+        }
+      }
+    },
+    {
+      "activo": "ETH",
+      "field": "raw",
+      "n": 8765,
+      "split": 5259,
+      "garch_params": {
+        "omega": 1.4622251843952593e-05,
+        "alpha": 0.18493024750550108,
+        "beta": 0.7435113368430162,
+        "nll": 8186.78323989078,
+        "persistence": 0.9284415843485172
+      },
+      "modelos": {
+        "EWMA": {
+          "qlike": 0.3197698319309349,
+          "rmse": 0.005677989707049577
+        },
+        "GARCH": {
+          "qlike": 0.35663718259295046,
+          "rmse": 0.006117855083572421
+        },
+        "EWMA_recal": {
+          "qlike": 0.3336751912235986,
+          "rmse": 0.005170551737089384
+        },
+        "EWMA_recal+D": {
+          "qlike": 0.2959588483636635,
+          "rmse": 0.0050694301938541755
+        },
+        "GARCH_recal": {
+          "qlike": 0.43607849363938817,
+          "rmse": 0.005558620725338073
+        },
+        "GARCH_recal+D": {
+          "qlike": 0.3630517241274903,
+          "rmse": 0.005373896565593107
+        }
+      },
+      "dm": {
+        "EWMA vs EWMA_recal (solo recalibracion)": {
+          "dm_stat": -0.5164538866091422,
+          "p_value": 0.6055374380183813,
+          "mean_diff": -0.01390535929266378,
+          "n": 3476
+        },
+        "GARCH vs GARCH_recal (solo recalibracion)": {
+          "dm_stat": -2.8494402099503326,
+          "p_value": 0.004379623663502769,
+          "mean_diff": -0.07944131104643776,
+          "n": 3476
+        }
+      },
+      "dm_decisivo": {
+        "EWMA_recal vs EWMA_recal+D": {
+          "dm_stat": 3.522651205301176,
+          "p_value": 0.00042725324543071064,
+          "mean_diff": 0.037716342859935116,
+          "n": 3476
+        },
+        "GARCH_recal vs GARCH_recal+D": {
+          "dm_stat": 5.359789035491457,
+          "p_value": 8.331919116061661e-08,
+          "mean_diff": 0.07302676951189786,
+          "n": 3476
+        }
+      }
+    }
+  ],
+  "veredicto": "SOSPECHOSO — el control tambien 'mejora': el metodo ajusta ruido"
+}

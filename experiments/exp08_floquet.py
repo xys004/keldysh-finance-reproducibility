@@ -47,7 +47,7 @@ v3 (definitiva): winsor declarado sobre trades/dp/ε_raw en el módulo, con
     emparejado). Las iteraciones cambiaron el ESTIMADOR, nunca el criterio.
 
 Ejecutar:  py experiments/exp08_floquet.py [K]
-Diseñado para ejecución reproducible por lotes (K=50 rotaciones × 8 series).
+Pensado para Astrum (K=50 rotaciones × 8 series).
 """
 from __future__ import annotations
 

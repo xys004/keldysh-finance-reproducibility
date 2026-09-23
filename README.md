@@ -1,72 +1,101 @@
-# Signed order flow as a transport current
+# Temporal organization in signed order flow: reproducibility package
 
-This repository contains the reproducible code, archived analysis outputs, and
-manuscript sources for the study of signed taker flow in cryptocurrency
-markets. It is organised around two questions:
+This repository contains the code, archived numerical outputs, figures, and
+manuscript sources for the empirical study:
 
-1. which response, noise, and counting observables are fixed by the measured
-   second-order correlation function; and
-2. which features remain outside a Gaussian response-field description and a
-   calibrated noninteracting transport benchmark.
+> Temporal Organization Amplifies Counting Fluctuations in Signed Order Flow
 
-The repository contains no proprietary market feed. Raw candles are not
-redistributed; the analysis code retrieves the required public Binance klines,
-or can read a locally cached CSV with the same columns. The archived JSON
-files and figures are the exact outputs used by the manuscript versions in
-`paper/`.
+This is version 2.0.0, archived at doi:10.5281/zenodo.22922092. The existing
+Zenodo record for version 1.2.0 remains an archival record of the earlier
+analysis; do not use that version to reproduce the current manuscript.
 
-## Reproduce the published checks
+## Main result and scope
+
+The primary panel contains BTC, ETH, BNB, and SOL against USDT over four years.
+XRP, ADA, DOGE, and AVAX form a post-hoc robustness panel and are not substituted
+into the original decision rule. We analyse raw signed base volume,
+`2 * tbBaseVolume - Volume`, and volume-normalised imbalance,
+`(2 * tbBaseVolume - Volume) / Volume`.
+
+Complete UTC weeks are conditioned on calendar quarter and hour of week. A
+calendar-matched permutation preserves transfer sizes, strata, and one-point
+statistics while destroying chronology. The observed weekly variance exceeds
+this null under both flow definitions. The null-aligned finite-sample identity
+then partitions the variance into size, sign-memory, and sign--size cross terms,
+including the recentering correction required by the operational surrogate.
+
+Within the excess over the size baseline, the corrected cross contribution
+exceeds the sign-memory contribution in all eight primary point estimates. Six
+paired eight-week moving-block bootstrap intervals exclude one half. This is an
+exact allocation conditional on the declared null and reference convention; it
+does not identify a causal interaction or a microscopic market mechanism.
+
+The supplemental whole-week-shift diagnostic evaluates all 205 nonzero circular
+weekly shifts. It finds the null-aligned cross term extreme in all eight series;
+the global reference has one exception, raw BNB. Synthetic controls establish
+sensitivity to strong weekly synchrony, not to every possible short-lag
+dependence.
+
+## Install and test
 
 ```bash
-python -m pip install numpy pandas scipy matplotlib pytest
-python -m pytest tests -q
-python experiments/exp06_conteo_flujo.py
-python experiments/exp07_reloj_quench.py
-python experiments/exp08_floquet.py
-python experiments/exp09_msrjd_orden2.py
-python experiments/exp11_haar_crossover.py
+python -m pip install -r requirements.txt
+python -m pytest -q
 ```
 
-The scripts write JSON results to `output/`. Cached downloads are kept outside
-version control. The manuscript figures can be regenerated from the archived
-logs with:
+The test matrix checks the finite-sample recentering identities, the exhaustive
+shift calculation, mutation detection in its independent verifier, and the
+earlier causality and positive-control gates.
+
+## Reproduce the submission analyses
+
+The deposited JSON files in `output/` are the evidence used by the manuscript.
+The public Binance candle cache is intentionally excluded. To rerun an analysis,
+retrieve the same public candle snapshots described in `data/README.md` or use
+the downloader in `src/keldysh_finance/flow.py`.
 
 ```bash
-python experiments/figuras_paper.py
+python experiments/exp15_flow_null_decomposition.py
+python experiments/exp16_scaling_reassessment.py
+python experiments/exp17_cumulant_memory_null.py
+python experiments/exp24_null_recentring.py
+python experiments/exp27_exhaustive_week_shift.py
+python experiments/verify_exp27_exhaustive_week_shift.py
+python experiments/render_supplement_tables.py
 ```
 
-To build the integrated long article:
+The independent verifier reloads the public source data and recomputes selected
+shifts without importing the production shift routine. Its self-test reverses
+the shift direction and must fail.
+
+## Build the manuscript and supplement
+
+From `paper/`:
 
 ```bash
-python tools/build_combined_article.py
-cd paper
-pdflatex combined_article.tex
-bibtex combined_article
-pdflatex combined_article.tex
-pdflatex combined_article.tex
+latexmk -pdf combined_article.tex
+latexmk -pdf paper3_supplement.tex
 ```
 
-## Scope of the results
+The canonical sources are `paper/combined_article.tex` and
+`paper/paper3_supplement.tex`. The older financial Letter has been excluded
+from this release: the separate structured-bath transport Letter has its own
+solver and must be released independently.
 
-The robust empirical results are superdiffusive counting-variance growth and a
-large trade-size-normalised Fano factor. The relation between a power-law
-correlation tail and the counting exponent is derived independently in the
-response-field model. The finer drift of the local exponent remains an open
-test because block estimators are sensitive to slow changes in the mean.
+## Build a portable release
 
-The public data statement and the manuscript's limits should be read before
-interpreting any output as a microscopic market model.
+```bash
+python tools/build_release_archive.py
+```
 
-## Layout
+This creates `dist/keldysh-finance-reproducibility.zip`. Member names use
+forward slashes, have one safe top-level prefix, and deterministic timestamps.
 
-- `src/keldysh_finance/` — analysis library;
-- `experiments/` — reproducible entry points for the reported results;
-- `output/` — archived JSON results and figures;
-- `paper/` — manuscript sources and bibliography;
-- `data/` — data provenance and download notes;
-- `tests/` — numerical and causal-consistency tests.
+## Data provenance and license
 
-## Citation
+No proprietary market feed is redistributed. The analysis uses public Binance
+candle and trade archives; request parameters and source-cache SHA-256 hashes
+are preserved in the deposited outputs. See `data/README.md` for details.
 
-Use the repository citation metadata in `CITATION.cff`. Replace the repository
-URL and DOI placeholders after the public release is registered.
+The code is MIT licensed. Citation metadata, including the version-specific
+Zenodo DOI, are in `CITATION.cff`.
